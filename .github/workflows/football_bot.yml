@@ -1,0 +1,93 @@
+name: Football Data Bot
+
+on:
+  # Run every hour
+  schedule:
+    - cron: '0 * * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      debug_mode:
+        description: 'Enable debug logging'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+# Prevent concurrent runs
+concurrency:
+  group: football-bot
+  cancel-in-progress: false
+
+jobs:
+  run-bot:
+    name: Fetch & Post Football Data
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      # 1. Checkout repository
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+      
+      # 2. Setup Python
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      # 3. Install dependencies
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # 4. Verify Python environment
+      - name: 🔍 Verify Environment
+        run: |
+          python --version
+          pip list
+      
+      # 5. Run the bot
+      - name: ⚽ Run Football Bot
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          PYTHONUNBUFFERED: '1'
+        run: |
+          echo "🚀 Starting Football Bot..."
+          echo "📅 Current UTC time: $(date -u)"
+          python main.py
+      
+      # 6. Handle failure notification (optional)
+      - name: 🚨 Notify on Failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          curl -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHAT_ID}" \
+            -d "text=⚠️ Football Bot workflow failed! Check GitHub Actions for details." \
+            -d "parse_mode=Markdown" || true
+
+  # Cleanup job (runs weekly)
+  cleanup:
+    name: 🧹 Cleanup Old Runs
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 0 * * 0'
+    steps:
+      - name: Cleanup old workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 7
+          keep_minimum_runs: 10
