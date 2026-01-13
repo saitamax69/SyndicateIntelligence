@@ -1,0 +1,15 @@
+# Football Bot Dependencies
+# Python 3.9+
+
+# HTTP Requests
+requests>=2.31.0
+
+# Timezone Handling
+pytz>=2024.1
+
+# Additional utilities (optional but recommended)
+python-dateutil>=2.8.2
+
+# For future enhancements
+urllib3>=2.0.0
+certifi>=2024.2.2
