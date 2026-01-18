@@ -2,6 +2,7 @@
 """
 Football Data Automation Bot - SYNDICATE EDITION
 Premium Typography & "Smart Money" Styling
+Optimized for 500 Requests/Month
 """
 
 import os
@@ -39,14 +40,15 @@ RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
 
 MAJOR_COMPETITIONS = [
     "Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue 1",
-    "Champions League", "Europa", "World Cup", "Euro", "FA Cup",
-    "Brasileiro", "Eredivisie", "Primeira", "MLS"
+    "Champions League", "Europa", "Conference", "World Cup", "Euro",
+    "FA Cup", "Copa", "Eredivisie", "Primeira", "Saudi", "MLS", 
+    "Championship", "League One", "Super Lig", "Super League"
 ]
 
 POWERHOUSE_TEAMS = [
     "Man City", "Liverpool", "Arsenal", "Real Madrid", "Barcelona",
-    "Bayern", "Leverkusen", "Inter", "Juventus", "Milan", "PSG",
-    "Benfica", "Porto", "Al Hilal", "Al Nassr"
+    "Bayern", "Leverkusen", "Inter", "Juve", "Milan", "PSG",
+    "Benfica", "Porto", "Al Hilal", "Al Nassr", "Chelsea", "Man Utd"
 ]
 
 # =============================================================================
@@ -100,7 +102,8 @@ class FootballAPI:
             self.request_count += 1
             API_REQUESTS_THIS_RUN += 1
             resp.raise_for_status()
-            return self._parse(resp.json().get('Stages', []))
+            data = resp.json()
+            return self._parse(data.get('Stages', []))
         except Exception as e:
             logger.error(f"API Error: {e}")
             return []
@@ -115,7 +118,7 @@ class FootballAPI:
                 t1 = evt.get('T1', [{}])[0]
                 t2 = evt.get('T2', [{}])[0]
                 
-                # Rank Logic (Default to 50 if unknown)
+                # Rank Logic (Default to 50 if unknown for logic purposes)
                 r1 = int(t1.get('Rnk', 50)) if str(t1.get('Rnk', '')).isdigit() else 50
                 r2 = int(t2.get('Rnk', 50)) if str(t2.get('Rnk', '')).isdigit() else 50
                 
@@ -130,12 +133,14 @@ class FootballAPI:
                     'status': evt.get('Eps', 'NS'),
                     'start_time': self._fmt_time(evt.get('Esd', '')),
                     'is_live': evt.get('Eps') in ['1H','2H','HT','LIVE','ET'],
-                    'is_major': is_major
+                    'is_major': is_major,
+                    # Priority for sorting: Live > Major > Others
+                    'priority': 1 if is_major else 2
                 }
                 matches.append(match)
         
-        # Sort: Majors first
-        matches.sort(key=lambda x: (0 if x['is_major'] else 1))
+        # Sort matches
+        matches.sort(key=lambda x: (0 if x['is_live'] else 1, x['priority']))
         return matches
 
     def _fmt_time(self, t):
@@ -151,7 +156,7 @@ class ContentGenerator:
     
     @staticmethod
     def get_analysis(match):
-        """Generates the 'Edge' and the 'Pick' based on data"""
+        """Generates the 'Edge' and the 'Pick' based on data to sound like a Pro"""
         h, a = match['home'], match['away']
         r1, r2 = match['home_rank'], match['away_rank']
         
@@ -161,27 +166,30 @@ class ContentGenerator:
         # Scenario 1: Mismatch (Powerhouse vs Weak)
         if h_pow and not a_pow:
             return {
-                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Heavy volume on home side.",
-                "reason": f"Class disparity evident. {h} at home is a fortress.",
-                "pick": f"{h} -0.75 AH",
-                "conf": "⭐⭐⭐⭐"
+                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Heavy sharp action on Home.",
+                "reason": f"Class disparity evident. {h} is a fortress.",
+                "pick": f"{h} -0.75 AH"
+            }
+        if a_pow and not h_pow:
+            return {
+                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Away side underpriced.",
+                "reason": f"{a} form metrics superior to host.",
+                "pick": f"{a} to Win"
             }
         
         # Scenario 2: Close Ranks (Tight Game)
         if abs(r1 - r2) < 4:
             return {
                 "edge": "⚖️ 𝚃𝚊𝚌𝚝𝚒𝚌𝚊𝚕 𝚂𝚝𝚊𝚗𝚍𝚘𝚏𝚏",
-                "reason": "Both sides possess strong defensive metrics.",
-                "pick": "Under 3.5 Goals / Draw",
-                "conf": "⭐⭐⭐"
+                "reason": "Both defensive units trending well.",
+                "pick": "Under 3.5 Goals / Draw"
             }
             
-        # Scenario 3: Default High Scoring for Major Leagues
+        # Scenario 3: Default High Scoring for Leagues
         return {
             "edge": "🔥 𝙵𝚘𝚛𝚖 𝚂𝚙𝚒𝚔𝚎",
-            "reason": "Offensive output trending up for both squads.",
-            "pick": "Over 1.5 Goals",
-            "conf": "⭐⭐⭐"
+            "reason": "Offensive output trending up for both.",
+            "pick": "Over 1.5 Goals"
         }
 
     @staticmethod
@@ -195,12 +203,17 @@ class ContentGenerator:
         
         msg = f"💎 {title}\n{subtitle}\n\n"
         
-        # Fallback if empty
-        if not matches:
-            return f"💎 {title}\n\nNo market opportunities detected at this time.\nSystem standby."
+        # Filter Logic: Upcoming first, then Live
+        upcoming = [m for m in matches if m['status'] in ['NS', 'Upcoming', '']]
+        if not upcoming:
+            upcoming = [m for m in matches if m['is_live']]
+            
+        # If still empty (extremely rare)
+        if not upcoming:
+            return f"💎 {title}\n\nNo market opportunities detected right now.\nSystem standby."
 
-        # Process Top 5 Matches
-        selected = matches[:5]
+        # Process Top 5 Matches (Mix of Major + others if needed)
+        selected = upcoming[:5]
         
         for m in selected:
             data = ContentGenerator.get_analysis(m)
@@ -208,7 +221,7 @@ class ContentGenerator:
             teams = f"{m['home']} vs {m['away']}"
             time = m['start_time']
             
-            # Box Drawing Construction
+            # Box Drawing Construction - Syndicate Style
             msg += f"┌── {comp} ──────────\n"
             msg += f"│ ⚔️ {teams}\n"
             msg += f"│ ⏰ {time} GMT\n"
@@ -232,7 +245,10 @@ class ContentGenerator:
         """Click-baity but professional teaser"""
         if not matches: return "Market Analysis pending..."
         
-        top_match = matches[0]
+        # Try to find a Major match, otherwise take the first available
+        major = next((m for m in matches if m['is_major']), None)
+        top_match = major if major else matches[0]
+        
         h, a = top_match['home'], top_match['away']
         
         header = TextStyler.to_bold_sans("SMART MONEY MOVE")
@@ -252,7 +268,7 @@ Don't be on the wrong side of the variance.
 👇 𝗦𝗘𝗘 𝗧𝗛𝗘 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗣𝗜𝗖𝗞 𝗛𝗘𝗥𝗘:
 📲 {TELEGRAM_CHANNEL_LINK}
 
-#Syndicate #ValueBet #SmartMoney"""
+#Syndicate #ValueBet #SmartMoney #FootballTips"""
 
 # =============================================================================
 # MAIN
@@ -276,13 +292,14 @@ def main():
     
     bot = FootballAPI(config.rapidapi_key)
     
-    # Fetch Data
+    logger.info("🚀 Fetching market data...")
     matches = bot.get_matches()
     
-    # If no matches, don't crash, just stop
     if not matches:
         logger.warning("No matches found.")
         return
+
+    logger.info(f"✅ Analyzed {len(matches)} matches")
 
     # Generate Content
     tg_content = ContentGenerator.telegram_feed(matches)
@@ -291,21 +308,22 @@ def main():
     # Send Telegram
     try:
         url = f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage"
+        # Note: HTML parse mode is not used here because we rely on Unicode characters for bolding
         requests.post(url, json={
             "chat_id": config.telegram_chat_id, 
             "text": tg_content, 
-            "parse_mode": "HTML", # HTML needed for some formatting if we use standard bold tags, but we use Unicode
+            "parse_mode": "", # Empty parse mode as we use raw Unicode
             "disable_web_page_preview": True
         })
-        logger.info("Telegram Sent")
-    except Exception as e: logger.error(e)
+        logger.info("✅ Syndicate Intelligence Sent to Telegram")
+    except Exception as e: logger.error(f"Telegram Error: {e}")
 
     # Send Facebook
     try:
         url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
         requests.post(url, data={"message": fb_content, "access_token": config.facebook_page_access_token})
-        logger.info("Facebook Sent")
-    except Exception as e: logger.error(e)
+        logger.info("✅ Smart Money Move Sent to Facebook")
+    except Exception as e: logger.error(f"Facebook Error: {e}")
 
 if __name__ == "__main__":
     main()
