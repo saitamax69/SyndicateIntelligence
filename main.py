@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION
-Premium Typography & "Smart Money" Styling
-Optimized for 500 Requests/Month
+Football Data Automation Bot - SYNDICATE EDITION V2
+Premium Typography, Unique Insights, Optimized for API Limits
 """
 
 import os
@@ -13,7 +12,7 @@ from datetime import datetime
 from typing import Optional, Dict, List
 import pytz
 import logging
-import random
+import hashlib
 
 # =============================================================================
 # CONFIGURATION
@@ -26,7 +25,6 @@ GMT = pytz.timezone('GMT')
 API_REQUESTS_THIS_RUN = 0
 MAX_API_CALLS_PER_RUN = 1
 
-# AFFILIATE LINKS (The Revenue Engine)
 AFFILIATE_LINKS = {
     "🎰 Stake": "https://stake.com/?c=GlobalScoreUpdates",
     "📊 Linebet": "https://linebet.com?bf=695d695c66d7a_13053616523",
@@ -52,34 +50,65 @@ POWERHOUSE_TEAMS = [
 ]
 
 # =============================================================================
-# 🎨 PREMIUM TYPOGRAPHY ENGINE
+# 🎨 PREMIUM TYPOGRAPHY & SYNDICATE DICTIONARY
 # =============================================================================
 
 class TextStyler:
     """Converts standard text to Premium Unicode Styles"""
-    
     @staticmethod
     def to_bold_sans(text):
-        """Converts text to 𝗕𝗢𝗟𝗗 𝗦𝗔𝗡𝗦 (Mathematical Sans-Serif Bold)"""
-        # Mapping for A-Z, a-z, 0-9
+        """Converts text to 𝗕𝗢𝗟𝗗 𝗦𝗔𝗡𝗦"""
         normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        # Unicode ranges for Math Sans Bold
         mapped = "".join([chr(0x1D5D4 + i) for i in range(26)]) + \
                  "".join([chr(0x1D5EE + i) for i in range(26)]) + \
                  "".join([chr(0x1D7EC + i) for i in range(10)])
-        
-        table = str.maketrans(normal, mapped)
-        return text.translate(table)
+        return text.translate(str.maketrans(normal, mapped))
 
     @staticmethod
     def to_mono(text):
-        """Converts text to 𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎 (Mathematical Monospace)"""
+        """Converts text to 𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎"""
         normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         mapped = "".join([chr(0x1D670 + i) for i in range(26)]) + \
                  "".join([chr(0x1D68A + i) for i in range(26)]) + \
                  "".join([chr(0x1D7F6 + i) for i in range(10)])
-        table = str.maketrans(normal, mapped)
-        return text.translate(table)
+        return text.translate(str.maketrans(normal, mapped))
+
+class SyndicateDictionary:
+    """Pool of professional-sounding analysis reasons"""
+    
+    HOME_STRONG = [
+        "Home side xG metrics trending 20% above league average.",
+        "Visitors struggle against high-press systems away from home.",
+        "Host defense has conceded zero open-play goals in last 3.",
+        "Opening line undervalued the home side's recent tactical shift.",
+        "Fatigue factor favors the hosts after visitors' midweek travel.",
+        "Home fortress: Statistical home advantage significantly holds here."
+    ]
+    
+    AWAY_STRONG = [
+        "Counter-attacking setup perfectly suits the visitors here.",
+        "Home defense leaking goals in transition phases.",
+        "Market correction following recent dominant away performances.",
+        "Visitors significantly outperform their current league table position.",
+        "Home side missing key playmaker creates value on the away win.",
+        "Class disparity evident; visitors have superior depth."
+    ]
+    
+    TIGHT_GAME = [
+        "Midfield congestion expected to limit high-quality chances.",
+        "Both managers prioritize defensive structure over risk.",
+        "Historical H2H data indicates a low-tempo tactical battle.",
+        "Heavy pitch conditions likely to slow down attacking rhythm.",
+        "Late season pressure suggests a cautious approach from both."
+    ]
+    
+    GOALS_GALORE = [
+        "Both sides ranking top 5 for shots on target created.",
+        "Defensive injury crisis creating massive value on the Over.",
+        "Historical H2H indicates an open, end-to-end game script.",
+        "Visitors' aggressive high line leaves space behind for counters.",
+        "Recent form suggests both teams are scoring for fun."
+    ]
 
 # =============================================================================
 # API CLIENT
@@ -118,7 +147,7 @@ class FootballAPI:
                 t1 = evt.get('T1', [{}])[0]
                 t2 = evt.get('T2', [{}])[0]
                 
-                # Rank Logic (Default to 50 if unknown for logic purposes)
+                # Rank Logic
                 r1 = int(t1.get('Rnk', 50)) if str(t1.get('Rnk', '')).isdigit() else 50
                 r2 = int(t2.get('Rnk', 50)) if str(t2.get('Rnk', '')).isdigit() else 50
                 
@@ -128,18 +157,14 @@ class FootballAPI:
                     'away': t2.get('Nm', 'Unknown'),
                     'home_rank': r1,
                     'away_rank': r2,
-                    'home_score': evt.get('Tr1', '-'),
-                    'away_score': evt.get('Tr2', '-'),
                     'status': evt.get('Eps', 'NS'),
                     'start_time': self._fmt_time(evt.get('Esd', '')),
                     'is_live': evt.get('Eps') in ['1H','2H','HT','LIVE','ET'],
                     'is_major': is_major,
-                    # Priority for sorting: Live > Major > Others
                     'priority': 1 if is_major else 2
                 }
                 matches.append(match)
         
-        # Sort matches
         matches.sort(key=lambda x: (0 if x['is_live'] else 1, x['priority']))
         return matches
 
@@ -149,70 +174,78 @@ class FootballAPI:
         except: return "--:--"
 
 # =============================================================================
-# CONTENT GENERATOR (SYNDICATE STYLE)
+# CONTENT GENERATOR (SYNDICATE V2)
 # =============================================================================
 
 class ContentGenerator:
     
     @staticmethod
     def get_analysis(match):
-        """Generates the 'Edge' and the 'Pick' based on data to sound like a Pro"""
+        """
+        Generates unique, deterministic analysis for every match.
+        Uses hashing to ensure the reason is unique per match but consistent.
+        """
         h, a = match['home'], match['away']
         r1, r2 = match['home_rank'], match['away_rank']
+        
+        # Create a "seed" from team names to pick a consistent reason from the list
+        # This prevents "random" changes if you run the script twice
+        match_hash = int(hashlib.md5(f"{h}{a}".encode()).hexdigest(), 16)
         
         h_pow = any(p in h for p in POWERHOUSE_TEAMS)
         a_pow = any(p in a for p in POWERHOUSE_TEAMS)
         
-        # Scenario 1: Mismatch (Powerhouse vs Weak)
+        # LOGIC 1: Powerhouse Home
         if h_pow and not a_pow:
+            idx = match_hash % len(SyndicateDictionary.HOME_STRONG)
             return {
-                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Heavy sharp action on Home.",
-                "reason": f"Class disparity evident. {h} is a fortress.",
+                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Heavy Sharp Action Home",
+                "insight": SyndicateDictionary.HOME_STRONG[idx],
                 "pick": f"{h} -0.75 AH"
             }
+
+        # LOGIC 2: Powerhouse Away
         if a_pow and not h_pow:
+            idx = match_hash % len(SyndicateDictionary.AWAY_STRONG)
             return {
-                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Away side underpriced.",
-                "reason": f"{a} form metrics superior to host.",
+                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Line Moving Towards Visitors",
+                "insight": SyndicateDictionary.AWAY_STRONG[idx],
                 "pick": f"{a} to Win"
             }
         
-        # Scenario 2: Close Ranks (Tight Game)
+        # LOGIC 3: Close Ranks (Tight)
         if abs(r1 - r2) < 4:
+            idx = match_hash % len(SyndicateDictionary.TIGHT_GAME)
             return {
                 "edge": "⚖️ 𝚃𝚊𝚌𝚝𝚒𝚌𝚊𝚕 𝚂𝚝𝚊𝚗𝚍𝚘𝚏𝚏",
-                "reason": "Both defensive units trending well.",
+                "insight": SyndicateDictionary.TIGHT_GAME[idx],
                 "pick": "Under 3.5 Goals / Draw"
             }
             
-        # Scenario 3: Default High Scoring for Leagues
+        # LOGIC 4: Default / Volatility (Goals)
+        idx = match_hash % len(SyndicateDictionary.GOALS_GALORE)
         return {
-            "edge": "🔥 𝙵𝚘𝚛𝚖 𝚂𝚙𝚒𝚔𝚎",
-            "reason": "Offensive output trending up for both.",
+            "edge": "🔥 𝚅𝚘𝚕𝚊𝚝𝚒𝚕𝚒𝚝𝚢 𝙰𝚕𝚎𝚛𝚝",
+            "insight": SyndicateDictionary.GOALS_GALORE[idx],
             "pick": "Over 1.5 Goals"
         }
 
     @staticmethod
     def telegram_feed(matches):
-        """Generates the 'Syndicate' looking post"""
         now_str = datetime.now(GMT).strftime("%d %b")
         
-        # Header
         title = TextStyler.to_bold_sans("SYNDICATE INTELLIGENCE")
         subtitle = TextStyler.to_mono(f"Daily Briefing | {now_str}")
         
         msg = f"💎 {title}\n{subtitle}\n\n"
         
-        # Filter Logic: Upcoming first, then Live
+        # Logic: Upcoming first, then Live
         upcoming = [m for m in matches if m['status'] in ['NS', 'Upcoming', '']]
-        if not upcoming:
-            upcoming = [m for m in matches if m['is_live']]
-            
-        # If still empty (extremely rare)
+        if not upcoming: upcoming = [m for m in matches if m['is_live']]
+        
         if not upcoming:
             return f"💎 {title}\n\nNo market opportunities detected right now.\nSystem standby."
 
-        # Process Top 5 Matches (Mix of Major + others if needed)
         selected = upcoming[:5]
         
         for m in selected:
@@ -221,17 +254,16 @@ class ContentGenerator:
             teams = f"{m['home']} vs {m['away']}"
             time = m['start_time']
             
-            # Box Drawing Construction - Syndicate Style
+            # THE BOX STRUCTURE
             msg += f"┌── {comp} ──────────\n"
             msg += f"│ ⚔️ {teams}\n"
             msg += f"│ ⏰ {time} GMT\n"
             msg += f"│\n"
             msg += f"│ {data['edge']}\n"
-            msg += f"│ └─ {data['reason']}\n"
+            msg += f"│ 🧠 𝗜𝗡𝗦𝗜𝗚𝗛𝗧: {data['insight']}\n"  # <--- THE NEW INSIGHT LINE
             msg += f"│\n"
             msg += f"└─ 🎯 𝗧𝗛𝗘 𝗣𝗜𝗖𝗞: {TextStyler.to_bold_sans(data['pick'])}\n\n"
 
-        # Footer / Affiliate Section
         msg += "────── 🔒 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗖𝗖𝗘𝗦𝗦 ──────\n"
         msg += "Maximize your edge with our partners:\n\n"
         
@@ -242,10 +274,8 @@ class ContentGenerator:
 
     @staticmethod
     def facebook_teaser(matches):
-        """Click-baity but professional teaser"""
         if not matches: return "Market Analysis pending..."
         
-        # Try to find a Major match, otherwise take the first available
         major = next((m for m in matches if m['is_major']), None)
         top_match = major if major else matches[0]
         
@@ -291,15 +321,12 @@ def main():
     if not config.validate(): return
     
     bot = FootballAPI(config.rapidapi_key)
-    
     logger.info("🚀 Fetching market data...")
     matches = bot.get_matches()
     
     if not matches:
         logger.warning("No matches found.")
         return
-
-    logger.info(f"✅ Analyzed {len(matches)} matches")
 
     # Generate Content
     tg_content = ContentGenerator.telegram_feed(matches)
@@ -308,21 +335,20 @@ def main():
     # Send Telegram
     try:
         url = f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage"
-        # Note: HTML parse mode is not used here because we rely on Unicode characters for bolding
         requests.post(url, json={
             "chat_id": config.telegram_chat_id, 
             "text": tg_content, 
-            "parse_mode": "", # Empty parse mode as we use raw Unicode
+            "parse_mode": "", # Empty parse mode for raw Unicode
             "disable_web_page_preview": True
         })
-        logger.info("✅ Syndicate Intelligence Sent to Telegram")
+        logger.info("✅ Telegram Sent")
     except Exception as e: logger.error(f"Telegram Error: {e}")
 
     # Send Facebook
     try:
         url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
         requests.post(url, data={"message": fb_content, "access_token": config.facebook_page_access_token})
-        logger.info("✅ Smart Money Move Sent to Facebook")
+        logger.info("✅ Facebook Sent")
     except Exception as e: logger.error(f"Facebook Error: {e}")
 
 if __name__ == "__main__":
