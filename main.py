@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - FIXED CONTENT GENERATION
+Football Data Automation Bot - SYNDICATE EDITION
+Premium Typography & "Smart Money" Styling
 """
 
 import os
 import sys
 import json
 import requests
-from datetime import datetime, timedelta
-from typing import Optional, Dict, List, Any
+from datetime import datetime
+from typing import Optional, Dict, List
 import pytz
 import logging
-import time
+import random
 
 # =============================================================================
 # CONFIGURATION
@@ -24,7 +25,7 @@ GMT = pytz.timezone('GMT')
 API_REQUESTS_THIS_RUN = 0
 MAX_API_CALLS_PER_RUN = 1
 
-# AFFILIATE LINKS
+# AFFILIATE LINKS (The Revenue Engine)
 AFFILIATE_LINKS = {
     "🎰 Stake": "https://stake.com/?c=GlobalScoreUpdates",
     "📊 Linebet": "https://linebet.com?bf=695d695c66d7a_13053616523",
@@ -36,22 +37,225 @@ TELEGRAM_CHANNEL_LINK = "https://t.me/+xAQ3DCVJa8A2ZmY8"
 RAPIDAPI_HOST = "livescore6.p.rapidapi.com"
 RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
 
-# EXPANDED list to catch more matches
 MAJOR_COMPETITIONS = [
     "Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue 1",
-    "Champions League", "Europa", "Conference", "World Cup", "Euro",
-    "FA Cup", "Copa", "Eredivisie", "Primeira", "Saudi", "MLS", 
-    "Championship", "League One", "Super Lig", "Super League"
+    "Champions League", "Europa", "World Cup", "Euro", "FA Cup",
+    "Brasileiro", "Eredivisie", "Primeira", "MLS"
 ]
 
 POWERHOUSE_TEAMS = [
     "Man City", "Liverpool", "Arsenal", "Real Madrid", "Barcelona",
-    "Bayern", "Leverkusen", "Inter", "Juve", "Milan", "PSG", 
-    "Benfica", "Porto", "Sporting", "Al Hilal", "Al Nassr", "Chelsea", "Man Utd"
+    "Bayern", "Leverkusen", "Inter", "Juventus", "Milan", "PSG",
+    "Benfica", "Porto", "Al Hilal", "Al Nassr"
 ]
 
 # =============================================================================
-# SETUP
+# 🎨 PREMIUM TYPOGRAPHY ENGINE
+# =============================================================================
+
+class TextStyler:
+    """Converts standard text to Premium Unicode Styles"""
+    
+    @staticmethod
+    def to_bold_sans(text):
+        """Converts text to 𝗕𝗢𝗟𝗗 𝗦𝗔𝗡𝗦 (Mathematical Sans-Serif Bold)"""
+        # Mapping for A-Z, a-z, 0-9
+        normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        # Unicode ranges for Math Sans Bold
+        mapped = "".join([chr(0x1D5D4 + i) for i in range(26)]) + \
+                 "".join([chr(0x1D5EE + i) for i in range(26)]) + \
+                 "".join([chr(0x1D7EC + i) for i in range(10)])
+        
+        table = str.maketrans(normal, mapped)
+        return text.translate(table)
+
+    @staticmethod
+    def to_mono(text):
+        """Converts text to 𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎 (Mathematical Monospace)"""
+        normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        mapped = "".join([chr(0x1D670 + i) for i in range(26)]) + \
+                 "".join([chr(0x1D68A + i) for i in range(26)]) + \
+                 "".join([chr(0x1D7F6 + i) for i in range(10)])
+        table = str.maketrans(normal, mapped)
+        return text.translate(table)
+
+# =============================================================================
+# API CLIENT
+# =============================================================================
+
+class FootballAPI:
+    def __init__(self, api_key: str):
+        self.session = requests.Session()
+        self.session.headers.update({"X-RapidAPI-Key": api_key, "X-RapidAPI-Host": RAPIDAPI_HOST})
+        self.request_count = 0
+
+    def get_matches(self):
+        global API_REQUESTS_THIS_RUN
+        if self.request_count >= MAX_API_CALLS_PER_RUN: return []
+        
+        date_str = datetime.now(GMT).strftime("%Y%m%d")
+        try:
+            url = f"{RAPIDAPI_BASE_URL}/matches/v2/list-by-date"
+            resp = self.session.get(url, params={"Category": "soccer", "Date": date_str, "Timezone": "0"}, timeout=30)
+            self.request_count += 1
+            API_REQUESTS_THIS_RUN += 1
+            resp.raise_for_status()
+            return self._parse(resp.json().get('Stages', []))
+        except Exception as e:
+            logger.error(f"API Error: {e}")
+            return []
+
+    def _parse(self, stages):
+        matches = []
+        for stage in stages:
+            comp = stage.get('Snm', stage.get('Cnm', 'Unknown'))
+            is_major = any(m.lower() in comp.lower() for m in MAJOR_COMPETITIONS)
+            
+            for evt in stage.get('Events', []):
+                t1 = evt.get('T1', [{}])[0]
+                t2 = evt.get('T2', [{}])[0]
+                
+                # Rank Logic (Default to 50 if unknown)
+                r1 = int(t1.get('Rnk', 50)) if str(t1.get('Rnk', '')).isdigit() else 50
+                r2 = int(t2.get('Rnk', 50)) if str(t2.get('Rnk', '')).isdigit() else 50
+                
+                match = {
+                    'competition': comp,
+                    'home': t1.get('Nm', 'Unknown'),
+                    'away': t2.get('Nm', 'Unknown'),
+                    'home_rank': r1,
+                    'away_rank': r2,
+                    'home_score': evt.get('Tr1', '-'),
+                    'away_score': evt.get('Tr2', '-'),
+                    'status': evt.get('Eps', 'NS'),
+                    'start_time': self._fmt_time(evt.get('Esd', '')),
+                    'is_live': evt.get('Eps') in ['1H','2H','HT','LIVE','ET'],
+                    'is_major': is_major
+                }
+                matches.append(match)
+        
+        # Sort: Majors first
+        matches.sort(key=lambda x: (0 if x['is_major'] else 1))
+        return matches
+
+    def _fmt_time(self, t):
+        try:
+            return GMT.localize(datetime.strptime(str(t)[:14], "%Y%m%d%H%M%S")).strftime("%H:%M")
+        except: return "--:--"
+
+# =============================================================================
+# CONTENT GENERATOR (SYNDICATE STYLE)
+# =============================================================================
+
+class ContentGenerator:
+    
+    @staticmethod
+    def get_analysis(match):
+        """Generates the 'Edge' and the 'Pick' based on data"""
+        h, a = match['home'], match['away']
+        r1, r2 = match['home_rank'], match['away_rank']
+        
+        h_pow = any(p in h for p in POWERHOUSE_TEAMS)
+        a_pow = any(p in a for p in POWERHOUSE_TEAMS)
+        
+        # Scenario 1: Mismatch (Powerhouse vs Weak)
+        if h_pow and not a_pow:
+            return {
+                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Heavy volume on home side.",
+                "reason": f"Class disparity evident. {h} at home is a fortress.",
+                "pick": f"{h} -0.75 AH",
+                "conf": "⭐⭐⭐⭐"
+            }
+        
+        # Scenario 2: Close Ranks (Tight Game)
+        if abs(r1 - r2) < 4:
+            return {
+                "edge": "⚖️ 𝚃𝚊𝚌𝚝𝚒𝚌𝚊𝚕 𝚂𝚝𝚊𝚗𝚍𝚘𝚏𝚏",
+                "reason": "Both sides possess strong defensive metrics.",
+                "pick": "Under 3.5 Goals / Draw",
+                "conf": "⭐⭐⭐"
+            }
+            
+        # Scenario 3: Default High Scoring for Major Leagues
+        return {
+            "edge": "🔥 𝙵𝚘𝚛𝚖 𝚂𝚙𝚒𝚔𝚎",
+            "reason": "Offensive output trending up for both squads.",
+            "pick": "Over 1.5 Goals",
+            "conf": "⭐⭐⭐"
+        }
+
+    @staticmethod
+    def telegram_feed(matches):
+        """Generates the 'Syndicate' looking post"""
+        now_str = datetime.now(GMT).strftime("%d %b")
+        
+        # Header
+        title = TextStyler.to_bold_sans("SYNDICATE INTELLIGENCE")
+        subtitle = TextStyler.to_mono(f"Daily Briefing | {now_str}")
+        
+        msg = f"💎 {title}\n{subtitle}\n\n"
+        
+        # Fallback if empty
+        if not matches:
+            return f"💎 {title}\n\nNo market opportunities detected at this time.\nSystem standby."
+
+        # Process Top 5 Matches
+        selected = matches[:5]
+        
+        for m in selected:
+            data = ContentGenerator.get_analysis(m)
+            comp = TextStyler.to_bold_sans(m['competition'].upper())
+            teams = f"{m['home']} vs {m['away']}"
+            time = m['start_time']
+            
+            # Box Drawing Construction
+            msg += f"┌── {comp} ──────────\n"
+            msg += f"│ ⚔️ {teams}\n"
+            msg += f"│ ⏰ {time} GMT\n"
+            msg += f"│\n"
+            msg += f"│ {data['edge']}\n"
+            msg += f"│ └─ {data['reason']}\n"
+            msg += f"│\n"
+            msg += f"└─ 🎯 𝗧𝗛𝗘 𝗣𝗜𝗖𝗞: {TextStyler.to_bold_sans(data['pick'])}\n\n"
+
+        # Footer / Affiliate Section
+        msg += "────── 🔒 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗖𝗖𝗘𝗦𝗦 ──────\n"
+        msg += "Maximize your edge with our partners:\n\n"
+        
+        for name, link in AFFILIATE_LINKS.items():
+            msg += f"👉 {TextStyler.to_bold_sans(name)}: {link}\n"
+            
+        return msg
+
+    @staticmethod
+    def facebook_teaser(matches):
+        """Click-baity but professional teaser"""
+        if not matches: return "Market Analysis pending..."
+        
+        top_match = matches[0]
+        h, a = top_match['home'], top_match['away']
+        
+        header = TextStyler.to_bold_sans("SMART MONEY MOVE")
+        teams = TextStyler.to_bold_sans(f"{h} vs {a}")
+        
+        return f"""💎 {header}
+        
+We have detected a significant liquidity spike in today's fixture:
+
+⚽ {teams}
+
+📉 𝗠𝗮𝗿𝗸𝗲𝘁 𝗔𝗻𝗮𝗹𝘆𝘀𝗶𝘀:
+The sharps are moving heavily on one side. The public is on the other. 
+
+Don't be on the wrong side of the variance.
+
+👇 𝗦𝗘𝗘 𝗧𝗛𝗘 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗣𝗜𝗖𝗞 𝗛𝗘𝗥𝗘:
+📲 {TELEGRAM_CHANNEL_LINK}
+
+#Syndicate #ValueBet #SmartMoney"""
+
+# =============================================================================
+# MAIN
 # =============================================================================
 
 class Config:
@@ -66,204 +270,42 @@ class Config:
         return all([self.rapidapi_key, self.telegram_bot_token, self.telegram_chat_id, 
                    self.facebook_page_access_token, self.facebook_page_id])
 
-config = Config()
-
-# =============================================================================
-# API
-# =============================================================================
-
-class FootballAPI:
-    def __init__(self, api_key: str):
-        self.session = requests.Session()
-        self.session.headers.update({"X-RapidAPI-Key": api_key, "X-RapidAPI-Host": RAPIDAPI_HOST})
-        self.request_count = 0
-
-    def get_matches(self):
-        global API_REQUESTS_THIS_RUN
-        if self.request_count >= MAX_API_CALLS_PER_RUN: return []
-        
-        # Get TODAY'S date in YYYYMMDD
-        date_str = datetime.now(GMT).strftime("%Y%m%d")
-        
-        try:
-            url = f"{RAPIDAPI_BASE_URL}/matches/v2/list-by-date"
-            resp = self.session.get(url, params={"Category": "soccer", "Date": date_str, "Timezone": "0"}, timeout=30)
-            self.request_count += 1
-            API_REQUESTS_THIS_RUN += 1
-            resp.raise_for_status()
-            data = resp.json()
-            return self._parse(data.get('Stages', []))
-        except Exception as e:
-            logger.error(f"API Error: {e}")
-            return []
-
-    def _parse(self, stages):
-        matches = []
-        for stage in stages:
-            comp = stage.get('Snm', stage.get('Cnm', 'Unknown'))
-            # Check if this is a "Major" league, but we will store ALL matches
-            is_major = any(m.lower() in comp.lower() for m in MAJOR_COMPETITIONS)
-            
-            for evt in stage.get('Events', []):
-                t1 = evt.get('T1', [{}])[0]
-                t2 = evt.get('T2', [{}])[0]
-                
-                match = {
-                    'competition': comp,
-                    'home': t1.get('Nm', 'Unknown'),
-                    'away': t2.get('Nm', 'Unknown'),
-                    'home_score': evt.get('Tr1', '-'),
-                    'away_score': evt.get('Tr2', '-'),
-                    'status': evt.get('Eps', 'NS'),
-                    'start_time': self._fmt_time(evt.get('Esd', '')),
-                    'is_live': evt.get('Eps') in ['1H','2H','HT','LIVE','ET'],
-                    'is_major': is_major,
-                    # Fallback logic: If league is major, rank is 1. If not, rank is 2.
-                    'priority': 1 if is_major else 2
-                }
-                matches.append(match)
-        
-        # Sort matches: Live first, then Major, then others
-        matches.sort(key=lambda x: (0 if x['is_live'] else 1, x['priority']))
-        return matches
-
-    def _fmt_time(self, t):
-        try:
-            return GMT.localize(datetime.strptime(str(t)[:14], "%Y%m%d%H%M%S")).strftime("%H:%M GMT")
-        except: return "TBD"
-
-# =============================================================================
-# CONTENT GENERATOR (FIXED)
-# =============================================================================
-
-class ContentGenerator:
-    
-    @staticmethod
-    def get_prediction(match):
-        """Simple logic to ensure EVERY match has a prediction"""
-        h, a = match['home'], match['away']
-        
-        # Powerhouse Logic
-        h_pow = any(p in h for p in POWERHOUSE_TEAMS)
-        a_pow = any(p in a for p in POWERHOUSE_TEAMS)
-        
-        if h_pow and not a_pow: return f"🟢 {h} to Win"
-        if a_pow and not h_pow: return f"🟣 {a} to Win"
-        
-        # Random but realistic variations for non-powerhouse games
-        # (Since we don't have odds/stats to save API calls)
-        seed = len(h) + len(a) # Deterministic "random" based on name length
-        if seed % 3 == 0: return "🛡️ Double Chance: 1X"
-        if seed % 3 == 1: return "🔥 Both Teams to Score"
-        return "⚽ Over 1.5 Goals"
-
-    @staticmethod
-    def telegram_post(matches):
-        now_str = datetime.now(GMT).strftime("%A, %d %B")
-        
-        # Filter: Get all upcoming matches
-        upcoming = [m for m in matches if m['status'] in ['NS', 'Upcoming', '']]
-        
-        # If no Upcoming, check for Live
-        if not upcoming:
-            upcoming = [m for m in matches if m['is_live']]
-
-        # Select top matches (Major first, then others). Limit to 12 max to avoid text limit.
-        selected_matches = upcoming[:12]
-
-        msg = f"📅 *VIP PREDICTIONS FOR TODAY* 📅\n📆 {now_str}\n\n"
-
-        if not selected_matches:
-            msg += "⚠️ No matches found right now. Check back later!\n\n"
-        else:
-            # Group by League
-            by_league = {}
-            for m in selected_matches:
-                if m['competition'] not in by_league: by_league[m['competition']] = []
-                by_league[m['competition']].append(m)
-
-            for comp, games in by_league.items():
-                msg += f"🏆 *{comp}*\n"
-                for g in games:
-                    pred = ContentGenerator.get_prediction(g)
-                    time = g['start_time'].split(' ')[0]
-                    msg += f"⏰ {time} | {g['home']} 🆚 {g['away']}\n"
-                    msg += f"   💡 *Tip:* {pred}\n"
-                msg += "\n"
-
-        msg += "━━━━━━━━━━━━━━━━━━━━━\n"
-        msg += "💰 *BET HERE & GET A BONUS:* 💰\n\n"
-        for n, l in AFFILIATE_LINKS.items():
-            msg += f"👉 {n}: {l}\n"
-        
-        msg += "\n#Football #Predictions #BettingTips"
-        return msg
-
-    @staticmethod
-    def facebook_teaser(matches):
-        # Get upcoming matches (Major first, then any)
-        upcoming = [m for m in matches if m['status'] in ['NS', 'Upcoming', '']]
-        selected = upcoming[:4] # Take top 4 matches
-        
-        if not selected:
-            # Fallback text if truly no matches
-            return f"""🔥 FOOTBALL BETTING TIPS 🔥
-            
-We have analyzed the markets! 💎
-
-👇 GET THE PREDICTIONS HERE FREE 👇
-📲 {TELEGRAM_CHANNEL_LINK}
-
-#Football #Predictions"""
-
-        # Build list of matches
-        match_txt = ""
-        for m in selected:
-            match_txt += f"⚽ {m['home']} 🆚 {m['away']}\n"
-
-        return f"""🔥 TODAY'S EXPERT PREDICTIONS 🔥
-
-{match_txt}
-We have posted WINNING tips for these matches! 💎
-
-👇 GET THE PREDICTIONS HERE FREE 👇
-📲 {TELEGRAM_CHANNEL_LINK}
-
-#Football #Predictions #Betting"""
-
-# =============================================================================
-# MAIN
-# =============================================================================
-
 def main():
+    config = Config()
     if not config.validate(): return
     
     bot = FootballAPI(config.rapidapi_key)
-    tg_url = f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage"
-    fb_url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
-
-    logger.info("🚀 Fetching matches...")
+    
+    # Fetch Data
     matches = bot.get_matches()
     
+    # If no matches, don't crash, just stop
     if not matches:
-        logger.warning("❌ No data received from API")
+        logger.warning("No matches found.")
         return
 
-    logger.info(f"✅ Found {len(matches)} matches")
-
-    # 1. Telegram Post
-    tg_text = ContentGenerator.telegram_post(matches)
+    # Generate Content
+    tg_content = ContentGenerator.telegram_feed(matches)
+    fb_content = ContentGenerator.facebook_teaser(matches)
+    
+    # Send Telegram
     try:
-        requests.post(tg_url, json={"chat_id": config.telegram_chat_id, "text": tg_text, "parse_mode": "Markdown", "disable_web_page_preview": True})
-        logger.info("✅ Telegram Sent")
-    except Exception as e: logger.error(f"TG Error: {e}")
+        url = f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage"
+        requests.post(url, json={
+            "chat_id": config.telegram_chat_id, 
+            "text": tg_content, 
+            "parse_mode": "HTML", # HTML needed for some formatting if we use standard bold tags, but we use Unicode
+            "disable_web_page_preview": True
+        })
+        logger.info("Telegram Sent")
+    except Exception as e: logger.error(e)
 
-    # 2. Facebook Post
-    fb_text = ContentGenerator.facebook_teaser(matches)
+    # Send Facebook
     try:
-        requests.post(fb_url, data={"message": fb_text, "access_token": config.facebook_page_access_token})
-        logger.info("✅ Facebook Sent")
-    except Exception as e: logger.error(f"FB Error: {e}")
+        url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
+        requests.post(url, data={"message": fb_content, "access_token": config.facebook_page_access_token})
+        logger.info("Facebook Sent")
+    except Exception as e: logger.error(e)
 
 if __name__ == "__main__":
     main()
