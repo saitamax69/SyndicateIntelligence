@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V3
-Dual Predictions, League Profiling, & Varied Logic
+Football Data Automation Bot - SYNDICATE EDITION V3.1
+Fixed: Strict Time Filtering (No Finished Matches)
 """
 
 import os
 import sys
 import json
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional, Dict, List
 import pytz
 import logging
@@ -36,10 +36,10 @@ TELEGRAM_CHANNEL_LINK = "https://t.me/+xAQ3DCVJa8A2ZmY8"
 RAPIDAPI_HOST = "livescore6.p.rapidapi.com"
 RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
 
-# League Profiles helps determine if we should bet Goals or Winners
+# League Profiles
 LEAGUE_PROFILES = {
     "HIGH_SCORING": ["Bundesliga", "Eredivisie", "MLS", "Saudi", "Jupiler", "Allsvenskan", "Eliteserien"],
-    "DEFENSIVE": ["Serie A", "Ligue 1", "Segunda", "Brasileiro", "Argentina"],
+    "DEFENSIVE": ["Serie A", "Ligue 1", "Segunda", "Brasileiro", "Argentina", "Greece"],
     "BALANCED": ["Premier League", "La Liga", "Championship", "Champions League", "Europa"]
 }
 
@@ -105,7 +105,7 @@ class Insights:
     ]
 
 # =============================================================================
-# API CLIENT
+# API CLIENT (WITH TIME FILTERING)
 # =============================================================================
 
 class FootballAPI:
@@ -132,15 +132,43 @@ class FootballAPI:
 
     def _parse(self, stages):
         matches = []
+        now = datetime.now(GMT)
+        
         for stage in stages:
             comp = stage.get('Snm', stage.get('Cnm', 'Unknown'))
             is_major = any(m.lower() in comp.lower() for m in MAJOR_COMPETITIONS)
             
             for evt in stage.get('Events', []):
+                # Status Check
+                status = evt.get('Eps', 'Unknown')
+                
+                # Exclude strictly finished statuses
+                if status in ['FT', 'AET', 'PEN', 'Canc', 'Abd', 'Post']:
+                    continue
+
+                # Time Parsing & Filtering
+                start_str = str(evt.get('Esd', ''))
+                match_dt = None
+                
+                try:
+                    if len(start_str) >= 12:
+                        match_dt = datetime.strptime(start_str[:14], "%Y%m%d%H%M%S")
+                        match_dt = GMT.localize(match_dt)
+                except:
+                    pass
+                
+                # STRICT TIME FILTER:
+                # If match started more than 15 mins ago and isn't marked as LIVE, ignore it.
+                # If match is in the past (e.g. 2 hours ago), ignore it.
+                if match_dt:
+                    diff_mins = (now - match_dt).total_seconds() / 60
+                    if diff_mins > 15 and status not in ['1H','2H','HT','LIVE','ET']:
+                         # It's in the past and not live -> likely finished but API status is weird
+                        continue
+
                 t1 = evt.get('T1', [{}])[0]
                 t2 = evt.get('T2', [{}])[0]
                 
-                # Rank Logic: Default to 50 if missing
                 r1 = int(t1.get('Rnk', 50)) if str(t1.get('Rnk', '')).isdigit() else 50
                 r2 = int(t2.get('Rnk', 50)) if str(t2.get('Rnk', '')).isdigit() else 50
                 
@@ -150,9 +178,10 @@ class FootballAPI:
                     'away': t2.get('Nm', 'Unknown'),
                     'home_rank': r1,
                     'away_rank': r2,
-                    'status': evt.get('Eps', 'NS'),
-                    'start_time': self._fmt_time(evt.get('Esd', '')),
-                    'is_live': evt.get('Eps') in ['1H','2H','HT','LIVE','ET'],
+                    'status': status,
+                    'start_time': match_dt.strftime("%H:%M") if match_dt else "--:--",
+                    'start_dt': match_dt,
+                    'is_live': status in ['1H','2H','HT','LIVE','ET'],
                     'is_major': is_major,
                     'priority': 1 if is_major else 2
                 }
@@ -161,37 +190,26 @@ class FootballAPI:
         matches.sort(key=lambda x: (0 if x['is_live'] else 1, x['priority']))
         return matches
 
-    def _fmt_time(self, t):
-        try: return GMT.localize(datetime.strptime(str(t)[:14], "%Y%m%d%H%M%S")).strftime("%H:%M")
-        except: return "--:--"
-
 # =============================================================================
-# LOGIC ENGINE (DUAL PICKS)
+# LOGIC ENGINE
 # =============================================================================
 
 class LogicEngine:
-    
     @staticmethod
     def analyze(match):
         h, a = match['home'], match['away']
         comp = match['competition']
-        r1, r2 = match['home_rank'], match['away_rank']
         
-        # 1. Determine League Style
+        # Determine League Style
         style = "BALANCED"
         for k, v in LEAGUE_PROFILES.items():
-            if any(l in comp for l in v):
-                style = k
-                break
+            if any(l in comp for l in v): style = k; break
         
-        # 2. Check Powerhouse
         h_pow = any(p in h for p in POWERHOUSE_TEAMS)
         a_pow = any(p in a for p in POWERHOUSE_TEAMS)
-        
-        # 3. Hash for Insight rotation (Deterministic)
         match_hash = int(hashlib.md5(f"{h}{a}".encode()).hexdigest(), 16)
 
-        # === SCENARIO A: Powerhouse Home ===
+        # A: Powerhouse Home
         if h_pow and not a_pow:
             insight = Insights.DOMINANT_HOME[match_hash % len(Insights.DOMINANT_HOME)]
             return {
@@ -201,7 +219,7 @@ class LogicEngine:
                 "alt": f"{h} to Win & Over 1.5 Goals"
             }
 
-        # === SCENARIO B: Powerhouse Away ===
+        # B: Powerhouse Away
         if a_pow and not h_pow:
             insight = Insights.UNDERDOG_VALUE[match_hash % len(Insights.UNDERDOG_VALUE)]
             return {
@@ -211,25 +229,15 @@ class LogicEngine:
                 "alt": "Over 1.5 Goals"
             }
         
-        # === SCENARIO C: High Scoring League (Bundesliga/MLS etc) ===
+        # C: High Scoring League
         if style == "HIGH_SCORING":
             insight = Insights.GOALS_EXPECTED[match_hash % len(Insights.GOALS_EXPECTED)]
-            # Rotate picks based on hash so it's not always Over 2.5
             if match_hash % 2 == 0:
-                main_pick = "Over 2.5 Goals"
-                alt_pick = "Both Teams to Score (Yes)"
+                return {"edge": "🔥 𝚅𝚘𝚕𝚊𝚝𝚒𝚕𝚒𝚝𝚢 𝙰𝚕𝚎𝚛𝚝", "insight": insight, "main": "Over 2.5 Goals", "alt": "Both Teams to Score"}
             else:
-                main_pick = "Both Teams to Score & Over 2.5"
-                alt_pick = "Over 1.5 First Half Goals"
-                
-            return {
-                "edge": "🔥 𝚅𝚘𝚕𝚊𝚝𝚒𝚕𝚒𝚝𝚢 𝙰𝚕𝚎𝚛𝚝: Offensive metrics high",
-                "insight": insight,
-                "main": main_pick,
-                "alt": alt_pick
-            }
+                return {"edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎 𝚂𝚌𝚛𝚒𝚙𝚝", "insight": insight, "main": "Both Teams to Score & Over 2.5", "alt": "Over 1.5 1st Half"}
 
-        # === SCENARIO D: Defensive League (Serie A etc) ===
+        # D: Defensive League
         if style == "DEFENSIVE":
             insight = Insights.TIGHT_MATCH[match_hash % len(Insights.TIGHT_MATCH)]
             return {
@@ -239,34 +247,18 @@ class LogicEngine:
                 "alt": "Draw at Halftime"
             }
 
-        # === SCENARIO E: Balanced / Close Ranks ===
-        # If ranks are close, or unknown, we default here.
-        insight = Insights.GOALS_EXPECTED[match_hash % len(Insights.GOALS_EXPECTED)]
-        
-        # Varied Logic based on name length (Pseudo-random but constant)
+        # E: Balanced / Random
         seed = len(h) + len(a)
-        
         if seed % 3 == 0:
-            return {
-                "edge": "📈 𝙵𝚘𝚛𝚖 𝙼𝚘𝚖𝚎𝚗𝚝𝚞𝚖",
-                "insight": "Both teams scoring consistently in last 5.",
-                "main": "Both Teams to Score (BTTS)",
-                "alt": "Over 2.5 Goals"
-            }
+            return {"edge": "📈 𝙵𝚘𝚛𝚖 𝙼𝚘𝚖𝚎𝚗𝚝𝚞𝚖", "insight": "Both teams scoring consistently.", "main": "Both Teams to Score", "alt": "Over 2.5 Goals"}
         elif seed % 3 == 1:
-            return {
-                "edge": "🛡️ 𝚂𝚊𝚏𝚎𝚝𝚢 𝙵𝚒𝚛𝚜𝚝",
-                "insight": "Home advantage is the key differentiator here.",
-                "main": f"{h} Win or Draw (1X)",
-                "alt": f"{h} Draw No Bet"
-            }
+            return {"edge": "🛡️ 𝚂𝚊𝚏𝚎𝚝𝚢 𝙵𝚒𝚛𝚜𝚝", "insight": "Home advantage is key.", "main": f"{h} Win or Draw", "alt": f"{h} Draw No Bet"}
         else:
-            return {
-                "edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎 𝚂𝚌𝚛𝚒𝚙𝚝",
-                "insight": "Transition defense is weak for both sides.",
-                "main": "Over 2.0 Goal Line",
-                "alt": "Goal in Both Halves"
-            }
+            return {"edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎", "insight": "Weak transition defense.", "main": "Over 2.0 Goal Line", "alt": "Goal in Both Halves"}
+
+# =============================================================================
+# CONTENT GENERATOR
+# =============================================================================
 
 class ContentGenerator:
     @staticmethod
@@ -277,21 +269,18 @@ class ContentGenerator:
         
         msg = f"💎 {title}\n{subtitle}\n\n"
         
-        upcoming = [m for m in matches if m['status'] in ['NS', 'Upcoming', '']]
-        if not upcoming: upcoming = [m for m in matches if m['is_live']]
+        # Double check: Only take matches that are NOT None
+        selected = matches[:5]
         
-        if not upcoming:
+        if not selected:
             return f"💎 {title}\n\nNo market opportunities detected right now.\nSystem standby."
 
-        selected = upcoming[:5]
-        
         for m in selected:
             data = LogicEngine.analyze(m)
             comp = TextStyler.to_bold_sans(m['competition'].upper())
             teams = f"{m['home']} vs {m['away']}"
             time = m['start_time']
             
-            # THE DUAL PICK BOX
             msg += f"┌── {comp} ──────────\n"
             msg += f"│ ⚔️ {teams}\n"
             msg += f"│ ⏰ {time} GMT\n"
@@ -304,10 +293,8 @@ class ContentGenerator:
 
         msg += "────── 🔒 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗖𝗖𝗘𝗦𝗦 ──────\n"
         msg += "Maximize your edge with our partners:\n\n"
-        
         for name, link in AFFILIATE_LINKS.items():
             msg += f"👉 {TextStyler.to_bold_sans(name)}: {link}\n"
-            
         return msg
 
     @staticmethod
