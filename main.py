@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V3.1
-Fixed: Strict Time Filtering (No Finished Matches)
+Football Data Automation Bot - SYNDICATE EDITION V4
+Features:
+1. HTML Hyperlinks (No ugly URLs)
+2. Strict Future-Only Filter (No started/finished games)
+3. Dual Predictions
 """
 
 import os
@@ -25,6 +28,7 @@ GMT = pytz.timezone('GMT')
 API_REQUESTS_THIS_RUN = 0
 MAX_API_CALLS_PER_RUN = 1
 
+# Affiliate Links (HTML Format will be applied later)
 AFFILIATE_LINKS = {
     "🎰 Stake": "https://stake.com/?c=GlobalScoreUpdates",
     "📊 Linebet": "https://linebet.com?bf=695d695c66d7a_13053616523",
@@ -38,7 +42,7 @@ RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
 
 # League Profiles
 LEAGUE_PROFILES = {
-    "HIGH_SCORING": ["Bundesliga", "Eredivisie", "MLS", "Saudi", "Jupiler", "Allsvenskan", "Eliteserien"],
+    "HIGH_SCORING": ["Bundesliga", "Eredivisie", "MLS", "Saudi", "Jupiler", "Allsvenskan"],
     "DEFENSIVE": ["Serie A", "Ligue 1", "Segunda", "Brasileiro", "Argentina", "Greece"],
     "BALANCED": ["Premier League", "La Liga", "Championship", "Champions League", "Europa"]
 }
@@ -63,6 +67,7 @@ POWERHOUSE_TEAMS = [
 class TextStyler:
     @staticmethod
     def to_bold_sans(text):
+        """Converts text to Unicode Bold Sans-Serif"""
         normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         mapped = "".join([chr(0x1D5D4 + i) for i in range(26)]) + \
                  "".join([chr(0x1D5EE + i) for i in range(26)]) + \
@@ -71,6 +76,7 @@ class TextStyler:
 
     @staticmethod
     def to_mono(text):
+        """Converts text to Unicode Monospace"""
         normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         mapped = "".join([chr(0x1D670 + i) for i in range(26)]) + \
                  "".join([chr(0x1D68A + i) for i in range(26)]) + \
@@ -105,7 +111,7 @@ class Insights:
     ]
 
 # =============================================================================
-# API CLIENT (WITH TIME FILTERING)
+# API CLIENT (STRICT FUTURE FILTER)
 # =============================================================================
 
 class FootballAPI:
@@ -139,14 +145,7 @@ class FootballAPI:
             is_major = any(m.lower() in comp.lower() for m in MAJOR_COMPETITIONS)
             
             for evt in stage.get('Events', []):
-                # Status Check
-                status = evt.get('Eps', 'Unknown')
-                
-                # Exclude strictly finished statuses
-                if status in ['FT', 'AET', 'PEN', 'Canc', 'Abd', 'Post']:
-                    continue
-
-                # Time Parsing & Filtering
+                # 1. Parse Time Object
                 start_str = str(evt.get('Esd', ''))
                 match_dt = None
                 
@@ -155,16 +154,17 @@ class FootballAPI:
                         match_dt = datetime.strptime(start_str[:14], "%Y%m%d%H%M%S")
                         match_dt = GMT.localize(match_dt)
                 except:
-                    pass
-                
-                # STRICT TIME FILTER:
-                # If match started more than 15 mins ago and isn't marked as LIVE, ignore it.
-                # If match is in the past (e.g. 2 hours ago), ignore it.
-                if match_dt:
-                    diff_mins = (now - match_dt).total_seconds() / 60
-                    if diff_mins > 15 and status not in ['1H','2H','HT','LIVE','ET']:
-                         # It's in the past and not live -> likely finished but API status is weird
-                        continue
+                    continue # Skip if no valid time
+
+                # 2. STRICT FILTER: Is the match in the past?
+                # If match start time is less than NOW, skip it.
+                if match_dt <= now:
+                    continue
+
+                # 3. Exclude weird statuses just in case
+                status = evt.get('Eps', 'NS')
+                if status in ['FT', 'AET', 'PEN', 'Canc', 'Abd', 'Post', 'LIVE', 'HT', '1H', '2H']:
+                    continue # We only want PURE UPCOMING games
 
                 t1 = evt.get('T1', [{}])[0]
                 t2 = evt.get('T2', [{}])[0]
@@ -178,16 +178,14 @@ class FootballAPI:
                     'away': t2.get('Nm', 'Unknown'),
                     'home_rank': r1,
                     'away_rank': r2,
-                    'status': status,
-                    'start_time': match_dt.strftime("%H:%M") if match_dt else "--:--",
-                    'start_dt': match_dt,
-                    'is_live': status in ['1H','2H','HT','LIVE','ET'],
+                    'start_time': match_dt.strftime("%H:%M"), # Just the time string
                     'is_major': is_major,
                     'priority': 1 if is_major else 2
                 }
                 matches.append(match)
         
-        matches.sort(key=lambda x: (0 if x['is_live'] else 1, x['priority']))
+        # Sort by Major First, then Time
+        matches.sort(key=lambda x: (x['priority'], x['start_time']))
         return matches
 
 # =============================================================================
@@ -200,7 +198,6 @@ class LogicEngine:
         h, a = match['home'], match['away']
         comp = match['competition']
         
-        # Determine League Style
         style = "BALANCED"
         for k, v in LEAGUE_PROFILES.items():
             if any(l in comp for l in v): style = k; break
@@ -209,27 +206,14 @@ class LogicEngine:
         a_pow = any(p in a for p in POWERHOUSE_TEAMS)
         match_hash = int(hashlib.md5(f"{h}{a}".encode()).hexdigest(), 16)
 
-        # A: Powerhouse Home
         if h_pow and not a_pow:
             insight = Insights.DOMINANT_HOME[match_hash % len(Insights.DOMINANT_HOME)]
-            return {
-                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Heavy Sharp Action Home",
-                "insight": insight,
-                "main": f"{h} -1.0 AH",
-                "alt": f"{h} to Win & Over 1.5 Goals"
-            }
+            return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Sharp Action Home", "insight": insight, "main": f"{h} -1.0 AH", "alt": f"{h} to Win & Over 1.5"}
 
-        # B: Powerhouse Away
         if a_pow and not h_pow:
             insight = Insights.UNDERDOG_VALUE[match_hash % len(Insights.UNDERDOG_VALUE)]
-            return {
-                "edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Visitors undervalued",
-                "insight": "Class disparity favors the visitors significantly.",
-                "main": f"{a} to Win",
-                "alt": "Over 1.5 Goals"
-            }
+            return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Visitors undervalued", "insight": "Class disparity favors the visitors.", "main": f"{a} to Win", "alt": "Over 1.5 Goals"}
         
-        # C: High Scoring League
         if style == "HIGH_SCORING":
             insight = Insights.GOALS_EXPECTED[match_hash % len(Insights.GOALS_EXPECTED)]
             if match_hash % 2 == 0:
@@ -237,17 +221,11 @@ class LogicEngine:
             else:
                 return {"edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎 𝚂𝚌𝚛𝚒𝚙𝚝", "insight": insight, "main": "Both Teams to Score & Over 2.5", "alt": "Over 1.5 1st Half"}
 
-        # D: Defensive League
         if style == "DEFENSIVE":
             insight = Insights.TIGHT_MATCH[match_hash % len(Insights.TIGHT_MATCH)]
-            return {
-                "edge": "⚖️ 𝚃𝚊𝚌𝚝𝚒𝚌𝚊𝚕 𝚂𝚝𝚊𝚗𝚍𝚘𝚏𝚏",
-                "insight": insight,
-                "main": "Under 3.5 Goals",
-                "alt": "Draw at Halftime"
-            }
+            return {"edge": "⚖️ 𝚃𝚊𝚌𝚝𝚒𝚌𝚊𝚕 𝚂𝚝𝚊𝚗𝚍𝚘𝚏𝚏", "insight": insight, "main": "Under 3.5 Goals", "alt": "Draw at Halftime"}
 
-        # E: Balanced / Random
+        # Balanced
         seed = len(h) + len(a)
         if seed % 3 == 0:
             return {"edge": "📈 𝙵𝚘𝚛𝚖 𝙼𝚘𝚖𝚎𝚗𝚝𝚞𝚖", "insight": "Both teams scoring consistently.", "main": "Both Teams to Score", "alt": "Over 2.5 Goals"}
@@ -257,7 +235,7 @@ class LogicEngine:
             return {"edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎", "insight": "Weak transition defense.", "main": "Over 2.0 Goal Line", "alt": "Goal in Both Halves"}
 
 # =============================================================================
-# CONTENT GENERATOR
+# CONTENT GENERATOR (HTML LINKS)
 # =============================================================================
 
 class ContentGenerator:
@@ -269,11 +247,10 @@ class ContentGenerator:
         
         msg = f"💎 {title}\n{subtitle}\n\n"
         
-        # Double check: Only take matches that are NOT None
         selected = matches[:5]
         
         if not selected:
-            return f"💎 {title}\n\nNo market opportunities detected right now.\nSystem standby."
+            return f"💎 {title}\n\nNo market opportunities detected for the rest of the day.\nSystem standby."
 
         for m in selected:
             data = LogicEngine.analyze(m)
@@ -293,8 +270,17 @@ class ContentGenerator:
 
         msg += "────── 🔒 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗖𝗖𝗘𝗦𝗦 ──────\n"
         msg += "Maximize your edge with our partners:\n\n"
+        
+        # HTML HYPERLINKS GENERATION
         for name, link in AFFILIATE_LINKS.items():
-            msg += f"👉 {TextStyler.to_bold_sans(name)}: {link}\n"
+            # Clean name for display (remove emoji for the link text to keep it clean, add emoji before)
+            # <a href="URL">TEXT</a>
+            clean_name = name.split(" ")[1] if " " in name else name
+            emoji = name.split(" ")[0] if " " in name else "👉"
+            
+            # This creates: 👉 [Stake](link) using HTML
+            msg += f"👉 <b><a href=\"{link}\">{name}</a></b>\n"
+            
         return msg
 
     @staticmethod
@@ -344,24 +330,28 @@ def main():
     logger.info("🚀 Fetching market data...")
     matches = bot.get_matches()
     
-    if not matches:
-        logger.warning("No matches found.")
-        return
-
+    # Send Telegram
     tg_content = ContentGenerator.telegram_feed(matches)
-    fb_content = ContentGenerator.facebook_teaser(matches)
-    
     try:
         url = f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage"
-        requests.post(url, json={"chat_id": config.telegram_chat_id, "text": tg_content, "disable_web_page_preview": True})
+        # PARSE MODE IS NOW HTML
+        requests.post(url, json={
+            "chat_id": config.telegram_chat_id, 
+            "text": tg_content, 
+            "parse_mode": "HTML", 
+            "disable_web_page_preview": True
+        })
         logger.info("✅ Telegram Sent")
     except Exception as e: logger.error(f"Telegram Error: {e}")
 
-    try:
-        url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
-        requests.post(url, data={"message": fb_content, "access_token": config.facebook_page_access_token})
-        logger.info("✅ Facebook Sent")
-    except Exception as e: logger.error(f"Facebook Error: {e}")
+    # Send Facebook (Only if matches exist)
+    if matches:
+        fb_content = ContentGenerator.facebook_teaser(matches)
+        try:
+            url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
+            requests.post(url, data={"message": fb_content, "access_token": config.facebook_page_access_token})
+            logger.info("✅ Facebook Sent")
+        except Exception as e: logger.error(f"Facebook Error: {e}")
 
 if __name__ == "__main__":
     main()
