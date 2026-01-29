@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V7 (ULTIMATE)
+Football Data Automation Bot - SYNDICATE EDITION V8 (PARLAY MODE)
 Features:
 1. Groq AI for viral Facebook captions.
 2. Pillow Image Generator (Pro Dark Mode with Auto-Fonts).
-3. Strict Future-Only Filter (No past games).
+3. Strict Future-Only Filter.
 4. Win/Loss Tracking via history.json.
-5. Simulated Fair Odds Engine.
+5. Auto-Generated Accumulator (Parlay) Ticket.
 """
 
 import os
@@ -83,7 +83,6 @@ class HistoryManager:
 
     @staticmethod
     def check_results(matches):
-        """Checks if yesterday's bets won"""
         history = HistoryManager.load_history()
         wins = []
         finished = [m for m in matches if m['status'] in ['FT', 'AET', 'PEN']]
@@ -95,7 +94,6 @@ class HistoryManager:
                 hs, as_ = int(m['home_score']), int(m['away_score'])
                 won = False
                 
-                # Simple Win Logic
                 if "Win" in pick:
                     if m['home'] in pick and hs > as_: won = True
                     if m['away'] in pick and as_ > hs: won = True
@@ -104,7 +102,7 @@ class HistoryManager:
                 
                 if won:
                     wins.append(f"{m['home']} vs {m['away']}")
-                    del history[mid] # Remove after verifying
+                    del history[mid]
         
         HistoryManager.save_history(history)
         return wins
@@ -125,7 +123,7 @@ class HistoryManager:
 class OddsEngine:
     @staticmethod
     def simulate_odds(match):
-        """Generates realistic fair odds to save API credits"""
+        """Generates realistic odds for Parlay Calculation"""
         r1, r2 = match['home_rank'], match['away_rank']
         h_pow = any(p in match['home'] for p in POWERHOUSE_TEAMS)
         
@@ -134,20 +132,18 @@ class OddsEngine:
         if h_pow: h_odd = 1.35; a_odd = 7.50
         elif abs(r1 - r2) > 8 and r1 < r2: h_odd = 1.75; a_odd = 4.20
         
-        # Add random noise for realism
         h_odd = round(h_odd + random.uniform(-0.05, 0.05), 2)
         a_odd = round(a_odd + random.uniform(-0.05, 0.05), 2)
         d_odd = round(d_odd + random.uniform(-0.05, 0.05), 2)
         return {'1': h_odd, 'X': d_odd, '2': a_odd}
 
 # =============================================================================
-# 🎨 PRO IMAGE GENERATOR (Auto-Downloads Fonts)
+# 🎨 PRO IMAGE GENERATOR
 # =============================================================================
 
 class ImageGenerator:
     @staticmethod
     def get_font(size):
-        """Downloads a Pro Font (Oswald) for consistent premium look"""
         font_url = "https://github.com/google/fonts/raw/main/ofl/oswald/Oswald-Bold.ttf"
         try:
             resp = requests.get(font_url, timeout=10)
@@ -157,11 +153,10 @@ class ImageGenerator:
 
     @staticmethod
     def create_match_card(match):
-        """Generates a Visual Betting Card"""
         try:
             W, H = 1080, 1080
-            bg_color = '#0f172a' # Dark Slate
-            accent_color = '#22c55e' # Neon Green
+            bg_color = '#0f172a'
+            accent_color = '#22c55e'
             
             img = Image.new('RGB', (W, H), color=bg_color)
             draw = ImageDraw.Draw(img)
@@ -170,19 +165,15 @@ class ImageGenerator:
             font_lg = ImageGenerator.get_font(70)
             font_md = ImageGenerator.get_font(50)
 
-            # Header
             draw.text((50, 80), "💎 SYNDICATE INTELLIGENCE", font=font_lg, fill=accent_color)
             draw.line([(50, 180), (1030, 180)], fill=accent_color, width=5)
 
-            # Match Info
             draw.text((50, 250), match['competition'].upper(), font=font_md, fill='#94a3b8')
             
-            # Teams (Home vs Away)
             draw.text((50, 380), match['home'], font=font_xl, fill='white')
             draw.text((50, 520), "VS", font=font_lg, fill='#64748b')
             draw.text((50, 620), match['away'], font=font_xl, fill='white')
             
-            # Pick Box
             box_y = 850
             draw.rectangle([0, box_y, 1080, 1080], fill='#1e293b')
             draw.line([(0, box_y), (1080, box_y)], fill=accent_color, width=4)
@@ -234,7 +225,7 @@ class LogicEngine:
 
         # Logic A: Powerhouse Home
         if h_pow and not a_pow:
-            return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Sharp Action Home", "insight": "Home xG metrics trending 20% above avg.", "main": f"{h} -1.0 AH", "alt": f"{h} to Win & Over 1.5"}
+            return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Sharp Action Home", "insight": "Home xG metrics trending 20% above avg.", "main": f"{h} to Win", "alt": f"{h} & Over 1.5"}
         
         # Logic B: Powerhouse Away
         if a_pow and not h_pow:
@@ -253,6 +244,38 @@ class LogicEngine:
         else:
             return {"edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎", "insight": "Weak transition defense.", "main": "Over 2.0 Goal Line", "alt": "Goal in Both Halves"}
 
+    @staticmethod
+    def generate_parlay(matches):
+        """Generates a 3-Leg Accumulator Ticket"""
+        parlay = []
+        total_odds = 1.0
+        
+        # Filter for "Safe" feeling bets
+        candidates = [m for m in matches if "Win" in m['main'] or "Over" in m['main']]
+        if len(candidates) < 2: candidates = matches
+        
+        for m in candidates[:3]: # Top 3
+            # Use simulated odds
+            raw_odd = 1.75 # Default average
+            if "Win" in m['main']:
+                # If favorites, use simpler odds
+                raw_odd = m['odds']['1'] if m['home'] in m['main'] else m['odds']['2']
+            elif "Over" in m['main']:
+                raw_odd = 1.65
+                
+            # Cap realistic parlay odds per leg
+            if raw_odd > 2.2: raw_odd = 1.90
+            if raw_odd < 1.3: raw_odd = 1.35
+            
+            parlay.append({
+                "teams": f"{m['home']} vs {m['away']}",
+                "pick": m['main'],
+                "odd": raw_odd
+            })
+            total_odds *= raw_odd
+            
+        return parlay, round(total_odds, 2)
+
 class AIEngine:
     @staticmethod
     def generate_fb_caption(matches, wins):
@@ -267,7 +290,6 @@ class AIEngine:
         {intro}
         Match: {m['home']} vs {m['away']}
         Insight: {m['insight']}
-        Odds: {m['odds']['1']} / {m['odds']['2']}
         
         Hook: Mention "Market Trap", "Smart Money", or "Vegas Odds Error".
         Instruction: Analyze briefly why there is value.
@@ -305,9 +327,10 @@ class ContentGenerator:
         selected = matches[:5]
         if not selected: return f"💎 {title}\n\nNo market opportunities right now."
 
+        # Individual Games
         for m in selected:
             data = LogicEngine.analyze(m)
-            # Inject calculated logic back into match object for later
+            # Update match with logic data for Parlay use later
             m.update(data)
             
             comp = TextStyler.to_bold_sans(m['competition'].upper())
@@ -322,6 +345,16 @@ class ContentGenerator:
             msg += f"│\n"
             msg += f"│ 🎯 𝗠𝗔𝗜𝗡: {TextStyler.to_bold_sans(data['main'])}\n"
             msg += f"└─ 🛡️ 𝗔𝗟𝗧:  {data['alt']}\n\n"
+
+        # PARLAY BLOCK
+        parlay, tot_odd = LogicEngine.generate_parlay(selected)
+        if len(parlay) >= 2:
+            msg += f"🚀 <b>SYNDICATE ACCUMULATOR</b> 🚀\n"
+            msg += f"<i>High value combo for today:</i>\n\n"
+            for p in parlay:
+                msg += f"🔹 <b>{p['pick']}</b> ({p['teams']})\n"
+            msg += f"\n💰 <b>TOTAL ODDS: {tot_odd}</b>\n"
+            msg += f"💵 <i>Bet $10 ➡️ Win ${int(10 * tot_odd)}</i>\n\n"
 
         msg += "────── 🔒 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗖𝗖𝗘𝗦𝗦 ──────\n"
         msg += "Maximize your edge with our partners:\n\n"
@@ -380,7 +413,7 @@ def main():
                 h = evt.get('T1')[0].get('Nm')
                 a = evt.get('T2')[0].get('Nm')
                 
-                matches.append({
+                match = {
                     'home': h, 'away': a,
                     'status': status,
                     'start_time_dt': dt,
@@ -389,10 +422,14 @@ def main():
                     'home_score': evt.get('Tr1', 0), 'away_score': evt.get('Tr2', 0),
                     'home_rank': 50, 'away_rank': 50,
                     'is_major': is_major, 'priority': 1 if is_major else 2
-                })
+                }
+                
+                # Add Simulated Odds immediately for Parlay Calc
+                match['odds'] = OddsEngine.simulate_odds(match)
+                matches.append(match)
             except: continue
 
-    # 3. Check Wins (using ALL matches including finished ones)
+    # 3. Check Wins
     wins = HistoryManager.check_results(matches)
 
     # 4. Filter Future Only (Strict)
@@ -410,12 +447,8 @@ def main():
 
     # 6. Facebook Post (Top Match Only)
     top_match = future_matches[0]
-    # Re-analyze specifically for image generation to get 'main' pick
-    analysis = LogicEngine.analyze(top_match) 
-    top_match.update(analysis)
-    top_match['odds'] = OddsEngine.simulate_odds(top_match) # Add fake odds for AI
+    LogicEngine.analyze(top_match) # ensure fields exist
     
-    # Generate Img & Text
     img_file = ImageGenerator.create_match_card(top_match)
     fb_text = AIEngine.generate_fb_caption([top_match], wins)
     
