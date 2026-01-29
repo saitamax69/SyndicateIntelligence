@@ -1,14 +1,17 @@
-name: Football Data Bot (Optimized)
+name: Football Data Bot
 
 on:
   schedule:
-    # Runs at 08:00, 11:00, and 14:00 UTC only.
-    # This covers morning predictions and pre-match updates.
-    # No more late-night runs = no finished games.
-    - cron: '0 8,11,14 * * *'
+    # Runs at 08:00, 11:00, and 15:00 UTC
+    # (Great for Morning updates and Pre-Match final calls)
+    - cron: '0 8,11,15 * * *'
   
-  # Manual trigger for testing
+  # Allows you to run it manually from the Actions tab for testing
   workflow_dispatch:
+
+# CRITICAL: This allows the bot to save 'history.json' to the repo
+permissions:
+  contents: write
 
 concurrency:
   group: football-bot
@@ -16,38 +19,56 @@ concurrency:
 
 jobs:
   run-bot:
-    name: Fetch & Post Football Data
+    name: Fetch Data, Generate AI Content, Post
     runs-on: ubuntu-latest
     timeout-minutes: 10
     
     steps:
+      # 1. Download your code
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
       
+      # 2. Setup Python
       - name: 🐍 Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
       
+      # 3. Install Libraries (Pillow, Groq, Requests)
       - name: 📦 Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
+      # 4. Run the Main Script
       - name: ⚽ Run Football Bot
         env:
+          # The Secret Keys from Settings -> Secrets and variables
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
           FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          echo "🚀 Starting Football Bot..."
-          echo "📅 Current UTC time: $(date -u)"
-          echo "📊 Optimized for 500 requests/month"
+          echo "🚀 Starting Syndicate Bot..."
           python main.py
       
+      # 5. Save the History (Victory Tracking)
+      # This commits the history.json file back to the repo
+      - name: 💾 Save Betting History
+        run: |
+          git config --global user.name 'SyndicateBot'
+          git config --global user.email 'bot@noreply.github.com'
+          # Check if history.json exists and has changed
+          if [ -f history.json ]; then
+            git add history.json
+            # Only commit if there are changes
+            git diff --staged --quiet || (git commit -m "📝 Update betting history [skip ci]" && git push)
+          fi
+      
+      # 6. Error Notification (Optional)
       - name: 🚨 Notify on Failure
         if: failure()
         env:
@@ -56,5 +77,5 @@ jobs:
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d "chat_id=${TELEGRAM_CHAT_ID}" \
-            -d "text=⚠️ Football Bot failed! Check GitHub Actions." \
+            -d "text=⚠️ Bot Error! Check GitHub Actions logs." \
             -d "parse_mode=Markdown" || true
