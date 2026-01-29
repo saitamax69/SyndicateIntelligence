@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V5
+Football Data Automation Bot - SYNDICATE EDITION V6 (AI POWERED)
 Features:
-1. HTML Hyperlinks with Bonus Hooks
-2. Strict Future-Only Filter
-3. Syndicate Styling
+1. Groq AI for unique, viral Facebook posts.
+2. Simulated Fair Odds Calculation.
+3. Syndicate Styling for Telegram (unchanged).
 """
 
 import os
@@ -12,10 +12,11 @@ import sys
 import json
 import requests
 from datetime import datetime, timedelta
-from typing import Optional, Dict, List
 import pytz
 import logging
 import hashlib
+import random
+from groq import Groq  # IMPORT GROQ
 
 # =============================================================================
 # CONFIGURATION
@@ -28,33 +29,20 @@ GMT = pytz.timezone('GMT')
 API_REQUESTS_THIS_RUN = 0
 MAX_API_CALLS_PER_RUN = 1
 
-# UPDATED AFFILIATE CONFIGURATION WITH HOOKS
+# AFFILIATE CONFIG WITH HOOKS
 AFFILIATE_CONFIG = [
-    {
-        "name": "🎰 Stake",
-        "link": "https://stake.com/?c=GlobalScoreUpdates",
-        "offer": "200% Deposit Bonus | Instant Cashout ⚡"
-    },
-    {
-        "name": "📊 Linebet",
-        "link": "https://linebet.com?bf=695d695c66d7a_13053616523",
-        "offer": "High Odds | Fast Payouts 💸"
-    },
-    {
-        "name": "🏆 1xBet",
-        "link": "https://ma-1xbet.com?bf=695d66e22c1b5_7531017325",
-        "offer": "300% First Deposit Bonus 💰"
-    }
+    {"name": "🎰 Stake", "link": "https://stake.com/?c=GlobalScoreUpdates", "offer": "200% Deposit Bonus | Instant Cashout ⚡"},
+    {"name": "📊 Linebet", "link": "https://linebet.com?bf=695d695c66d7a_13053616523", "offer": "High Odds | Fast Payouts 💸"},
+    {"name": "🏆 1xBet", "link": "https://ma-1xbet.com?bf=695d66e22c1b5_7531017325", "offer": "300% First Deposit Bonus 💰"}
 ]
 
 TELEGRAM_CHANNEL_LINK = "https://t.me/+xAQ3DCVJa8A2ZmY8"
-
 RAPIDAPI_HOST = "livescore6.p.rapidapi.com"
 RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
 
 LEAGUE_PROFILES = {
     "HIGH_SCORING": ["Bundesliga", "Eredivisie", "MLS", "Saudi", "Jupiler", "Allsvenskan"],
-    "DEFENSIVE": ["Serie A", "Ligue 1", "Segunda", "Brasileiro", "Argentina", "Greece"],
+    "DEFENSIVE": ["Serie A", "Ligue 1", "Segunda", "Brasileiro", "Argentina"],
     "BALANCED": ["Premier League", "La Liga", "Championship", "Champions League", "Europa"]
 }
 
@@ -72,7 +60,39 @@ POWERHOUSE_TEAMS = [
 ]
 
 # =============================================================================
-# 🎨 PREMIUM TYPOGRAPHY
+# ODDS ENGINE (Simulate Realistic Odds)
+# =============================================================================
+
+class OddsEngine:
+    @staticmethod
+    def calculate_fair_odds(match):
+        """Calculates realistic odds based on rankings"""
+        r1, r2 = match['home_rank'], match['away_rank']
+        h_pow = any(p in match['home'] for p in POWERHOUSE_TEAMS)
+        a_pow = any(p in match['away'] for p in POWERHOUSE_TEAMS)
+        
+        # Base odds
+        h_odd = 2.40
+        a_odd = 2.90
+        d_odd = 3.20
+
+        # Adjust for Powerhouse
+        if h_pow: h_odd = 1.35; a_odd = 7.50; d_odd = 4.50
+        elif a_pow: a_odd = 1.45; h_odd = 6.00; d_odd = 4.20
+        
+        # Adjust for Rank Diff (if not powerhouse)
+        elif abs(r1 - r2) > 8:
+            if r1 < r2: h_odd = 1.75; a_odd = 4.20  # Home stronger
+            else: a_odd = 2.10; h_odd = 3.40  # Away stronger
+        
+        # Add random fluctuation to look real
+        h_odd = round(h_odd + random.uniform(-0.05, 0.05), 2)
+        a_odd = round(a_odd + random.uniform(-0.05, 0.05), 2)
+        
+        return h_odd, d_odd, a_odd
+
+# =============================================================================
+# TYPOGRAPHY & INSIGHTS (For Telegram)
 # =============================================================================
 
 class TextStyler:
@@ -92,32 +112,11 @@ class TextStyler:
                  "".join([chr(0x1D7F6 + i) for i in range(10)])
         return text.translate(str.maketrans(normal, mapped))
 
-# =============================================================================
-# INSIGHT DICTIONARY
-# =============================================================================
-
 class Insights:
-    DOMINANT_HOME = [
-        "Home side xG metrics trending 20% above league avg.",
-        "Visitors struggle against high-press systems away.",
-        "Host defense has conceded zero open-play goals in last 3.",
-    ]
-    GOALS_EXPECTED = [
-        "Both sides ranking top 5 for shots on target created.",
-        "Defensive injury crisis creating massive value on Over.",
-        "Historical H2H indicates an open, end-to-end game.",
-        "Both teams averaging over 2.5 goals per match recently."
-    ]
-    TIGHT_MATCH = [
-        "Midfield congestion expected to limit chances.",
-        "Both managers prioritize defensive structure.",
-        "Late season pressure suggests a cautious approach."
-    ]
-    UNDERDOG_VALUE = [
-        "Market overreacting to home side's brand name.",
-        "Visitors have best counter-attacking stats in the league.",
-        "Home side resting key players for upcoming cup fixture."
-    ]
+    DOMINANT_HOME = ["Home side xG metrics trending 20% above league avg.", "Visitors struggle against high-press systems.", "Host defense conceded zero open-play goals recently."]
+    GOALS_EXPECTED = ["Both sides ranking top 5 for shots created.", "Defensive injury crisis creating value.", "H2H indicates an open game."]
+    TIGHT_MATCH = ["Midfield congestion expected to limit chances.", "Both managers prioritize structure.", "Late season pressure suggests caution."]
+    UNDERDOG_VALUE = ["Market overreacting to brand name.", "Visitors have best counter-attacking stats.", "Home side resting key players."]
 
 # =============================================================================
 # API CLIENT
@@ -155,41 +154,43 @@ class FootballAPI:
             
             for evt in stage.get('Events', []):
                 start_str = str(evt.get('Esd', ''))
-                match_dt = None
                 try:
                     if len(start_str) >= 12:
-                        match_dt = datetime.strptime(start_str[:14], "%Y%m%d%H%M%S")
-                        match_dt = GMT.localize(match_dt)
+                        match_dt = GMT.localize(datetime.strptime(start_str[:14], "%Y%m%d%H%M%S"))
+                        if match_dt <= now: continue # Future only
+                        
+                        t1 = evt.get('T1', [{}])[0]
+                        t2 = evt.get('T2', [{}])[0]
+                        
+                        match = {
+                            'competition': comp,
+                            'home': t1.get('Nm', 'Unknown'),
+                            'away': t2.get('Nm', 'Unknown'),
+                            'home_rank': int(t1.get('Rnk', 50)) if str(t1.get('Rnk', '')).isdigit() else 50,
+                            'away_rank': int(t2.get('Rnk', 50)) if str(t2.get('Rnk', '')).isdigit() else 50,
+                            'start_time': match_dt.strftime("%H:%M"),
+                            'is_major': is_major,
+                            'priority': 1 if is_major else 2
+                        }
+                        
+                        # Add calculated odds
+                        h_odd, d_odd, a_odd = OddsEngine.calculate_fair_odds(match)
+                        match['odds'] = {'1': h_odd, 'X': d_odd, '2': a_odd}
+                        
+                        matches.append(match)
                 except: continue
 
-                # STRICT FILTER: Only Future Matches
-                if match_dt <= now: continue
-
-                status = evt.get('Eps', 'NS')
-                if status in ['FT', 'AET', 'PEN', 'Canc', 'Abd', 'Post', 'LIVE', 'HT', '1H', '2H']: continue
-
-                t1 = evt.get('T1', [{}])[0]
-                t2 = evt.get('T2', [{}])[0]
-                
-                matches.append({
-                    'competition': comp,
-                    'home': t1.get('Nm', 'Unknown'),
-                    'away': t2.get('Nm', 'Unknown'),
-                    'start_time': match_dt.strftime("%H:%M"),
-                    'is_major': is_major,
-                    'priority': 1 if is_major else 2
-                })
-        
         matches.sort(key=lambda x: (x['priority'], x['start_time']))
         return matches
 
 # =============================================================================
-# LOGIC ENGINE
+# LOGIC & AI ENGINE
 # =============================================================================
 
 class LogicEngine:
     @staticmethod
-    def analyze(match):
+    def analyze_telegram(match):
+        """Standard deterministic logic for Telegram"""
         h, a = match['home'], match['away']
         comp = match['competition']
         
@@ -204,26 +205,62 @@ class LogicEngine:
         if h_pow and not a_pow:
             insight = Insights.DOMINANT_HOME[match_hash % len(Insights.DOMINANT_HOME)]
             return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Sharp Action Home", "insight": insight, "main": f"{h} -1.0 AH", "alt": f"{h} to Win & Over 1.5"}
-
         if a_pow and not h_pow:
             insight = Insights.UNDERDOG_VALUE[match_hash % len(Insights.UNDERDOG_VALUE)]
             return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Visitors undervalued", "insight": "Class disparity favors the visitors.", "main": f"{a} to Win", "alt": "Over 1.5 Goals"}
-        
         if style == "HIGH_SCORING":
             insight = Insights.GOALS_EXPECTED[match_hash % len(Insights.GOALS_EXPECTED)]
             return {"edge": "🔥 𝚅𝚘𝚕𝚊𝚝𝚒𝚕𝚒𝚝𝚢 𝙰𝚕𝚎𝚛𝚝", "insight": insight, "main": "Over 2.5 Goals", "alt": "Both Teams to Score"}
-
-        if style == "DEFENSIVE":
-            insight = Insights.TIGHT_MATCH[match_hash % len(Insights.TIGHT_MATCH)]
-            return {"edge": "⚖️ 𝚃𝚊𝚌𝚝𝚒𝚌𝚊𝚕 𝚂𝚝𝚊𝚗𝚍𝚘𝚏𝚏", "insight": insight, "main": "Under 3.5 Goals", "alt": "Draw at Halftime"}
-
+        
+        # Default Balanced
         seed = len(h) + len(a)
-        if seed % 3 == 0:
-            return {"edge": "📈 𝙵𝚘𝚛𝚖 𝙼𝚘𝚖𝚎𝚗𝚝𝚞𝚖", "insight": "Both teams scoring consistently.", "main": "Both Teams to Score", "alt": "Over 2.5 Goals"}
-        elif seed % 3 == 1:
-            return {"edge": "🛡️ 𝚂𝚊𝚏𝚎𝚝𝚢 𝙵𝚒𝚛𝚜𝚝", "insight": "Home advantage is key.", "main": f"{h} Win or Draw", "alt": f"{h} Draw No Bet"}
-        else:
-            return {"edge": "🔥 𝙾𝚙𝚎𝚗 𝙶𝚊𝚖𝚎", "insight": "Weak transition defense.", "main": "Over 2.0 Goal Line", "alt": "Goal in Both Halves"}
+        if seed % 3 == 0: return {"edge": "📈 𝙵𝚘𝚛𝚖 𝙼𝚘𝚖𝚎𝚗𝚝𝚞𝚖", "insight": "Both teams scoring consistently.", "main": "Both Teams to Score", "alt": "Over 2.5 Goals"}
+        return {"edge": "🛡️ 𝚂𝚊𝚏𝚎𝚝𝚢 𝙵𝚒𝚛𝚜𝚝", "insight": "Home advantage is key.", "main": f"{h} Win or Draw", "alt": f"{h} Draw No Bet"}
+
+class AIEngine:
+    @staticmethod
+    def generate_viral_fb_post(matches):
+        """Uses Groq to generate a unique, persuasive Facebook post"""
+        if not matches: return None
+        
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+        
+        # Prepare data for AI
+        selected = matches[:2] # Take top 2
+        match_data = ""
+        for m in selected:
+            match_data += f"- Match: {m['home']} vs {m['away']} ({m['competition']})\n"
+            match_data += f"  Odds: Home {m['odds']['1']} | Draw {m['odds']['X']} | Away {m['odds']['2']}\n"
+            match_data += f"  Context: Home Rank {m['home_rank']} vs Away Rank {m['away_rank']}\n"
+
+        prompt = f"""
+        Act as a professional sports betting syndicate analyst. Write a short, viral Facebook post about today's upcoming football matches.
+        
+        DATA:
+        {match_data}
+        
+        INSTRUCTIONS:
+        1. Start with a killer hook about "Market Errors" or "Trap Odds".
+        2. Analyze both matches briefly. Mention the specific odds provided.
+        3. Explain WHY there is value (e.g., "The bookies underestimated the home form").
+        4. CRITICAL: Do NOT reveal the final winning pick. Say "We have confirmed the winner in the VIP channel".
+        5. Use emojis 🔥 📉 💰.
+        6. End with a Call to Action to join Telegram: {TELEGRAM_CHANNEL_LINK}
+        7. Keep it under 200 words.
+        8. Make it look different from generic bot posts. Use varied sentence structure.
+        """
+
+        try:
+            chat_completion = client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model="llama3-70b-8192", # High quality model
+                temperature=0.7,
+            )
+            return chat_completion.choices[0].message.content
+        except Exception as e:
+            logger.error(f"Groq Error: {e}")
+            # Fallback if AI fails
+            return f"🔥 MARKET ALERT 🔥\n\nWe found huge value in {selected[0]['home']} vs {selected[0]['away']}!\n\nThe odds ({selected[0]['odds']['1']}) are dropping fast.\n\n👇 GET THE WINNER HERE:\n{TELEGRAM_CHANNEL_LINK}"
 
 # =============================================================================
 # CONTENT GENERATOR
@@ -237,21 +274,18 @@ class ContentGenerator:
         subtitle = TextStyler.to_mono(f"Daily Briefing | {now_str}")
         
         msg = f"💎 {title}\n{subtitle}\n\n"
-        
         selected = matches[:5]
         
-        if not selected:
-            return f"💎 {title}\n\nNo market opportunities detected for the rest of the day.\nSystem standby."
+        if not selected: return f"💎 {title}\n\nNo market opportunities right now."
 
         for m in selected:
-            data = LogicEngine.analyze(m)
+            data = LogicEngine.analyze_telegram(m)
             comp = TextStyler.to_bold_sans(m['competition'].upper())
             teams = f"{m['home']} vs {m['away']}"
-            time = m['start_time']
             
             msg += f"┌── {comp} ──────────\n"
             msg += f"│ ⚔️ {teams}\n"
-            msg += f"│ ⏰ {time} GMT\n"
+            msg += f"│ ⏰ {m['start_time']} GMT\n"
             msg += f"│\n"
             msg += f"│ {data['edge']}\n"
             msg += f"│ 🧠 {data['insight']}\n"
@@ -262,45 +296,12 @@ class ContentGenerator:
         msg += "────── 🔒 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 𝗔𝗖𝗖𝗘𝗦𝗦 ──────\n"
         msg += "Maximize your edge with our partners:\n\n"
         
-        # === UPDATED LINK GENERATION WITH HOOKS ===
         for item in AFFILIATE_CONFIG:
-            raw_name = item['name']
-            link = item['link']
-            offer = item['offer']
-            
-            # Extract just the name (e.g., "Stake") from "🎰 Stake" for the clickable part
-            # If no space, just use name
-            clean_name = raw_name.split(" ")[1] if " " in raw_name else raw_name
-            # Extract emoji
-            emoji = raw_name.split(" ")[0] if " " in raw_name else "👉"
-            
-            # Format: 👉 [Stake]: 200% Deposit Bonus
-            msg += f"{emoji} <b><a href=\"{link}\">{clean_name}</a></b>: <i>{offer}</i>\n"
+            clean_name = item['name'].split(" ")[1] if " " in item['name'] else item['name']
+            emoji = item['name'].split(" ")[0] if " " in item['name'] else "👉"
+            msg += f"{emoji} <b><a href=\"{item['link']}\">{clean_name}</a></b>: <i>{item['offer']}</i>\n"
             
         return msg
-
-    @staticmethod
-    def facebook_teaser(matches):
-        if not matches: return "Market Analysis pending..."
-        h, a = matches[0]['home'], matches[0]['away']
-        header = TextStyler.to_bold_sans("SMART MONEY MOVE")
-        teams = TextStyler.to_bold_sans(f"{h} vs {a}")
-        
-        return f"""💎 {header}
-        
-We have detected a significant liquidity spike in today's fixture:
-
-⚽ {teams}
-
-📉 𝗠𝗮𝗿𝗸𝗲𝘁 𝗔𝗻𝗮𝗹𝘆𝘀𝗶𝘀:
-The sharps are moving heavily on one side. The public is on the other. 
-
-Don't be on the wrong side of the variance.
-
-👇 𝗦𝗘𝗘 𝗧𝗛𝗘 𝗢𝗙𝗙𝗜𝗖𝗜𝗔𝗟 𝗣𝗜𝗖𝗞 𝗛𝗘𝗥𝗘:
-📲 {TELEGRAM_CHANNEL_LINK}
-
-#Syndicate #ValueBet #SmartMoney #FootballTips"""
 
 # =============================================================================
 # MAIN
@@ -313,39 +314,39 @@ class Config:
         self.telegram_chat_id = os.environ.get('TELEGRAM_CHAT_ID')
         self.facebook_page_access_token = os.environ.get('FACEBOOK_PAGE_ACCESS_TOKEN')
         self.facebook_page_id = os.environ.get('FACEBOOK_PAGE_ID')
+        self.groq_api_key = os.environ.get('GROQ_API_KEY')
 
     def validate(self):
         return all([self.rapidapi_key, self.telegram_bot_token, self.telegram_chat_id, 
-                   self.facebook_page_access_token, self.facebook_page_id])
+                   self.facebook_page_access_token, self.facebook_page_id, self.groq_api_key])
 
 def main():
     config = Config()
-    if not config.validate(): return
+    if not config.validate(): 
+        logger.error("Missing Env Vars")
+        return
     
     bot = FootballAPI(config.rapidapi_key)
     logger.info("🚀 Fetching market data...")
     matches = bot.get_matches()
     
+    if not matches: return
+
+    # 1. Telegram (Standard Syndicate Style)
     tg_content = ContentGenerator.telegram_feed(matches)
-    
     try:
         url = f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage"
-        # PARSE MODE HTML REQUIRED FOR LINKS
-        requests.post(url, json={
-            "chat_id": config.telegram_chat_id, 
-            "text": tg_content, 
-            "parse_mode": "HTML", 
-            "disable_web_page_preview": True
-        })
+        requests.post(url, json={"chat_id": config.telegram_chat_id, "text": tg_content, "parse_mode": "HTML", "disable_web_page_preview": True})
         logger.info("✅ Telegram Sent")
     except Exception as e: logger.error(f"Telegram Error: {e}")
 
-    if matches:
-        fb_content = ContentGenerator.facebook_teaser(matches)
+    # 2. Facebook (AI Generated)
+    fb_content = AIEngine.generate_viral_fb_post(matches)
+    if fb_content:
         try:
             url = f"https://graph.facebook.com/v18.0/{config.facebook_page_id}/feed"
             requests.post(url, data={"message": fb_content, "access_token": config.facebook_page_access_token})
-            logger.info("✅ Facebook Sent")
+            logger.info("✅ Facebook Sent (AI Generated)")
         except Exception as e: logger.error(f"Facebook Error: {e}")
 
 if __name__ == "__main__":
