@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V11 (ULTIMATE FIX)
+Football Data Automation Bot - SYNDICATE EDITION V13 (TIER 1 FOCUS)
 Features:
-1. Fixed Image Generator (Perfect Centering & Font Fallback).
-2. Groq AI for viral Facebook captions with Hashtags.
-3. Telegram Interactive Polls & HTML Links.
-4. Strict Future-Only Filter.
-5. Win/Loss Tracking via history.json.
-6. Auto-Generated Accumulator (Parlay).
+1. Tier-1 League Priority (Champions League/Prem First).
+2. Clean Image Generation (No broken Emoji squares).
+3. Groq AI for viral Facebook captions.
+4. Telegram Interactive Polls.
+5. Win/Loss Tracking.
 """
 
 import os
@@ -35,7 +34,6 @@ API_REQUESTS_THIS_RUN = 0
 MAX_API_CALLS_PER_RUN = 1
 HISTORY_FILE = 'history.json'
 
-# Affiliate Hooks (HTML Ready)
 AFFILIATE_CONFIG = [
     {"name": "🎰 Stake", "link": "https://stake.com/?c=GlobalScoreUpdates", "offer": "200% Deposit Bonus | Instant Cashout ⚡"},
     {"name": "📊 Linebet", "link": "https://linebet.com?bf=695d695c66d7a_13053616523", "offer": "High Odds | Fast Payouts 💸"},
@@ -52,11 +50,16 @@ LEAGUE_PROFILES = {
     "BALANCED": ["Premier League", "La Liga", "Championship", "Champions League", "Europa"]
 }
 
-MAJOR_COMPETITIONS = [
-    "Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue 1",
-    "Champions League", "Europa", "Conference", "World Cup", "Euro",
-    "FA Cup", "Copa", "Eredivisie", "Primeira", "Saudi", "MLS", 
-    "Championship", "Super Lig"
+# TIER 1: The absolute best leagues. Always prioritize these.
+TIER_1_LEAGUES = [
+    "Champions League", "Premier League", "La Liga", "Serie A", 
+    "Bundesliga", "Ligue 1", "World Cup", "Euro", "Copa America"
+]
+
+# TIER 2: Good leagues, but secondary.
+TIER_2_LEAGUES = [
+    "Europa League", "FA Cup", "Eredivisie", "Primeira Liga", 
+    "Saudi Pro League", "MLS", "Championship", "Copa del Rey", "Super Lig"
 ]
 
 POWERHOUSE_TEAMS = [
@@ -132,33 +135,34 @@ class HistoryManager:
         HistoryManager.save_history(history)
 
 # =============================================================================
-# 🎨 PRO IMAGE GENERATOR (FIXED)
+# 🎨 PRO IMAGE GENERATOR (CLEAN NO EMOJI)
 # =============================================================================
 
 class ImageGenerator:
     @staticmethod
     def get_font(size):
-        """
-        Attempts to load a pro font.
-        1. Download Oswald (Best look)
-        2. System Font (DejaVu Sans - Standard on Linux/GitHub)
-        3. Default (Tiny - Last resort)
-        """
-        # 1. Try Downloading Oswald
         try:
             font_url = "https://github.com/google/fonts/raw/main/ofl/oswald/Oswald-Bold.ttf"
             resp = requests.get(font_url, timeout=5)
             if resp.status_code == 200:
                 return ImageFont.truetype(io.BytesIO(resp.content), size)
         except: pass
-
-        # 2. Try Standard Linux/GitHub Actions Font
         try:
             return ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", size)
         except: pass
-            
-        # 3. Last Resort
         return ImageFont.load_default()
+
+    @staticmethod
+    def fit_text(draw, text, max_width, initial_size):
+        size = initial_size
+        font = ImageGenerator.get_font(size)
+        while size > 20:
+            bbox = draw.textbbox((0, 0), text, font=font)
+            width = bbox[2] - bbox[0]
+            if width <= max_width: return font
+            size -= 5
+            font = ImageGenerator.get_font(size)
+        return font
 
     @staticmethod
     def create_match_card(match):
@@ -168,37 +172,39 @@ class ImageGenerator:
             img = Image.new('RGB', (W, H), color=bg_color)
             draw = ImageDraw.Draw(img)
             
-            font_xl = ImageGenerator.get_font(110)
+            # --- HEADER (REMOVED EMOJI TO FIX SQUARE) ---
             font_lg = ImageGenerator.get_font(70)
-            font_md = ImageGenerator.get_font(40)
-
-            # Header (Centered)
-            draw.text((W/2, 100), "💎 SYNDICATE INTELLIGENCE", font=font_lg, fill=accent_color, anchor="mm")
+            # Just text, no unicode emoji that breaks on images
+            draw.text((W/2, 100), "SYNDICATE INTELLIGENCE", font=font_lg, fill=accent_color, anchor="mm")
             draw.line([(50, 170), (1030, 170)], fill=accent_color, width=5)
 
-            # Competition
+            # --- COMPETITION ---
+            font_md = ImageGenerator.get_font(40)
             draw.text((W/2, 230), match['competition'].upper(), font=font_md, fill='#94a3b8', anchor="mm")
             
-            # Teams (Centered)
-            draw.text((W/2, 350), match['home'], font=font_xl, fill='white', anchor="mm")
+            # --- TEAMS (Auto-Scaling) ---
+            home_font = ImageGenerator.fit_text(draw, match['home'], 980, 110)
+            draw.text((W/2, 350), match['home'], font=home_font, fill='white', anchor="mm")
             
-            # VS Circle
             draw.ellipse([W/2 - 60, 480, W/2 + 60, 600], outline='#64748b', width=3)
             draw.text((W/2, 540), "VS", font=font_lg, fill='#64748b', anchor="mm")
             
-            draw.text((W/2, 700), match['away'], font=font_xl, fill='white', anchor="mm")
+            away_font = ImageGenerator.fit_text(draw, match['away'], 980, 110)
+            draw.text((W/2, 700), match['away'], font=away_font, fill='white', anchor="mm")
             
-            # Pick Box
+            # --- PICK BOX ---
             box_y = 850
             draw.rectangle([0, box_y, 1080, 1080], fill='#1e293b')
             draw.line([(0, box_y), (1080, box_y)], fill=accent_color, width=4)
             
             draw.text((W/2, box_y + 50), "OFFICIAL SYNDICATE PICK", font=font_md, fill='#94a3b8', anchor="mm")
-            draw.text((W/2, box_y + 130), str(match['main']).upper(), font=font_lg, fill=accent_color, anchor="mm")
+            
+            pick_text = str(match['main']).upper()
+            pick_font = ImageGenerator.fit_text(draw, pick_text, 980, 70)
+            draw.text((W/2, box_y + 130), pick_text, font=pick_font, fill=accent_color, anchor="mm")
 
             filename = "post_image.jpg"
             img.save(filename)
-            logger.info("✅ Image Generated Successfully (Centered)")
             return filename
         except Exception as e:
             logger.error(f"Image Gen Error: {e}"); return None
@@ -224,10 +230,9 @@ class AIEngine:
         1. HOOK: "Smart Money" or "Market Trap" hook.
         2. BODY: Explain briefly why there is value.
         3. CTA: "Check the final pick in Telegram" (Do not reveal winner).
-        4. Hashtags: Generate 3 specific hashtags for the teams (e.g. #ManCity) + #Football #Betting.
+        4. Hashtags: Generate 3 specific hashtags for the teams.
         
         Tone: Professional, Exclusive, Winning.
-        Length: Short (under 150 words).
         """
         try:
             return client.chat.completions.create(
@@ -279,6 +284,7 @@ class LogicEngine:
     def generate_parlay(matches):
         parlay = []
         total_odds = 1.0
+        # Only include safe bets for parlay
         candidates = [m for m in matches if "Win" in m['main'] or "Over" in m['main']]
         if len(candidates) < 2: candidates = matches
         for m in candidates[:3]:
@@ -392,7 +398,15 @@ def main():
     matches = []
     now = datetime.now(GMT)
     for stage in raw_matches:
-        is_major = any(m in stage.get('Snm', '') for m in MAJOR_COMPETITIONS)
+        comp_name = stage.get('Snm', stage.get('Cnm', 'Unknown'))
+        
+        # TIER SORTING
+        tier = 3
+        if any(t in comp_name for t in TIER_1_LEAGUES): tier = 1
+        elif any(t in comp_name for t in TIER_2_LEAGUES): tier = 2
+        
+        is_major = tier < 3
+        
         for evt in stage.get('Events', []):
             try:
                 t_str = str(evt.get('Esd', ''))
@@ -401,10 +415,16 @@ def main():
                 status = evt.get('Eps', 'NS')
                 h = evt.get('T1')[0].get('Nm')
                 a = evt.get('T2')[0].get('Nm')
+                
+                # Check Powerhouse
+                is_power = any(p in h for p in POWERHOUSE_TEAMS) or any(p in a for p in POWERHOUSE_TEAMS)
+                # Boost priority if Powerhouse
+                if is_power and tier > 1: tier = 1.5 
+                
                 match = {
                     'home': h, 'away': a, 'status': status, 'start_time_dt': dt, 'start_time': dt.strftime("%H:%M"),
-                    'competition': stage.get('Snm', 'Cup'), 'home_score': evt.get('Tr1', 0), 'away_score': evt.get('Tr2', 0),
-                    'home_rank': 50, 'away_rank': 50, 'is_major': is_major, 'priority': 1 if is_major else 2
+                    'competition': comp_name, 'home_score': evt.get('Tr1', 0), 'away_score': evt.get('Tr2', 0),
+                    'home_rank': 50, 'away_rank': 50, 'is_major': is_major, 'tier': tier
                 }
                 match['odds'] = OddsEngine.simulate_odds(match)
                 matches.append(match)
@@ -412,7 +432,9 @@ def main():
 
     wins = HistoryManager.check_results(matches)
     future_matches = [m for m in matches if m['start_time_dt'] > now and m['status'] == 'NS']
-    future_matches.sort(key=lambda x: (x['priority'], x['start_time']))
+    
+    # SORT: Tier 1 > Tier 2 > Tier 3, then by Time
+    future_matches.sort(key=lambda x: (x['tier'], x['start_time']))
     
     if not future_matches: return
 
@@ -421,9 +443,9 @@ def main():
     requests.post(f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage", 
                  json={"chat_id": config.telegram_chat_id, "text": tg_text, "parse_mode": "HTML", "disable_web_page_preview": True})
 
-    # 2. Telegram Poll (Engagement)
+    # 2. Telegram Poll (Top Match)
     top_match = future_matches[0]
-    LogicEngine.analyze(top_match) # ensure data
+    LogicEngine.analyze(top_match)
     PollEngine.send_poll(top_match, config.telegram_bot_token, config.telegram_chat_id)
 
     # 3. Facebook Post
