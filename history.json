@@ -47,35 +47,11 @@
         "date": "2026-01-30",
         "pick": "Al Nassr to Win"
     },
-    "Eastern District-Rangers": {
-        "date": "2026-01-31",
-        "pick": "Over 2.0 Goal Line"
-    },
     "FC Kapaz-Shamakhi FK": {
         "date": "2026-01-31",
         "pick": "FC Kapaz Win or Draw"
     },
-    "Bayer Leverkusen W-1. FC Nuremberg W": {
-        "date": "2026-01-31",
-        "pick": "Bayer Leverkusen W to Win"
-    },
-    "Aston Villa U18-Brighton U18": {
-        "date": "2026-01-31",
-        "pick": "Both Teams to Score"
-    },
-    "Crystal Palace U18-Birmingham City U18": {
-        "date": "2026-01-31",
-        "pick": "Crystal Palace U18 Win or Draw"
-    },
-    "Tampines Rovers FC-Tanjong Pagar United FC": {
-        "date": "2026-01-31",
-        "pick": "Over 2.0 Goal Line"
-    },
     "Eintracht Braunschweig-Karlsruher SC": {
-        "date": "2026-01-31",
-        "pick": "Over 2.5 Goals"
-    },
-    "Holstein Kiel-Greuther Furth": {
         "date": "2026-01-31",
         "pick": "Over 2.5 Goals"
     },
@@ -83,8 +59,24 @@
         "date": "2026-01-31",
         "pick": "Over 2.5 Goals"
     },
-    "Blackburn Rovers U18-Middlesbrough U18": {
+    "AJ Bobo-Dioulasso-Sonabel": {
         "date": "2026-01-31",
-        "pick": "Blackburn Rovers U18 Win or Draw"
+        "pick": "Both Teams to Score"
+    },
+    "CFFEB-AS Faso/Yennenga": {
+        "date": "2026-01-31",
+        "pick": "Both Teams to Score"
+    },
+    "Majestic FC-Vitesse FC": {
+        "date": "2026-01-31",
+        "pick": "Both Teams to Score"
+    },
+    "Rail Club Kadiogo-Racing Club Bobo": {
+        "date": "2026-01-31",
+        "pick": "Both Teams to Score"
+    },
+    "Sporting Cascades-Real du Faso": {
+        "date": "2026-01-31",
+        "pick": "Over 2.0 Goal Line"
     }
 }
