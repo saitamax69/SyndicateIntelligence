@@ -66,5 +66,25 @@
     "Crystal Palace U18-Birmingham City U18": {
         "date": "2026-01-31",
         "pick": "Crystal Palace U18 Win or Draw"
+    },
+    "Tampines Rovers FC-Tanjong Pagar United FC": {
+        "date": "2026-01-31",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Eintracht Braunschweig-Karlsruher SC": {
+        "date": "2026-01-31",
+        "pick": "Over 2.5 Goals"
+    },
+    "Holstein Kiel-Greuther Furth": {
+        "date": "2026-01-31",
+        "pick": "Over 2.5 Goals"
+    },
+    "VfL Bochum-Schalke 04": {
+        "date": "2026-01-31",
+        "pick": "Over 2.5 Goals"
+    },
+    "Blackburn Rovers U18-Middlesbrough U18": {
+        "date": "2026-01-31",
+        "pick": "Blackburn Rovers U18 Win or Draw"
     }
 }
