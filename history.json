@@ -155,14 +155,6 @@
         "date": "2026-02-02",
         "pick": "Over 2.0 Goal Line"
     },
-    "Mbeya City-Dodoma Jiji FC": {
-        "date": "2026-02-03",
-        "pick": "Both Teams to Score"
-    },
-    "Khaleej Sart-Wefaq Ajdabiya": {
-        "date": "2026-02-03",
-        "pick": "Over 2.0 Goal Line"
-    },
     "Kinondoni MC-Mashujaa": {
         "date": "2026-02-03",
         "pick": "Over 2.0 Goal Line"
@@ -182,5 +174,21 @@
     "Ittihad Gharyan-Olympic Azzaweya SC": {
         "date": "2026-02-03",
         "pick": "Ittihad Gharyan Win or Draw"
+    },
+    "CS Constantine-ES Mostaganem": {
+        "date": "2026-02-03",
+        "pick": "Both Teams to Score"
+    },
+    "MC Oran-Olympique Akbou": {
+        "date": "2026-02-03",
+        "pick": "MC Oran Win or Draw"
+    },
+    "Al-Tahaddi-Al Andalus Tobruk": {
+        "date": "2026-02-03",
+        "pick": "Both Teams to Score"
+    },
+    "Centre Chiefs-Nico United": {
+        "date": "2026-02-03",
+        "pick": "Both Teams to Score"
     }
 }
