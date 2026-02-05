@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V13 (TIER 1 FOCUS)
+Football Data Automation Bot - SYNDICATE EDITION V14 (STRICT QUALITY CONTROL)
 Features:
-1. Tier-1 League Priority (Champions League/Prem First).
-2. Clean Image Generation (No broken Emoji squares).
-3. Groq AI for viral Facebook captions.
-4. Telegram Interactive Polls.
-5. Win/Loss Tracking.
+1. STRICT FILTER: Only Top Leagues (Tier 1 & 2). Ignores everything else.
+2. Auto-Scaling Text for Images.
+3. Groq AI Viral Posts.
+4. Interactive Polls.
 """
 
 import os
@@ -50,22 +49,25 @@ LEAGUE_PROFILES = {
     "BALANCED": ["Premier League", "La Liga", "Championship", "Champions League", "Europa"]
 }
 
-# TIER 1: The absolute best leagues. Always prioritize these.
+# === QUALITY CONTROL LISTS ===
+
+# TIER 1: The Elite. Always show these.
 TIER_1_LEAGUES = [
-    "Champions League", "Premier League", "La Liga", "Serie A", 
-    "Bundesliga", "Ligue 1", "World Cup", "Euro", "Copa America"
+    "UEFA Champions League", "Premier League", "LaLiga", "La Liga", "Serie A", 
+    "Bundesliga", "Ligue 1", "World Cup", "Euro 2024", "Copa America"
 ]
 
-# TIER 2: Good leagues, but secondary.
+# TIER 2: High Quality. Show these if no Tier 1.
 TIER_2_LEAGUES = [
-    "Europa League", "FA Cup", "Eredivisie", "Primeira Liga", 
-    "Saudi Pro League", "MLS", "Championship", "Copa del Rey", "Super Lig"
+    "UEFA Europa League", "FA Cup", "Eredivisie", "Primeira Liga", 
+    "Saudi Pro League", "MLS", "Championship", "Copa del Rey", "Super Lig",
+    "Coppa Italia", "DFB Pokal"
 ]
 
 POWERHOUSE_TEAMS = [
     "Man City", "Liverpool", "Arsenal", "Real Madrid", "Barcelona",
     "Bayern", "Leverkusen", "Inter", "Juve", "Milan", "PSG",
-    "Benfica", "Porto", "Al Hilal", "Al Nassr", "Chelsea"
+    "Benfica", "Porto", "Al Hilal", "Al Nassr", "Chelsea", "Man Utd"
 ]
 
 # =============================================================================
@@ -77,7 +79,6 @@ class PollEngine:
     def send_poll(match, bot_token, chat_id):
         url = f"https://api.telegram.org/bot{bot_token}/sendPoll"
         h, a = match['home'], match['away']
-        
         payload = {
             "chat_id": chat_id,
             "question": f"🗳️ PUBLIC OPINION: Who wins {h} vs {a}?",
@@ -86,8 +87,7 @@ class PollEngine:
             "type": "regular",
             "allows_multiple_answers": False
         }
-        try:
-            requests.post(url, data=payload)
+        try: requests.post(url, data=payload)
         except Exception as e: logger.error(f"Poll Error: {e}")
 
 # =============================================================================
@@ -135,7 +135,7 @@ class HistoryManager:
         HistoryManager.save_history(history)
 
 # =============================================================================
-# 🎨 PRO IMAGE GENERATOR (CLEAN NO EMOJI)
+# 🎨 PRO IMAGE GENERATOR (AUTO-SCALING)
 # =============================================================================
 
 class ImageGenerator:
@@ -147,8 +147,7 @@ class ImageGenerator:
             if resp.status_code == 200:
                 return ImageFont.truetype(io.BytesIO(resp.content), size)
         except: pass
-        try:
-            return ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", size)
+        try: return ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", size)
         except: pass
         return ImageFont.load_default()
 
@@ -172,17 +171,13 @@ class ImageGenerator:
             img = Image.new('RGB', (W, H), color=bg_color)
             draw = ImageDraw.Draw(img)
             
-            # --- HEADER (REMOVED EMOJI TO FIX SQUARE) ---
             font_lg = ImageGenerator.get_font(70)
-            # Just text, no unicode emoji that breaks on images
             draw.text((W/2, 100), "SYNDICATE INTELLIGENCE", font=font_lg, fill=accent_color, anchor="mm")
             draw.line([(50, 170), (1030, 170)], fill=accent_color, width=5)
 
-            # --- COMPETITION ---
             font_md = ImageGenerator.get_font(40)
             draw.text((W/2, 230), match['competition'].upper(), font=font_md, fill='#94a3b8', anchor="mm")
             
-            # --- TEAMS (Auto-Scaling) ---
             home_font = ImageGenerator.fit_text(draw, match['home'], 980, 110)
             draw.text((W/2, 350), match['home'], font=home_font, fill='white', anchor="mm")
             
@@ -192,7 +187,6 @@ class ImageGenerator:
             away_font = ImageGenerator.fit_text(draw, match['away'], 980, 110)
             draw.text((W/2, 700), match['away'], font=away_font, fill='white', anchor="mm")
             
-            # --- PICK BOX ---
             box_y = 850
             draw.rectangle([0, box_y, 1080, 1080], fill='#1e293b')
             draw.line([(0, box_y), (1080, box_y)], fill=accent_color, width=4)
@@ -206,8 +200,7 @@ class ImageGenerator:
             filename = "post_image.jpg"
             img.save(filename)
             return filename
-        except Exception as e:
-            logger.error(f"Image Gen Error: {e}"); return None
+        except Exception as e: logger.error(f"Image Error: {e}"); return None
 
 # =============================================================================
 # 🧠 AI & LOGIC
@@ -230,7 +223,7 @@ class AIEngine:
         1. HOOK: "Smart Money" or "Market Trap" hook.
         2. BODY: Explain briefly why there is value.
         3. CTA: "Check the final pick in Telegram" (Do not reveal winner).
-        4. Hashtags: Generate 3 specific hashtags for the teams.
+        4. Hashtags: 3 specific team hashtags + #Football #Betting.
         
         Tone: Professional, Exclusive, Winning.
         """
@@ -284,7 +277,6 @@ class LogicEngine:
     def generate_parlay(matches):
         parlay = []
         total_odds = 1.0
-        # Only include safe bets for parlay
         candidates = [m for m in matches if "Win" in m['main'] or "Over" in m['main']]
         if len(candidates) < 2: candidates = matches
         for m in candidates[:3]:
@@ -331,7 +323,7 @@ class ContentGenerator:
             msg += "\n"
 
         selected = matches[:5]
-        if not selected: return f"💎 {title}\n\nNo market opportunities right now."
+        if not selected: return f"💎 {title}\n\nNo top tier market opportunities today."
 
         for m in selected:
             data = LogicEngine.analyze(m)
@@ -400,12 +392,12 @@ def main():
     for stage in raw_matches:
         comp_name = stage.get('Snm', stage.get('Cnm', 'Unknown'))
         
-        # TIER SORTING
-        tier = 3
+        # --- STRICT QUALITY FILTER ---
+        tier = 3 # Default is trash
         if any(t in comp_name for t in TIER_1_LEAGUES): tier = 1
         elif any(t in comp_name for t in TIER_2_LEAGUES): tier = 2
         
-        is_major = tier < 3
+        is_major = tier < 3 # True for Tier 1 and 2
         
         for evt in stage.get('Events', []):
             try:
@@ -416,9 +408,8 @@ def main():
                 h = evt.get('T1')[0].get('Nm')
                 a = evt.get('T2')[0].get('Nm')
                 
-                # Check Powerhouse
+                # Boost Powerhouse teams even in lower leagues (rare but safe)
                 is_power = any(p in h for p in POWERHOUSE_TEAMS) or any(p in a for p in POWERHOUSE_TEAMS)
-                # Boost priority if Powerhouse
                 if is_power and tier > 1: tier = 1.5 
                 
                 match = {
@@ -433,18 +424,23 @@ def main():
     wins = HistoryManager.check_results(matches)
     future_matches = [m for m in matches if m['start_time_dt'] > now and m['status'] == 'NS']
     
-    # SORT: Tier 1 > Tier 2 > Tier 3, then by Time
-    future_matches.sort(key=lambda x: (x['tier'], x['start_time']))
+    # FILTER: ONLY TIER 1 and TIER 2
+    quality_matches = [m for m in future_matches if m['tier'] <= 2]
     
-    if not future_matches: return
+    # Sort: Tier 1 first, then Tier 2
+    quality_matches.sort(key=lambda x: (x['tier'], x['start_time']))
+    
+    if not quality_matches: 
+        logger.info("No Quality matches found today. Skipping.")
+        return
 
     # 1. Telegram Post
-    tg_text = ContentGenerator.telegram_feed(future_matches, wins)
+    tg_text = ContentGenerator.telegram_feed(quality_matches, wins)
     requests.post(f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage", 
                  json={"chat_id": config.telegram_chat_id, "text": tg_text, "parse_mode": "HTML", "disable_web_page_preview": True})
 
-    # 2. Telegram Poll (Top Match)
-    top_match = future_matches[0]
+    # 2. Telegram Poll
+    top_match = quality_matches[0]
     LogicEngine.analyze(top_match)
     PollEngine.send_poll(top_match, config.telegram_bot_token, config.telegram_chat_id)
 
@@ -460,7 +456,7 @@ def main():
         except Exception as e: logger.error(f"FB Error: {e}")
 
     # 4. Save Bets
-    HistoryManager.add_pending_bets(future_matches)
+    HistoryManager.add_pending_bets(quality_matches)
 
 if __name__ == "__main__":
     main()
