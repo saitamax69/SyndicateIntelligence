@@ -267,10 +267,6 @@
         "date": "2026-02-06",
         "pick": "Both Teams to Score"
     },
-    "Tanjong Pagar United FC-Geylang International FC": {
-        "date": "2026-02-06",
-        "pick": "Geylang International FC to Win"
-    },
     "Tanzania Prisons-Mashujaa": {
         "date": "2026-02-06",
         "pick": "Both Teams to Score"
@@ -286,5 +282,25 @@
     "Al-Qadsia-Kuwait SC": {
         "date": "2026-02-06",
         "pick": "Both Teams to Score"
+    },
+    "Zrinjski Mostar-Sloga Doboj": {
+        "date": "2026-02-06",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Greuther Furth-Magdeburg": {
+        "date": "2026-02-06",
+        "pick": "Over 2.5 Goals"
+    },
+    "Preussen Muenster-VfL Bochum": {
+        "date": "2026-02-06",
+        "pick": "Over 2.5 Goals"
+    },
+    "SC Freiburg W-Bayern Munich W": {
+        "date": "2026-02-06",
+        "pick": "Bayern Munich W to Win"
+    },
+    "El Geish-Al-Ittihad Alexandria": {
+        "date": "2026-02-06",
+        "pick": "Over 2.0 Goal Line"
     }
 }
