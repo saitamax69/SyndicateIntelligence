@@ -322,5 +322,25 @@
     "Southampton U18-Norwich City U18": {
         "date": "2026-02-07",
         "pick": "Southampton U18 Win or Draw"
+    },
+    "Genoa-Lazio W": {
+        "date": "2026-02-07",
+        "pick": "Both Teams to Score"
+    },
+    "Sassuolo W-Parma Calcio W": {
+        "date": "2026-02-07",
+        "pick": "Both Teams to Score"
+    },
+    "Brighton U18-Reading U18": {
+        "date": "2026-02-07",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Balestier Khalsa FC-Tampines Rovers FC": {
+        "date": "2026-02-07",
+        "pick": "Balestier Khalsa FC Win or Draw"
+    },
+    "Elversberg-Hertha Berlin": {
+        "date": "2026-02-07",
+        "pick": "Over 2.5 Goals"
     }
 }
