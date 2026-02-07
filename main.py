@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Football Data Automation Bot - SYNDICATE EDITION V14 (STRICT QUALITY CONTROL)
+Football Data Automation Bot - SYNDICATE EDITION V15 (COUNTRY-SPECIFIC FILTER)
 Features:
-1. STRICT FILTER: Only Top Leagues (Tier 1 & 2). Ignores everything else.
+1. STRICT COUNTRY/LEAGUE MAPPING: No more 'Singapore Premier League'.
 2. Auto-Scaling Text for Images.
 3. Groq AI Viral Posts.
 4. Interactive Polls.
@@ -29,8 +29,6 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 GMT = pytz.timezone('GMT')
-API_REQUESTS_THIS_RUN = 0
-MAX_API_CALLS_PER_RUN = 1
 HISTORY_FILE = 'history.json'
 
 AFFILIATE_CONFIG = [
@@ -43,31 +41,36 @@ TELEGRAM_CHANNEL_LINK = "https://t.me/+xAQ3DCVJa8A2ZmY8"
 RAPIDAPI_HOST = "livescore6.p.rapidapi.com"
 RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
 
-LEAGUE_PROFILES = {
-    "HIGH_SCORING": ["Bundesliga", "Eredivisie", "MLS", "Saudi", "Jupiler", "Allsvenskan"],
-    "DEFENSIVE": ["Serie A", "Ligue 1", "Segunda", "Brasileiro", "Argentina"],
-    "BALANCED": ["Premier League", "La Liga", "Championship", "Champions League", "Europa"]
+# === 🛡️ THE STRICT QUALITY FILTER ===
+
+# Only accept matches from these specific Country + League combinations
+ALLOWED_LEAGUES = {
+    "England": ["Premier League", "FA Cup", "EFL Cup", "Championship", "Community Shield"],
+    "Spain": ["LaLiga", "La Liga", "Copa del Rey", "Super Cup"],
+    "Italy": ["Serie A", "Coppa Italia", "Super Cup"],
+    "Germany": ["Bundesliga", "DFB Pokal", "Super Cup"],
+    "France": ["Ligue 1", "Coupe de France", "Trophee des Champions"],
+    "Europe": ["UEFA Champions League", "UEFA Europa League", "UEFA Conference League", "UEFA Super Cup"],
+    "World": ["World Cup", "Club World Cup", "Friendlies"], # Be careful with friendlies
+    "Euro": ["Euro 2024", "Euro 2028", "UEFA Nations League"],
+    "South America": ["Copa America", "Copa Libertadores"],
+    "Netherlands": ["Eredivisie"],
+    "Portugal": ["Primeira Liga"],
+    "Saudi Arabia": ["Saudi Pro League", "Kings Cup"],
+    "USA": ["Major League Soccer", "MLS"],
+    "Turkey": ["Super Lig"],
+    "Brazil": ["Serie A"],
+    "Argentina": ["Liga Profesional"]
 }
 
-# === QUALITY CONTROL LISTS ===
-
-# TIER 1: The Elite. Always show these.
-TIER_1_LEAGUES = [
-    "UEFA Champions League", "Premier League", "LaLiga", "La Liga", "Serie A", 
-    "Bundesliga", "Ligue 1", "World Cup", "Euro 2024", "Copa America"
-]
-
-# TIER 2: High Quality. Show these if no Tier 1.
-TIER_2_LEAGUES = [
-    "UEFA Europa League", "FA Cup", "Eredivisie", "Primeira Liga", 
-    "Saudi Pro League", "MLS", "Championship", "Copa del Rey", "Super Lig",
-    "Coppa Italia", "DFB Pokal"
-]
+# Any match containing these words is INSTANTLY BANNED
+BANNED_KEYWORDS = ["Women", "U19", "U20", "U21", "U23", "Reserve", "Youth", "Amateur", "Regional"]
 
 POWERHOUSE_TEAMS = [
     "Man City", "Liverpool", "Arsenal", "Real Madrid", "Barcelona",
     "Bayern", "Leverkusen", "Inter", "Juve", "Milan", "PSG",
-    "Benfica", "Porto", "Al Hilal", "Al Nassr", "Chelsea", "Man Utd"
+    "Benfica", "Porto", "Al Hilal", "Al Nassr", "Chelsea", "Man Utd",
+    "Tottenham", "Atletico Madrid", "Napoli", "Dortmund"
 ]
 
 # =============================================================================
@@ -135,7 +138,7 @@ class HistoryManager:
         HistoryManager.save_history(history)
 
 # =============================================================================
-# 🎨 PRO IMAGE GENERATOR (AUTO-SCALING)
+# 🎨 PRO IMAGE GENERATOR
 # =============================================================================
 
 class ImageGenerator:
@@ -253,9 +256,10 @@ class LogicEngine:
     def analyze(match):
         h, a = match['home'], match['away']
         comp = match['competition']
-        style = "BALANCED"
-        for k, v in LEAGUE_PROFILES.items():
-            if any(l in comp for l in v): style = k; break
+        
+        # Check if high scoring league
+        is_high_scoring = any(l in comp for l in ["Bundesliga", "Eredivisie", "MLS", "Saudi"])
+        
         h_pow = any(p in h for p in POWERHOUSE_TEAMS)
         a_pow = any(p in a for p in POWERHOUSE_TEAMS)
         
@@ -263,7 +267,7 @@ class LogicEngine:
             return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Sharp Action Home", "insight": "Home xG metrics trending 20% above avg.", "main": f"{h} to Win", "alt": f"{h} & Over 1.5"}
         if a_pow and not h_pow:
             return {"edge": "📉 𝙼𝚊𝚛𝚔𝚎𝚝 𝙳𝚛𝚒𝚏𝚝: Visitors undervalued", "insight": "Class disparity favors visitors.", "main": f"{a} to Win", "alt": "Over 1.5 Goals"}
-        if style == "HIGH_SCORING":
+        if is_high_scoring:
             return {"edge": "🔥 𝚅𝚘𝚕𝚊𝚝𝚒𝚕𝚒𝚝𝚢 𝙰𝚕𝚎𝚛𝚝", "insight": "Defensive injury crisis creating value.", "main": "Over 2.5 Goals", "alt": "Both Teams to Score"}
         
         seed = len(h) + len(a)
@@ -322,9 +326,9 @@ class ContentGenerator:
             for w in wins[:2]: msg += f"💰 {w} ✅\n"
             msg += "\n"
 
+        # Note: 'matches' is already filtered for quality in main()
         selected = matches[:5]
-        if not selected: return f"💎 {title}\n\nNo top tier market opportunities today."
-
+        
         for m in selected:
             data = LogicEngine.analyze(m)
             m.update(data)
@@ -390,14 +394,26 @@ def main():
     matches = []
     now = datetime.now(GMT)
     for stage in raw_matches:
-        comp_name = stage.get('Snm', stage.get('Cnm', 'Unknown'))
+        country = stage.get('Cnm', 'Unknown')
+        league = stage.get('Snm', 'Unknown')
         
-        # --- STRICT QUALITY FILTER ---
-        tier = 3 # Default is trash
-        if any(t in comp_name for t in TIER_1_LEAGUES): tier = 1
-        elif any(t in comp_name for t in TIER_2_LEAGUES): tier = 2
+        # --- STRICT COUNTRY/LEAGUE FILTERING ---
+        is_allowed = False
+        if country in ALLOWED_LEAGUES:
+            # Check if the league is in the allowed list for this country
+            if any(allowed in league for allowed in ALLOWED_LEAGUES[country]):
+                is_allowed = True
         
-        is_major = tier < 3 # True for Tier 1 and 2
+        # Special check for International (Europe/World)
+        if country in ["Europe", "World", "South America", "Euro"]:
+             if any(allowed in league for allowed in ALLOWED_LEAGUES.get(country, [])):
+                is_allowed = True
+
+        # Blacklist check
+        if any(b in league for b in BANNED_KEYWORDS): is_allowed = False
+        
+        # If not allowed, skip this stage entirely
+        if not is_allowed: continue
         
         for evt in stage.get('Events', []):
             try:
@@ -408,14 +424,14 @@ def main():
                 h = evt.get('T1')[0].get('Nm')
                 a = evt.get('T2')[0].get('Nm')
                 
-                # Boost Powerhouse teams even in lower leagues (rare but safe)
-                is_power = any(p in h for p in POWERHOUSE_TEAMS) or any(p in a for p in POWERHOUSE_TEAMS)
-                if is_power and tier > 1: tier = 1.5 
-                
+                # Double Check Team Names for "U21", "W"
+                if any(x in h for x in ["(W)", "U21", "U19"]) or any(x in a for x in ["(W)", "U21", "U19"]):
+                    continue
+
                 match = {
                     'home': h, 'away': a, 'status': status, 'start_time_dt': dt, 'start_time': dt.strftime("%H:%M"),
-                    'competition': comp_name, 'home_score': evt.get('Tr1', 0), 'away_score': evt.get('Tr2', 0),
-                    'home_rank': 50, 'away_rank': 50, 'is_major': is_major, 'tier': tier
+                    'competition': league, 'home_score': evt.get('Tr1', 0), 'away_score': evt.get('Tr2', 0),
+                    'home_rank': 50, 'away_rank': 50
                 }
                 match['odds'] = OddsEngine.simulate_odds(match)
                 matches.append(match)
@@ -423,24 +439,19 @@ def main():
 
     wins = HistoryManager.check_results(matches)
     future_matches = [m for m in matches if m['start_time_dt'] > now and m['status'] == 'NS']
+    future_matches.sort(key=lambda x: x['start_time_dt'])
     
-    # FILTER: ONLY TIER 1 and TIER 2
-    quality_matches = [m for m in future_matches if m['tier'] <= 2]
-    
-    # Sort: Tier 1 first, then Tier 2
-    quality_matches.sort(key=lambda x: (x['tier'], x['start_time']))
-    
-    if not quality_matches: 
-        logger.info("No Quality matches found today. Skipping.")
+    if not future_matches: 
+        logger.info("No Quality matches found today. System Standby.")
         return
 
     # 1. Telegram Post
-    tg_text = ContentGenerator.telegram_feed(quality_matches, wins)
+    tg_text = ContentGenerator.telegram_feed(future_matches, wins)
     requests.post(f"https://api.telegram.org/bot{config.telegram_bot_token}/sendMessage", 
                  json={"chat_id": config.telegram_chat_id, "text": tg_text, "parse_mode": "HTML", "disable_web_page_preview": True})
 
     # 2. Telegram Poll
-    top_match = quality_matches[0]
+    top_match = future_matches[0]
     LogicEngine.analyze(top_match)
     PollEngine.send_poll(top_match, config.telegram_bot_token, config.telegram_chat_id)
 
@@ -456,7 +467,7 @@ def main():
         except Exception as e: logger.error(f"FB Error: {e}")
 
     # 4. Save Bets
-    HistoryManager.add_pending_bets(quality_matches)
+    HistoryManager.add_pending_bets(future_matches)
 
 if __name__ == "__main__":
     main()
