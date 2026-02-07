@@ -335,12 +335,28 @@
         "date": "2026-02-07",
         "pick": "Over 2.0 Goal Line"
     },
-    "Lens-Rennes": {
-        "date": "2026-02-07",
-        "pick": "Lens Win or Draw"
-    },
     "LASK-WSG Tirol": {
         "date": "2026-02-07",
         "pick": "Over 2.5 Goals"
+    },
+    "Fiorentina-Torino": {
+        "date": "2026-02-07",
+        "pick": "Fiorentina Win or Draw"
+    },
+    "Real Sociedad-Elche": {
+        "date": "2026-02-07",
+        "pick": "Both Teams to Score"
+    },
+    "Fortuna Sittard-Sparta Rotterdam": {
+        "date": "2026-02-07",
+        "pick": "Over 2.5 Goals"
+    },
+    "Altos-Atletico PI": {
+        "date": "2026-02-07",
+        "pick": "Altos Win or Draw"
+    },
+    "Nantes-Lyon": {
+        "date": "2026-02-07",
+        "pick": "Nantes Win or Draw"
     }
 }
