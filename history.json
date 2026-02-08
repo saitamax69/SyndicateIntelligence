@@ -358,5 +358,25 @@
     "Nantes-Lyon": {
         "date": "2026-02-07",
         "pick": "Nantes Win or Draw"
+    },
+    "FC Utrecht-Feyenoord": {
+        "date": "2026-02-08",
+        "pick": "Over 2.5 Goals"
+    },
+    "Bologna-Parma": {
+        "date": "2026-02-08",
+        "pick": "Both Teams to Score"
+    },
+    "Swansea City-Sheffield Wednesday": {
+        "date": "2026-02-08",
+        "pick": "Swansea City Win or Draw"
+    },
+    "Arminia Bielefeld-Eintracht Braunschweig": {
+        "date": "2026-02-08",
+        "pick": "Over 2.5 Goals"
+    },
+    "Hannover 96-Holstein Kiel": {
+        "date": "2026-02-08",
+        "pick": "Over 2.5 Goals"
     }
 }
