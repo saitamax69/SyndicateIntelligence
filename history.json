@@ -367,20 +367,28 @@
         "date": "2026-02-08",
         "pick": "Both Teams to Score"
     },
-    "Swansea City-Sheffield Wednesday": {
-        "date": "2026-02-08",
-        "pick": "Swansea City Win or Draw"
-    },
-    "Arminia Bielefeld-Eintracht Braunschweig": {
-        "date": "2026-02-08",
-        "pick": "Over 2.5 Goals"
-    },
-    "Hannover 96-Holstein Kiel": {
-        "date": "2026-02-08",
-        "pick": "Over 2.5 Goals"
-    },
     "Karlsruher SC-Fortuna Dusseldorf": {
         "date": "2026-02-08",
         "pick": "Over 2.5 Goals"
+    },
+    "Nacional-Casa Pia AC": {
+        "date": "2026-02-08",
+        "pick": "Nacional Win or Draw"
+    },
+    "FC Groningen-PSV Eindhoven": {
+        "date": "2026-02-08",
+        "pick": "Over 2.5 Goals"
+    },
+    "Angers-Toulouse": {
+        "date": "2026-02-08",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Auxerre-Paris FC": {
+        "date": "2026-02-08",
+        "pick": "Both Teams to Score"
+    },
+    "Le Havre-Strasbourg": {
+        "date": "2026-02-08",
+        "pick": "Both Teams to Score"
     }
 }
