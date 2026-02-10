@@ -410,5 +410,25 @@
     "AS Roma-Cagliari": {
         "date": "2026-02-09",
         "pick": "Both Teams to Score"
+    },
+    "Chelsea-Leeds United": {
+        "date": "2026-02-10",
+        "pick": "Chelsea to Win"
+    },
+    "Everton-AFC Bournemouth": {
+        "date": "2026-02-10",
+        "pick": "Everton Win or Draw"
+    },
+    "Tottenham Hotspur-Newcastle United": {
+        "date": "2026-02-10",
+        "pick": "Tottenham Hotspur to Win"
+    },
+    "Leicester City-Southampton": {
+        "date": "2026-02-10",
+        "pick": "Leicester City Win or Draw"
+    },
+    "Oxford United-Norwich City": {
+        "date": "2026-02-10",
+        "pick": "Oxford United Win or Draw"
     }
 }
