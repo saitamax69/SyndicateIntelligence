@@ -450,5 +450,25 @@
     "Manchester City-Fulham": {
         "date": "2026-02-11",
         "pick": "Both Teams to Score"
+    },
+    "Brentford-Arsenal": {
+        "date": "2026-02-12",
+        "pick": "Arsenal to Win"
+    },
+    "Atletico Madrid-Barcelona": {
+        "date": "2026-02-12",
+        "pick": "Both Teams to Score"
+    },
+    "Athletico Paranaense-Santos FC": {
+        "date": "2026-02-12",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Altos-AA Corisabba": {
+        "date": "2026-02-12",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Fluminense-Botafogo FR": {
+        "date": "2026-02-12",
+        "pick": "Both Teams to Score"
     }
 }
