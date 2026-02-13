@@ -490,5 +490,13 @@
     "Santa Clara-Benfica": {
         "date": "2026-02-13",
         "pick": "Benfica to Win"
+    },
+    "Leeds United U23-Manchester United U23": {
+        "date": "2026-02-13",
+        "pick": "Leeds United U23 Win or Draw"
+    },
+    "Norwich City U23-Southampton U23": {
+        "date": "2026-02-13",
+        "pick": "Norwich City U23 Win or Draw"
     }
 }
