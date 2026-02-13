@@ -470,5 +470,25 @@
     "Fluminense-Botafogo FR": {
         "date": "2026-02-12",
         "pick": "Both Teams to Score"
+    },
+    "1. FC Nuremberg-Karlsruher SC": {
+        "date": "2026-02-13",
+        "pick": "Over 2.5 Goals"
+    },
+    "Fortuna Dusseldorf-Preussen Muenster": {
+        "date": "2026-02-13",
+        "pick": "Over 2.5 Goals"
+    },
+    "Bayer Leverkusen W-FC Cologne W": {
+        "date": "2026-02-13",
+        "pick": "Bayer Leverkusen W to Win"
+    },
+    "Rennes-Paris Saint-Germain": {
+        "date": "2026-02-13",
+        "pick": "Rennes Win or Draw"
+    },
+    "Santa Clara-Benfica": {
+        "date": "2026-02-13",
+        "pick": "Benfica to Win"
     }
 }
