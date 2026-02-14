@@ -498,5 +498,25 @@
     "Norwich City U23-Southampton U23": {
         "date": "2026-02-13",
         "pick": "Norwich City U23 Win or Draw"
+    },
+    "SC Freiburg W-Union Berlin W": {
+        "date": "2026-02-14",
+        "pick": "Over 2.5 Goals"
+    },
+    "Crystal Palace U18-Tottenham Hotspur U18": {
+        "date": "2026-02-14",
+        "pick": "Tottenham Hotspur U18 to Win"
+    },
+    "Manchester City U18-Manchester United U18": {
+        "date": "2026-02-14",
+        "pick": "Manchester City U18 Win or Draw"
+    },
+    "Norwich City U18-Brighton U18": {
+        "date": "2026-02-14",
+        "pick": "Norwich City U18 Win or Draw"
+    },
+    "Eintracht Braunschweig-Darmstadt": {
+        "date": "2026-02-14",
+        "pick": "Over 2.5 Goals"
     }
 }
