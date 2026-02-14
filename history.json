@@ -515,24 +515,32 @@
         "date": "2026-02-14",
         "pick": "Norwich City U18 Win or Draw"
     },
-    "Eintracht Braunschweig-Darmstadt": {
-        "date": "2026-02-14",
-        "pick": "Over 2.5 Goals"
-    },
-    "Hertha Berlin-Hannover 96": {
-        "date": "2026-02-14",
-        "pick": "Over 2.5 Goals"
-    },
     "Kaiserslautern-Greuther Furth": {
         "date": "2026-02-14",
         "pick": "Over 2.5 Goals"
     },
-    "Arsenal U18-Birmingham City U18": {
-        "date": "2026-02-14",
-        "pick": "Arsenal U18 to Win"
-    },
     "Aston Villa U18-Chelsea U18": {
         "date": "2026-02-14",
         "pick": "Chelsea U18 to Win"
+    },
+    "Heracles-NAC Breda": {
+        "date": "2026-02-14",
+        "pick": "Over 2.5 Goals"
+    },
+    "Casa Pia AC-Arouca": {
+        "date": "2026-02-14",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Marseille-Strasbourg": {
+        "date": "2026-02-14",
+        "pick": "Marseille Win or Draw"
+    },
+    "Lazio-Atalanta": {
+        "date": "2026-02-14",
+        "pick": "Lazio Win or Draw"
+    },
+    "Sevilla-Deportivo Alaves": {
+        "date": "2026-02-14",
+        "pick": "Over 2.0 Goal Line"
     }
 }
