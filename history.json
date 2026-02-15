@@ -547,23 +547,35 @@
         "date": "2026-02-15",
         "pick": "Over 2.5 Goals"
     },
-    "Udinese-Sassuolo": {
-        "date": "2026-02-15",
-        "pick": "Both Teams to Score"
-    },
     "Birmingham City-Leeds United": {
         "date": "2026-02-15",
         "pick": "Both Teams to Score"
-    },
-    "Holstein Kiel-Schalke 04": {
-        "date": "2026-02-15",
-        "pick": "Over 2.5 Goals"
     },
     "Magdeburg-Arminia Bielefeld": {
         "date": "2026-02-15",
         "pick": "Over 2.5 Goals"
     },
     "VfL Bochum-Paderborn": {
+        "date": "2026-02-15",
+        "pick": "Over 2.5 Goals"
+    },
+    "Nacional-FC Porto": {
+        "date": "2026-02-15",
+        "pick": "FC Porto to Win"
+    },
+    "Sparta Rotterdam-NEC Nijmegen": {
+        "date": "2026-02-15",
+        "pick": "Over 2.5 Goals"
+    },
+    "Lorient-Angers": {
+        "date": "2026-02-15",
+        "pick": "Lorient Win or Draw"
+    },
+    "Metz-Auxerre": {
+        "date": "2026-02-15",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "RB Leipzig-Wolfsburg": {
         "date": "2026-02-15",
         "pick": "Over 2.5 Goals"
     }
