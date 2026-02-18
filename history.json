@@ -611,10 +611,6 @@
         "date": "2026-02-17",
         "pick": "Both Teams to Score"
     },
-    "Reading U18-Ipswich Town U18": {
-        "date": "2026-02-18",
-        "pick": "Both Teams to Score"
-    },
     "Sunderland U18-Blackburn Rovers U18": {
         "date": "2026-02-18",
         "pick": "Sunderland U18 Win or Draw"
@@ -630,5 +626,9 @@
     "AC Milan-Como 1907": {
         "date": "2026-02-18",
         "pick": "AC Milan to Win"
+    },
+    "Wolves-Arsenal": {
+        "date": "2026-02-18",
+        "pick": "Arsenal to Win"
     }
 }
