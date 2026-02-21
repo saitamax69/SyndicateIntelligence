@@ -655,44 +655,32 @@
         "date": "2026-02-20",
         "pick": "Over 2.5 Goals"
     },
-    "1. FC Nuremberg W-Carl Zeiss Jena W": {
-        "date": "2026-02-21",
-        "pick": "Over 2.5 Goals"
-    },
     "Blackburn Rovers U18-Liverpool U18": {
         "date": "2026-02-21",
         "pick": "Liverpool U18 to Win"
-    },
-    "Chelsea U18-Southampton U18": {
-        "date": "2026-02-21",
-        "pick": "Chelsea U18 to Win"
     },
     "Leicester City U18-Crystal Palace U18": {
         "date": "2026-02-21",
         "pick": "Both Teams to Score"
     },
-    "Newcastle United U18-Manchester City U18": {
+    "Alverca-Santa Clara": {
         "date": "2026-02-21",
         "pick": "Both Teams to Score"
     },
-    "Manchester United U18-Wolves U18": {
+    "Arouca-Nacional": {
         "date": "2026-02-21",
-        "pick": "Manchester United U18 Win or Draw"
+        "pick": "Over 2.0 Goal Line"
     },
-    "Darmstadt-Fortuna Dusseldorf": {
+    "Lens-AS Monaco": {
         "date": "2026-02-21",
-        "pick": "Over 2.5 Goals"
+        "pick": "Lens Win or Draw"
     },
-    "Elversberg-Eintracht Braunschweig": {
+    "Lecce-Inter": {
         "date": "2026-02-21",
-        "pick": "Over 2.5 Goals"
+        "pick": "Inter to Win"
     },
-    "Karlsruher SC-Holstein Kiel": {
+    "West Ham United-AFC Bournemouth": {
         "date": "2026-02-21",
-        "pick": "Over 2.5 Goals"
-    },
-    "Aston Villa U18-Arsenal U18": {
-        "date": "2026-02-21",
-        "pick": "Arsenal U18 to Win"
+        "pick": "Both Teams to Score"
     }
 }
