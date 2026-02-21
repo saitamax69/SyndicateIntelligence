@@ -674,5 +674,25 @@
     "Newcastle United U18-Manchester City U18": {
         "date": "2026-02-21",
         "pick": "Both Teams to Score"
+    },
+    "Manchester United U18-Wolves U18": {
+        "date": "2026-02-21",
+        "pick": "Manchester United U18 Win or Draw"
+    },
+    "Darmstadt-Fortuna Dusseldorf": {
+        "date": "2026-02-21",
+        "pick": "Over 2.5 Goals"
+    },
+    "Elversberg-Eintracht Braunschweig": {
+        "date": "2026-02-21",
+        "pick": "Over 2.5 Goals"
+    },
+    "Karlsruher SC-Holstein Kiel": {
+        "date": "2026-02-21",
+        "pick": "Over 2.5 Goals"
+    },
+    "Aston Villa U18-Arsenal U18": {
+        "date": "2026-02-21",
+        "pick": "Arsenal U18 to Win"
     }
 }
