@@ -682,5 +682,25 @@
     "West Ham United-AFC Bournemouth": {
         "date": "2026-02-21",
         "pick": "Both Teams to Score"
+    },
+    "FC Twente-FC Groningen": {
+        "date": "2026-02-22",
+        "pick": "Over 2.5 Goals"
+    },
+    "Genoa-Torino": {
+        "date": "2026-02-22",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Sheffield United-Sheffield Wednesday": {
+        "date": "2026-02-22",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Hannover 96-Dynamo Dresden": {
+        "date": "2026-02-22",
+        "pick": "Over 2.5 Goals"
+    },
+    "Paderborn-Hertha Berlin": {
+        "date": "2026-02-22",
+        "pick": "Over 2.5 Goals"
     }
 }
