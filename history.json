@@ -683,24 +683,28 @@
         "date": "2026-02-21",
         "pick": "Both Teams to Score"
     },
-    "FC Twente-FC Groningen": {
-        "date": "2026-02-22",
-        "pick": "Over 2.5 Goals"
-    },
-    "Genoa-Torino": {
-        "date": "2026-02-22",
-        "pick": "Over 2.0 Goal Line"
-    },
-    "Sheffield United-Sheffield Wednesday": {
-        "date": "2026-02-22",
-        "pick": "Over 2.0 Goal Line"
-    },
     "Hannover 96-Dynamo Dresden": {
         "date": "2026-02-22",
         "pick": "Over 2.5 Goals"
     },
-    "Paderborn-Hertha Berlin": {
+    "Bayern Munich W-Wolfsburg W": {
+        "date": "2026-02-22",
+        "pick": "Bayern Munich W to Win"
+    },
+    "AZ Alkmaar-Sparta Rotterdam": {
         "date": "2026-02-22",
         "pick": "Over 2.5 Goals"
+    },
+    "Angers-Lille": {
+        "date": "2026-02-22",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Nantes-Le Havre": {
+        "date": "2026-02-22",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Nice-Lorient": {
+        "date": "2026-02-22",
+        "pick": "Over 2.0 Goal Line"
     }
 }
