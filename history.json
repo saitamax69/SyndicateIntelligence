@@ -726,5 +726,9 @@
     "Everton-Manchester United": {
         "date": "2026-02-23",
         "pick": "Both Teams to Score"
+    },
+    "West Ham United U23-Crystal Palace U23": {
+        "date": "2026-02-23",
+        "pick": "West Ham United U23 Win or Draw"
     }
 }
