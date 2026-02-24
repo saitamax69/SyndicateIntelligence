@@ -730,5 +730,25 @@
     "West Ham United U23-Crystal Palace U23": {
         "date": "2026-02-23",
         "pick": "West Ham United U23 Win or Draw"
+    },
+    "Everton U18-Leeds United U18": {
+        "date": "2026-02-24",
+        "pick": "Both Teams to Score"
+    },
+    "Blackburn Rovers-Bristol City": {
+        "date": "2026-02-24",
+        "pick": "Blackburn Rovers Win or Draw"
+    },
+    "Hull City-Derby County": {
+        "date": "2026-02-24",
+        "pick": "Both Teams to Score"
+    },
+    "Middlesbrough-Leicester City": {
+        "date": "2026-02-24",
+        "pick": "Both Teams to Score"
+    },
+    "Swansea City-Preston North End": {
+        "date": "2026-02-24",
+        "pick": "Over 2.0 Goal Line"
     }
 }
