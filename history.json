@@ -755,10 +755,6 @@
         "date": "2026-02-24",
         "pick": "Watford Win or Draw"
     },
-    "Manchester United U18-Derby County U18": {
-        "date": "2026-02-25",
-        "pick": "Manchester United U18 Win or Draw"
-    },
     "AD Ceuta FC-Cordoba": {
         "date": "2026-02-25",
         "pick": "Both Teams to Score"
@@ -772,6 +768,10 @@
         "pick": "Norwich City Win or Draw"
     },
     "Sheffield United-Coventry City": {
+        "date": "2026-02-25",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Stoke City-Oxford United": {
         "date": "2026-02-25",
         "pick": "Over 2.0 Goal Line"
     }
