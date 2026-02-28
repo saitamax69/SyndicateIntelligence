@@ -802,5 +802,25 @@
     "Newcastle United U23-Brighton U23": {
         "date": "2026-02-27",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Birmingham City U18-Leicester City U18": {
+        "date": "2026-02-28",
+        "pick": "Birmingham City U18 Win or Draw"
+    },
+    "Crystal Palace U18-West Ham United U18": {
+        "date": "2026-02-28",
+        "pick": "Crystal Palace U18 Win or Draw"
+    },
+    "Fulham U18-Reading U18": {
+        "date": "2026-02-28",
+        "pick": "Both Teams to Score"
+    },
+    "Ipswich Town U18-Tottenham Hotspur U18": {
+        "date": "2026-02-28",
+        "pick": "Tottenham Hotspur U18 to Win"
+    },
+    "Southampton U18-Brighton U18": {
+        "date": "2026-02-28",
+        "pick": "Both Teams to Score"
     }
 }
