@@ -822,5 +822,25 @@
     "Southampton U18-Brighton U18": {
         "date": "2026-02-28",
         "pick": "Both Teams to Score"
+    },
+    "Arminia Bielefeld-Hannover 96": {
+        "date": "2026-02-28",
+        "pick": "Over 2.5 Goals"
+    },
+    "Holstein Kiel-Elversberg": {
+        "date": "2026-02-28",
+        "pick": "Over 2.5 Goals"
+    },
+    "Kaiserslautern-Paderborn": {
+        "date": "2026-02-28",
+        "pick": "Over 2.5 Goals"
+    },
+    "Arsenal U18-Norwich City U18": {
+        "date": "2026-02-28",
+        "pick": "Arsenal U18 to Win"
+    },
+    "Derby County U18-Manchester City U18": {
+        "date": "2026-02-28",
+        "pick": "Over 2.0 Goal Line"
     }
 }
