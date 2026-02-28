@@ -807,22 +807,6 @@
         "date": "2026-02-28",
         "pick": "Birmingham City U18 Win or Draw"
     },
-    "Crystal Palace U18-West Ham United U18": {
-        "date": "2026-02-28",
-        "pick": "Crystal Palace U18 Win or Draw"
-    },
-    "Fulham U18-Reading U18": {
-        "date": "2026-02-28",
-        "pick": "Both Teams to Score"
-    },
-    "Ipswich Town U18-Tottenham Hotspur U18": {
-        "date": "2026-02-28",
-        "pick": "Tottenham Hotspur U18 to Win"
-    },
-    "Southampton U18-Brighton U18": {
-        "date": "2026-02-28",
-        "pick": "Both Teams to Score"
-    },
     "Arminia Bielefeld-Hannover 96": {
         "date": "2026-02-28",
         "pick": "Over 2.5 Goals"
@@ -831,15 +815,27 @@
         "date": "2026-02-28",
         "pick": "Over 2.5 Goals"
     },
-    "Kaiserslautern-Paderborn": {
-        "date": "2026-02-28",
-        "pick": "Over 2.5 Goals"
-    },
     "Arsenal U18-Norwich City U18": {
         "date": "2026-02-28",
         "pick": "Arsenal U18 to Win"
     },
-    "Derby County U18-Manchester City U18": {
+    "Barcelona-Villarreal": {
+        "date": "2026-02-28",
+        "pick": "Barcelona to Win"
+    },
+    "Real Zaragoza-Burgos CF": {
+        "date": "2026-02-28",
+        "pick": "Real Zaragoza Win or Draw"
+    },
+    "SC Heerenveen-Sparta Rotterdam": {
+        "date": "2026-02-28",
+        "pick": "Over 2.5 Goals"
+    },
+    "AVS Futebol SAD-CF Estrela da Amadora": {
+        "date": "2026-02-28",
+        "pick": "Both Teams to Score"
+    },
+    "Rennes-Toulouse": {
         "date": "2026-02-28",
         "pick": "Over 2.0 Goal Line"
     }
