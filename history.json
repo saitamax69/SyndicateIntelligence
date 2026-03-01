@@ -843,19 +843,23 @@
         "date": "2026-03-01",
         "pick": "Over 2.5 Goals"
     },
-    "Cremonese-AC Milan": {
+    "Valencia-Osasuna": {
         "date": "2026-03-01",
-        "pick": "AC Milan to Win"
+        "pick": "Both Teams to Score"
     },
-    "Eintracht Braunschweig-Preussen Muenster": {
+    "Mirandes-AD Ceuta FC": {
         "date": "2026-03-01",
-        "pick": "Over 2.5 Goals"
+        "pick": "Mirandes Win or Draw"
     },
-    "Hertha Berlin-1. FC Nuremberg": {
+    "Sporting Gijon-Leganes": {
         "date": "2026-03-01",
-        "pick": "Over 2.5 Goals"
+        "pick": "Both Teams to Score"
     },
-    "Magdeburg-Karlsruher SC": {
+    "Tondela-Santa Clara": {
+        "date": "2026-03-01",
+        "pick": "Both Teams to Score"
+    },
+    "FC Utrecht-AZ Alkmaar": {
         "date": "2026-03-01",
         "pick": "Over 2.5 Goals"
     }
