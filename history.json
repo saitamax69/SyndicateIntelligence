@@ -852,7 +852,7 @@
         "pick": "Mirandes Win or Draw"
     },
     "Sporting Gijon-Leganes": {
-        "date": "2026-03-01",
+        "date": "2026-03-02",
         "pick": "Both Teams to Score"
     },
     "Tondela-Santa Clara": {
@@ -862,5 +862,21 @@
     "FC Utrecht-AZ Alkmaar": {
         "date": "2026-03-01",
         "pick": "Over 2.5 Goals"
+    },
+    "Pisa-Bologna": {
+        "date": "2026-03-02",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Manchester United U23-Chelsea U23": {
+        "date": "2026-03-02",
+        "pick": "Chelsea U23 to Win"
+    },
+    "Cordoba-FC Andorra": {
+        "date": "2026-03-02",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Udinese-Fiorentina": {
+        "date": "2026-03-02",
+        "pick": "Over 2.0 Goal Line"
     }
 }
