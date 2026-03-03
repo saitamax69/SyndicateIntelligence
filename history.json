@@ -878,5 +878,25 @@
     "Udinese-Fiorentina": {
         "date": "2026-03-02",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Leeds United U18-Manchester City U18": {
+        "date": "2026-03-03",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Chelsea U18-Fulham U18": {
+        "date": "2026-03-03",
+        "pick": "Chelsea U18 to Win"
+    },
+    "AFC Bournemouth-Brentford": {
+        "date": "2026-03-03",
+        "pick": "Both Teams to Score"
+    },
+    "Everton-Burnley": {
+        "date": "2026-03-03",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Leeds United-Sunderland": {
+        "date": "2026-03-03",
+        "pick": "Leeds United Win or Draw"
     }
 }
