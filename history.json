@@ -898,5 +898,13 @@
     "Leeds United-Sunderland": {
         "date": "2026-03-03",
         "pick": "Leeds United Win or Draw"
+    },
+    "Port Vale-Bristol City": {
+        "date": "2026-03-03",
+        "pick": "Both Teams to Score"
+    },
+    "Ipswich Town-Hull City": {
+        "date": "2026-03-03",
+        "pick": "Both Teams to Score"
     }
 }
