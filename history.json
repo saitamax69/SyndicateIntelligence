@@ -962,5 +962,25 @@
     "Norwich City U23-Arsenal U23": {
         "date": "2026-03-06",
         "pick": "Arsenal U23 to Win"
+    },
+    "Burnley U18-Everton U18": {
+        "date": "2026-03-07",
+        "pick": "Burnley U18 Win or Draw"
+    },
+    "Liverpool U18-Manchester City U18": {
+        "date": "2026-03-07",
+        "pick": "Liverpool U18 to Win"
+    },
+    "Newcastle United U18-Sunderland U18": {
+        "date": "2026-03-07",
+        "pick": "Newcastle United U18 Win or Draw"
+    },
+    "Southampton U18-Fulham U18": {
+        "date": "2026-03-07",
+        "pick": "Southampton U18 Win or Draw"
+    },
+    "1. FC Nuremberg-Fortuna Dusseldorf": {
+        "date": "2026-03-07",
+        "pick": "Over 2.5 Goals"
     }
 }
