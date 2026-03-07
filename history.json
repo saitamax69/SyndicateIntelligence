@@ -971,10 +971,6 @@
         "date": "2026-03-07",
         "pick": "Liverpool U18 to Win"
     },
-    "Newcastle United U18-Sunderland U18": {
-        "date": "2026-03-07",
-        "pick": "Newcastle United U18 Win or Draw"
-    },
     "Southampton U18-Fulham U18": {
         "date": "2026-03-07",
         "pick": "Southampton U18 Win or Draw"
@@ -994,5 +990,25 @@
     "Arsenal U18-Brighton U18": {
         "date": "2026-03-07",
         "pick": "Arsenal U18 to Win"
+    },
+    "Levante-Girona": {
+        "date": "2026-03-07",
+        "pick": "Levante Win or Draw"
+    },
+    "Real Sociedad B-Castellon": {
+        "date": "2026-03-07",
+        "pick": "Both Teams to Score"
+    },
+    "SD Huesca-Albacete": {
+        "date": "2026-03-07",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "FC Groningen-Ajax": {
+        "date": "2026-03-07",
+        "pick": "Over 2.5 Goals"
+    },
+    "Alverca-AVS Futebol SAD": {
+        "date": "2026-03-07",
+        "pick": "Alverca Win or Draw"
     }
 }
