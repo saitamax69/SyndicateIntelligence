@@ -1015,20 +1015,28 @@
         "date": "2026-03-08",
         "pick": "Over 2.5 Goals"
     },
-    "Lecce-Cremonese": {
-        "date": "2026-03-08",
-        "pick": "Over 2.0 Goal Line"
-    },
     "Fulham-Southampton": {
         "date": "2026-03-08",
         "pick": "Over 2.0 Goal Line"
     },
-    "Hannover 96-Greuther Furth": {
+    "Getafe-Real Betis": {
+        "date": "2026-03-08",
+        "pick": "Getafe Win or Draw"
+    },
+    "FC Andorra-Sporting Gijon": {
+        "date": "2026-03-08",
+        "pick": "Both Teams to Score"
+    },
+    "CF Estrela da Amadora-Gil Vicente": {
+        "date": "2026-03-08",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "NAC Breda-Feyenoord": {
         "date": "2026-03-08",
         "pick": "Over 2.5 Goals"
     },
-    "Karlsruher SC-Dynamo Dresden": {
+    "Brest-Le Havre": {
         "date": "2026-03-08",
-        "pick": "Over 2.5 Goals"
+        "pick": "Brest Win or Draw"
     }
 }
