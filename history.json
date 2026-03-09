@@ -1038,5 +1038,25 @@
     "Brest-Le Havre": {
         "date": "2026-03-08",
         "pick": "Brest Win or Draw"
+    },
+    "West Ham United-Brentford": {
+        "date": "2026-03-09",
+        "pick": "Both Teams to Score"
+    },
+    "Almeria-Leonesa": {
+        "date": "2026-03-09",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Lazio-Sassuolo": {
+        "date": "2026-03-09",
+        "pick": "Lazio Win or Draw"
+    },
+    "Espanyol-Real Oviedo": {
+        "date": "2026-03-09",
+        "pick": "Espanyol Win or Draw"
+    },
+    "Tondela-Rio Ave": {
+        "date": "2026-03-09",
+        "pick": "Over 2.0 Goal Line"
     }
 }
