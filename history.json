@@ -1082,5 +1082,25 @@
     "Wrexham-Hull City": {
         "date": "2026-03-10",
         "pick": "Wrexham Win or Draw"
+    },
+    "Birmingham City-QPR": {
+        "date": "2026-03-11",
+        "pick": "Both Teams to Score"
+    },
+    "Middlesbrough-Charlton Athletic": {
+        "date": "2026-03-11",
+        "pick": "Both Teams to Score"
+    },
+    "Norwich City-Sheffield United": {
+        "date": "2026-03-11",
+        "pick": "Norwich City Win or Draw"
+    },
+    "Oxford United-Blackburn Rovers": {
+        "date": "2026-03-11",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "West Bromwich Albion-Southampton": {
+        "date": "2026-03-11",
+        "pick": "West Bromwich Albion Win or Draw"
     }
 }
