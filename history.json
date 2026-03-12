@@ -1102,5 +1102,17 @@
     "West Bromwich Albion-Southampton": {
         "date": "2026-03-11",
         "pick": "West Bromwich Albion Win or Draw"
+    },
+    "Remo-Fluminense": {
+        "date": "2026-03-12",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Vasco da Gama-Palmeiras": {
+        "date": "2026-03-12",
+        "pick": "Vasco da Gama Win or Draw"
+    },
+    "Sao Paulo-Chapecoense AF": {
+        "date": "2026-03-12",
+        "pick": "Over 2.0 Goal Line"
     }
 }
