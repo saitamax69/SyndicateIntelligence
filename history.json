@@ -1167,10 +1167,6 @@
         "date": "2026-03-14",
         "pick": "Over 2.5 Goals"
     },
-    "Hoffenheim W-SGS Essen W": {
-        "date": "2026-03-15",
-        "pick": "Over 2.5 Goals"
-    },
     "FC Twente-FC Utrecht": {
         "date": "2026-03-15",
         "pick": "Over 2.5 Goals"
@@ -1179,20 +1175,24 @@
         "date": "2026-03-15",
         "pick": "Both Teams to Score"
     },
-    "Dynamo Dresden-Preussen Muenster": {
+    "AVS Futebol SAD-Santa Clara": {
+        "date": "2026-03-15",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Nacional-Estoril": {
+        "date": "2026-03-15",
+        "pick": "Both Teams to Score"
+    },
+    "Go Ahead Eagles-NAC Breda": {
         "date": "2026-03-15",
         "pick": "Over 2.5 Goals"
     },
-    "Kaiserslautern-Karlsruher SC": {
+    "FC Cologne W-Bayern Munich W": {
         "date": "2026-03-15",
-        "pick": "Over 2.5 Goals"
+        "pick": "Bayern Munich W to Win"
     },
-    "Schalke 04-Hannover 96": {
+    "Le Havre-Lyon": {
         "date": "2026-03-15",
-        "pick": "Over 2.5 Goals"
-    },
-    "Mallorca-Espanyol": {
-        "date": "2026-03-15",
-        "pick": "Mallorca Win or Draw"
+        "pick": "Both Teams to Score"
     }
 }
