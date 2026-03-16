@@ -1194,5 +1194,25 @@
     "Le Havre-Lyon": {
         "date": "2026-03-15",
         "pick": "Both Teams to Score"
+    },
+    "Albacete-Las Palmas": {
+        "date": "2026-03-16",
+        "pick": "Both Teams to Score"
+    },
+    "Cremonese-Fiorentina": {
+        "date": "2026-03-16",
+        "pick": "Cremonese Win or Draw"
+    },
+    "Brentford-Wolves": {
+        "date": "2026-03-16",
+        "pick": "Both Teams to Score"
+    },
+    "Rayo Vallecano-Levante": {
+        "date": "2026-03-16",
+        "pick": "Both Teams to Score"
+    },
+    "Portsmouth-Derby County": {
+        "date": "2026-03-16",
+        "pick": "Portsmouth Win or Draw"
     }
 }
