@@ -212,7 +212,7 @@
         "pick": "Over 2.0 Goal Line"
     },
     "Eintracht Frankfurt W-Hoffenheim W": {
-        "date": "2026-02-04",
+        "date": "2026-03-18",
         "pick": "Over 2.5 Goals"
     },
     "Gaborone United-Santa Green": {
@@ -1242,5 +1242,21 @@
     "Prescot Cables-Cleethorpes Town": {
         "date": "2026-03-17",
         "pick": "Both Teams to Score"
+    },
+    "Carl Zeiss Jena W-Wolfsburg W": {
+        "date": "2026-03-18",
+        "pick": "Over 2.5 Goals"
+    },
+    "Southampton-Norwich City": {
+        "date": "2026-03-18",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Bahia-RB Bragantino": {
+        "date": "2026-03-18",
+        "pick": "Both Teams to Score"
+    },
+    "Palmeiras-Botafogo FR": {
+        "date": "2026-03-18",
+        "pick": "Over 2.0 Goal Line"
     }
 }
