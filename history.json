@@ -1291,44 +1291,36 @@
         "date": "2026-03-20",
         "pick": "Over 2.5 Goals"
     },
-    "Eintracht Frankfurt W-Hamburger SV": {
-        "date": "2026-03-21",
-        "pick": "Over 2.5 Goals"
-    },
     "Arsenal U18-Fulham U18": {
         "date": "2026-03-21",
         "pick": "Arsenal U18 to Win"
-    },
-    "Burnley U18-Manchester City U18": {
-        "date": "2026-03-21",
-        "pick": "Both Teams to Score"
-    },
-    "Chelsea U18-Reading U18": {
-        "date": "2026-03-21",
-        "pick": "Chelsea U18 to Win"
     },
     "Crystal Palace U18-Brighton U18": {
         "date": "2026-03-21",
         "pick": "Both Teams to Score"
     },
-    "Leicester City U18-Tottenham Hotspur U18": {
-        "date": "2026-03-21",
-        "pick": "Tottenham Hotspur U18 to Win"
-    },
-    "1. FC Nuremberg-Kaiserslautern": {
-        "date": "2026-03-21",
-        "pick": "Over 2.5 Goals"
-    },
-    "Elversberg-Arminia Bielefeld": {
-        "date": "2026-03-21",
-        "pick": "Over 2.5 Goals"
-    },
-    "Paderborn-Dynamo Dresden": {
-        "date": "2026-03-21",
-        "pick": "Over 2.5 Goals"
-    },
     "Brighton-Liverpool": {
         "date": "2026-03-21",
         "pick": "Liverpool to Win"
+    },
+    "Fortuna Sittard-FC Twente": {
+        "date": "2026-03-21",
+        "pick": "Over 2.5 Goals"
+    },
+    "Famalicao-Nacional": {
+        "date": "2026-03-21",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Moreirense-Arouca": {
+        "date": "2026-03-21",
+        "pick": "Moreirense Win or Draw"
+    },
+    "Toulouse-Lorient": {
+        "date": "2026-03-21",
+        "pick": "Both Teams to Score"
+    },
+    "AC Milan-Torino": {
+        "date": "2026-03-21",
+        "pick": "AC Milan to Win"
     }
 }
