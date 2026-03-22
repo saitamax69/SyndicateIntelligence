@@ -1323,28 +1323,24 @@
         "date": "2026-03-21",
         "pick": "AC Milan to Win"
     },
-    "NEC Nijmegen-SC Heerenveen": {
-        "date": "2026-03-22",
-        "pick": "Over 2.5 Goals"
-    },
-    "Como 1907-Pisa": {
-        "date": "2026-03-22",
-        "pick": "Como 1907 Win or Draw"
-    },
-    "Newcastle United-Sunderland": {
+    "Estoril-Rio Ave": {
         "date": "2026-03-22",
         "pick": "Over 2.0 Goal Line"
     },
-    "Fortuna Dusseldorf-Hertha Berlin": {
+    "FC Groningen-AZ Alkmaar": {
         "date": "2026-03-22",
         "pick": "Over 2.5 Goals"
     },
-    "Preussen Muenster-Magdeburg": {
+    "Telstar-PSV Eindhoven": {
         "date": "2026-03-22",
         "pick": "Over 2.5 Goals"
     },
-    "VfL Bochum-Holstein Kiel": {
+    "Marseille-Lille": {
         "date": "2026-03-22",
-        "pick": "Over 2.5 Goals"
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Paris FC-Le Havre": {
+        "date": "2026-03-22",
+        "pick": "Paris FC Win or Draw"
     }
 }
