@@ -1342,5 +1342,13 @@
     "Paris FC-Le Havre": {
         "date": "2026-03-22",
         "pick": "Paris FC Win or Draw"
+    },
+    "Union Berlin W-Werder Bremen W": {
+        "date": "2026-03-23",
+        "pick": "Over 2.5 Goals"
+    },
+    "Castellon-Leonesa": {
+        "date": "2026-03-23",
+        "pick": "Castellon Win or Draw"
     }
 }
