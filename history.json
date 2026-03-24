@@ -1350,5 +1350,25 @@
     "Castellon-Leonesa": {
         "date": "2026-03-23",
         "pick": "Castellon Win or Draw"
+    },
+    "Birmingham City U18-Brighton U18": {
+        "date": "2026-03-24",
+        "pick": "Birmingham City U18 Win or Draw"
+    },
+    "Sunderland U18-Middlesbrough U18": {
+        "date": "2026-03-24",
+        "pick": "Sunderland U18 Win or Draw"
+    },
+    "Blackburn Rovers U18-Wolves U18": {
+        "date": "2026-03-24",
+        "pick": "Both Teams to Score"
+    },
+    "Cleethorpes Town-Guiseley": {
+        "date": "2026-03-24",
+        "pick": "Both Teams to Score"
+    },
+    "FC United of Manchester-Stockton Town": {
+        "date": "2026-03-24",
+        "pick": "Both Teams to Score"
     }
 }
