@@ -1415,14 +1415,6 @@
         "date": "2026-03-28",
         "pick": "Over 2.0 Goal Line"
     },
-    "Eibar-Las Palmas": {
-        "date": "2026-03-29",
-        "pick": "Both Teams to Score"
-    },
-    "Werder Bremen W-SGS Essen W": {
-        "date": "2026-03-29",
-        "pick": "Over 2.5 Goals"
-    },
     "Wolfsburg W-Union Berlin W": {
         "date": "2026-03-29",
         "pick": "Over 2.5 Goals"
@@ -1434,5 +1426,17 @@
     "Real Zaragoza-Racing Santander": {
         "date": "2026-03-29",
         "pick": "Over 2.0 Goal Line"
+    },
+    "SC Freiburg W-Hoffenheim W": {
+        "date": "2026-03-29",
+        "pick": "Over 2.5 Goals"
+    },
+    "Almeria-Real Sociedad B": {
+        "date": "2026-03-29",
+        "pick": "Almeria Win or Draw"
+    },
+    "Athletico Paranaense-Botafogo FR": {
+        "date": "2026-03-29",
+        "pick": "Athletico Paranaense Win or Draw"
     }
 }
