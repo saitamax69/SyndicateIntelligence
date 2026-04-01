@@ -1360,7 +1360,7 @@
         "pick": "Sunderland U18 Win or Draw"
     },
     "Blackburn Rovers U18-Wolves U18": {
-        "date": "2026-03-24",
+        "date": "2026-04-01",
         "pick": "Both Teams to Score"
     },
     "Cleethorpes Town-Guiseley": {
@@ -1454,5 +1454,21 @@
     "Real Valladolid-Cadiz": {
         "date": "2026-03-31",
         "pick": "Over 2.0 Goal Line"
+    },
+    "FC Andorra-Malaga": {
+        "date": "2026-04-01",
+        "pick": "FC Andorra Win or Draw"
+    },
+    "Burgos CF-AD Ceuta FC": {
+        "date": "2026-04-01",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "SD Huesca-Leonesa": {
+        "date": "2026-04-01",
+        "pick": "SD Huesca Win or Draw"
+    },
+    "Racing Santander-Sporting Gijon": {
+        "date": "2026-04-01",
+        "pick": "Both Teams to Score"
     }
 }
