@@ -492,7 +492,7 @@
         "pick": "Benfica to Win"
     },
     "Leeds United U23-Manchester United U23": {
-        "date": "2026-02-13",
+        "date": "2026-04-03",
         "pick": "Leeds United U23 Win or Draw"
     },
     "Norwich City U23-Southampton U23": {
@@ -1493,6 +1493,22 @@
     },
     "Leganes-Real Zaragoza": {
         "date": "2026-04-02",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Middlesbrough-Millwall": {
+        "date": "2026-04-03",
+        "pick": "Both Teams to Score"
+    },
+    "Hednesford-Prescot Cables": {
+        "date": "2026-04-03",
+        "pick": "Both Teams to Score"
+    },
+    "Birmingham City-Blackburn Rovers": {
+        "date": "2026-04-03",
+        "pick": "Birmingham City Win or Draw"
+    },
+    "Charlton Athletic-Bristol City": {
+        "date": "2026-04-03",
         "pick": "Over 2.0 Goal Line"
     }
 }
