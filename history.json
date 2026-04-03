@@ -491,10 +491,6 @@
         "date": "2026-02-13",
         "pick": "Benfica to Win"
     },
-    "Leeds United U23-Manchester United U23": {
-        "date": "2026-04-03",
-        "pick": "Leeds United U23 Win or Draw"
-    },
     "Norwich City U23-Southampton U23": {
         "date": "2026-02-13",
         "pick": "Norwich City U23 Win or Draw"
@@ -1495,10 +1491,6 @@
         "date": "2026-04-02",
         "pick": "Over 2.0 Goal Line"
     },
-    "Middlesbrough-Millwall": {
-        "date": "2026-04-03",
-        "pick": "Both Teams to Score"
-    },
     "Hednesford-Prescot Cables": {
         "date": "2026-04-03",
         "pick": "Both Teams to Score"
@@ -1518,5 +1510,25 @@
     "Norwich City-Portsmouth": {
         "date": "2026-04-03",
         "pick": "Norwich City Win or Draw"
+    },
+    "Vitoria de Guimaraes-Tondela": {
+        "date": "2026-04-03",
+        "pick": "Both Teams to Score"
+    },
+    "Leek Town-Bamber Bridge": {
+        "date": "2026-04-03",
+        "pick": "Leek Town Win or Draw"
+    },
+    "Paris Saint-Germain-Toulouse": {
+        "date": "2026-04-03",
+        "pick": "Both Teams to Score"
+    },
+    "Rayo Vallecano-Elche": {
+        "date": "2026-04-03",
+        "pick": "Rayo Vallecano Win or Draw"
+    },
+    "Coventry City-Derby County": {
+        "date": "2026-04-03",
+        "pick": "Coventry City Win or Draw"
     }
 }
