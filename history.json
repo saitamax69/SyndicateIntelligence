@@ -1056,7 +1056,7 @@
         "pick": "Over 2.0 Goal Line"
     },
     "Chelsea U18-Crystal Palace U18": {
-        "date": "2026-03-10",
+        "date": "2026-04-04",
         "pick": "Chelsea U18 to Win"
     },
     "Leicester City-Bristol City": {
@@ -1530,5 +1530,21 @@
     "Coventry City-Derby County": {
         "date": "2026-04-03",
         "pick": "Coventry City Win or Draw"
+    },
+    "Southampton U18-Ipswich Town U18": {
+        "date": "2026-04-04",
+        "pick": "Southampton U18 Win or Draw"
+    },
+    "West Ham United U18-Reading U18": {
+        "date": "2026-04-04",
+        "pick": "Both Teams to Score"
+    },
+    "Arminia Bielefeld-Darmstadt": {
+        "date": "2026-04-04",
+        "pick": "Over 2.5 Goals"
+    },
+    "Kaiserslautern-Fortuna Dusseldorf": {
+        "date": "2026-04-04",
+        "pick": "Over 2.5 Goals"
     }
 }
