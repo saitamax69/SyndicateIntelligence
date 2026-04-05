@@ -1559,10 +1559,6 @@
         "date": "2026-04-04",
         "pick": "Deportivo La Coruna Win or Draw"
     },
-    "Go Ahead Eagles-PEC Zwolle": {
-        "date": "2026-04-05",
-        "pick": "Over 2.5 Goals"
-    },
     "Eintracht Braunschweig-1. FC Nuremberg": {
         "date": "2026-04-05",
         "pick": "Over 2.5 Goals"
@@ -1582,5 +1578,25 @@
     "Schalke 04-Karlsruher SC": {
         "date": "2026-04-05",
         "pick": "Over 2.5 Goals"
+    },
+    "Eintracht Frankfurt-FC Cologne": {
+        "date": "2026-04-05",
+        "pick": "Over 2.5 Goals"
+    },
+    "West Ham United-Leeds United": {
+        "date": "2026-04-05",
+        "pick": "Both Teams to Score"
+    },
+    "Pisa-Torino": {
+        "date": "2026-04-05",
+        "pick": "Pisa Win or Draw"
+    },
+    "Real Oviedo-Sevilla": {
+        "date": "2026-04-05",
+        "pick": "Both Teams to Score"
+    },
+    "Almeria-Leganes": {
+        "date": "2026-04-05",
+        "pick": "Over 2.0 Goal Line"
     }
 }
