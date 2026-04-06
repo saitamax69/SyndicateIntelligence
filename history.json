@@ -1618,5 +1618,13 @@
     "Blackburn Rovers-West Bromwich Albion": {
         "date": "2026-04-06",
         "pick": "Both Teams to Score"
+    },
+    "Bristol City-Sheffield United": {
+        "date": "2026-04-06",
+        "pick": "Bristol City Win or Draw"
+    },
+    "Derby County-Stoke City": {
+        "date": "2026-04-06",
+        "pick": "Derby County Win or Draw"
     }
 }
