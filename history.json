@@ -1603,14 +1603,6 @@
         "date": "2026-04-06",
         "pick": "Udinese Win or Draw"
     },
-    "Portsmouth-Oxford United": {
-        "date": "2026-04-06",
-        "pick": "Over 2.0 Goal Line"
-    },
-    "Millwall-Norwich City": {
-        "date": "2026-04-06",
-        "pick": "Over 2.0 Goal Line"
-    },
     "Lecce-Atalanta": {
         "date": "2026-04-06",
         "pick": "Lecce Win or Draw"
@@ -1626,5 +1618,25 @@
     "Derby County-Stoke City": {
         "date": "2026-04-06",
         "pick": "Derby County Win or Draw"
+    },
+    "Juventus-Genoa": {
+        "date": "2026-04-06",
+        "pick": "Juventus to Win"
+    },
+    "Swansea City-Middlesbrough": {
+        "date": "2026-04-06",
+        "pick": "Swansea City Win or Draw"
+    },
+    "Castellon-Granada": {
+        "date": "2026-04-06",
+        "pick": "Castellon Win or Draw"
+    },
+    "Arouca-Estoril": {
+        "date": "2026-04-06",
+        "pick": "Arouca Win or Draw"
+    },
+    "Sporting Gijon-Real Sociedad B": {
+        "date": "2026-04-06",
+        "pick": "Over 2.0 Goal Line"
     }
 }
