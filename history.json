@@ -1598,5 +1598,25 @@
     "Almeria-Leganes": {
         "date": "2026-04-05",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Udinese-Como 1907": {
+        "date": "2026-04-06",
+        "pick": "Udinese Win or Draw"
+    },
+    "Portsmouth-Oxford United": {
+        "date": "2026-04-06",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Millwall-Norwich City": {
+        "date": "2026-04-06",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Lecce-Atalanta": {
+        "date": "2026-04-06",
+        "pick": "Lecce Win or Draw"
+    },
+    "Blackburn Rovers-West Bromwich Albion": {
+        "date": "2026-04-06",
+        "pick": "Both Teams to Score"
     }
 }
