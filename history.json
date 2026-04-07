@@ -1638,5 +1638,17 @@
     "Sporting Gijon-Real Sociedad B": {
         "date": "2026-04-06",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Chelsea U18-Arsenal U18": {
+        "date": "2026-04-07",
+        "pick": "Chelsea U18 Win or Draw"
+    },
+    "West Bromwich Albion U18-Tottenham Hotspur U18": {
+        "date": "2026-04-07",
+        "pick": "Tottenham Hotspur U18 to Win"
+    },
+    "Wrexham-Southampton": {
+        "date": "2026-04-07",
+        "pick": "Both Teams to Score"
     }
 }
