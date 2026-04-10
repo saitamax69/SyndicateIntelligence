@@ -1646,5 +1646,25 @@
     "Sunderland U18-Burnley U18": {
         "date": "2026-04-08",
         "pick": "Sunderland U18 Win or Draw"
+    },
+    "Southampton U18-Crystal Palace U18": {
+        "date": "2026-04-10",
+        "pick": "Both Teams to Score"
+    },
+    "Fortuna Dusseldorf-Holstein Kiel": {
+        "date": "2026-04-10",
+        "pick": "Over 2.5 Goals"
+    },
+    "Karlsruher SC-Arminia Bielefeld": {
+        "date": "2026-04-10",
+        "pick": "Over 2.5 Goals"
+    },
+    "Paris FC-AS Monaco": {
+        "date": "2026-04-10",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "FC Twente-FC Volendam": {
+        "date": "2026-04-10",
+        "pick": "Over 2.5 Goals"
     }
 }
