@@ -1667,25 +1667,9 @@
         "date": "2026-04-10",
         "pick": "Over 2.5 Goals"
     },
-    "Brighton U18-Ipswich Town U18": {
-        "date": "2026-04-11",
-        "pick": "Brighton U18 Win or Draw"
-    },
-    "Chelsea U18-West Ham United U18": {
-        "date": "2026-04-11",
-        "pick": "Chelsea U18 to Win"
-    },
-    "Norwich City U18-Reading U18": {
-        "date": "2026-04-11",
-        "pick": "Both Teams to Score"
-    },
     "Stoke City U18-Sunderland U18": {
         "date": "2026-04-11",
         "pick": "Stoke City U18 Win or Draw"
-    },
-    "Wolves U18-Derby County U18": {
-        "date": "2026-04-11",
-        "pick": "Over 2.0 Goal Line"
     },
     "Arsenal-AFC Bournemouth": {
         "date": "2026-04-11",
@@ -1703,8 +1687,24 @@
         "date": "2026-04-11",
         "pick": "Both Teams to Score"
     },
-    "Newcastle United U18-Burnley U18": {
+    "AC Milan-Udinese": {
         "date": "2026-04-11",
-        "pick": "Newcastle United U18 Win or Draw"
+        "pick": "AC Milan to Win"
+    },
+    "Liverpool-Fulham": {
+        "date": "2026-04-11",
+        "pick": "Liverpool to Win"
+    },
+    "Barcelona-Espanyol": {
+        "date": "2026-04-11",
+        "pick": "Barcelona to Win"
+    },
+    "St. Pauli-Bayern Munich": {
+        "date": "2026-04-11",
+        "pick": "Bayern Munich to Win"
+    },
+    "Malaga-Las Palmas": {
+        "date": "2026-04-11",
+        "pick": "Malaga Win or Draw"
     }
 }
