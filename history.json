@@ -1706,5 +1706,25 @@
     "Malaga-Las Palmas": {
         "date": "2026-04-11",
         "pick": "Malaga Win or Draw"
+    },
+    "Fortuna Sittard-NAC Breda": {
+        "date": "2026-04-12",
+        "pick": "Over 2.5 Goals"
+    },
+    "Genoa-Sassuolo": {
+        "date": "2026-04-12",
+        "pick": "Genoa Win or Draw"
+    },
+    "Birmingham City-Wrexham": {
+        "date": "2026-04-12",
+        "pick": "Birmingham City Win or Draw"
+    },
+    "Elversberg-Schalke 04": {
+        "date": "2026-04-12",
+        "pick": "Over 2.5 Goals"
+    },
+    "Paderborn-Magdeburg": {
+        "date": "2026-04-12",
+        "pick": "Over 2.5 Goals"
     }
 }
