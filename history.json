@@ -1758,5 +1758,25 @@
     "Levante-Getafe": {
         "date": "2026-04-13",
         "pick": "Levante Win or Draw"
+    },
+    "Southampton U18-Chelsea U18": {
+        "date": "2026-04-14",
+        "pick": "Chelsea U18 to Win"
+    },
+    "Manchester City U18-Sunderland U18": {
+        "date": "2026-04-14",
+        "pick": "Both Teams to Score"
+    },
+    "Aston Villa U18-Ipswich Town U18": {
+        "date": "2026-04-14",
+        "pick": "Aston Villa U18 Win or Draw"
+    },
+    "Portsmouth-Ipswich Town": {
+        "date": "2026-04-14",
+        "pick": "Portsmouth Win or Draw"
+    },
+    "Southampton-Blackburn Rovers": {
+        "date": "2026-04-14",
+        "pick": "Both Teams to Score"
     }
 }
