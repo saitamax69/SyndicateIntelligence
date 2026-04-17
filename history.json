@@ -1766,5 +1766,25 @@
     "Southampton-Blackburn Rovers": {
         "date": "2026-04-14",
         "pick": "Both Teams to Score"
+    },
+    "Sassuolo-Como 1907": {
+        "date": "2026-04-17",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Elversberg-Karlsruher SC": {
+        "date": "2026-04-17",
+        "pick": "Over 2.5 Goals"
+    },
+    "Holstein Kiel-Kaiserslautern": {
+        "date": "2026-04-17",
+        "pick": "Over 2.5 Goals"
+    },
+    "St. Pauli-FC Cologne": {
+        "date": "2026-04-17",
+        "pick": "Over 2.5 Goals"
+    },
+    "Real Sociedad B-Racing Santander": {
+        "date": "2026-04-17",
+        "pick": "Real Sociedad B Win or Draw"
     }
 }
