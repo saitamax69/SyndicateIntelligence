@@ -1791,29 +1791,9 @@
         "date": "2026-04-18",
         "pick": "Birmingham City U18 Win or Draw"
     },
-    "Burnley U18-Stoke City U18": {
-        "date": "2026-04-18",
-        "pick": "Burnley U18 Win or Draw"
-    },
-    "Fulham U18-Chelsea U18": {
-        "date": "2026-04-18",
-        "pick": "Chelsea U18 to Win"
-    },
-    "Reading U18-Southampton U18": {
-        "date": "2026-04-18",
-        "pick": "Over 2.0 Goal Line"
-    },
-    "Sunderland U18-Leeds United U18": {
-        "date": "2026-04-18",
-        "pick": "Both Teams to Score"
-    },
     "Brentford-Fulham": {
         "date": "2026-04-18",
         "pick": "Both Teams to Score"
-    },
-    "Derby County-Oxford United": {
-        "date": "2026-04-18",
-        "pick": "Derby County Win or Draw"
     },
     "Millwall-QPR": {
         "date": "2026-04-18",
@@ -1826,5 +1806,25 @@
     "Leicester City U18-Norwich City U18": {
         "date": "2026-04-18",
         "pick": "Leicester City U18 Win or Draw"
+    },
+    "Napoli-Lazio": {
+        "date": "2026-04-18",
+        "pick": "Napoli to Win"
+    },
+    "Tottenham Hotspur-Brighton": {
+        "date": "2026-04-18",
+        "pick": "Tottenham Hotspur to Win"
+    },
+    "Eintracht Frankfurt-RB Leipzig": {
+        "date": "2026-04-18",
+        "pick": "Over 2.5 Goals"
+    },
+    "Castellon-Burgos CF": {
+        "date": "2026-04-18",
+        "pick": "Both Teams to Score"
+    },
+    "Leonesa-Cordoba": {
+        "date": "2026-04-18",
+        "pick": "Over 2.0 Goal Line"
     }
 }
