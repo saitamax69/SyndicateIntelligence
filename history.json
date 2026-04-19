@@ -1839,20 +1839,24 @@
         "date": "2026-04-19",
         "pick": "Over 2.5 Goals"
     },
-    "Greuther Furth-Darmstadt": {
+    "Manchester City-Arsenal": {
         "date": "2026-04-19",
-        "pick": "Over 2.5 Goals"
+        "pick": "Arsenal to Win"
     },
-    "Schalke 04-Preussen Muenster": {
+    "Bayern Munich-VfB Stuttgart": {
         "date": "2026-04-19",
-        "pick": "Over 2.5 Goals"
+        "pick": "Bayern Munich to Win"
     },
-    "FC Andorra-Real Valladolid": {
-        "date": "2026-04-19",
-        "pick": "FC Andorra Win or Draw"
-    },
-    "Aston Villa-Sunderland": {
+    "Pisa-Genoa": {
         "date": "2026-04-19",
         "pick": "Both Teams to Score"
+    },
+    "Albacete-Granada": {
+        "date": "2026-04-19",
+        "pick": "Both Teams to Score"
+    },
+    "Eibar-SD Huesca": {
+        "date": "2026-04-19",
+        "pick": "Over 2.0 Goal Line"
     }
 }
