@@ -1826,5 +1826,25 @@
     "Leonesa-Cordoba": {
         "date": "2026-04-18",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Cremonese-Torino": {
+        "date": "2026-04-19",
+        "pick": "Both Teams to Score"
+    },
+    "Ipswich Town-Middlesbrough": {
+        "date": "2026-04-19",
+        "pick": "Ipswich Town Win or Draw"
+    },
+    "Eintracht Braunschweig-Hertha Berlin": {
+        "date": "2026-04-19",
+        "pick": "Over 2.5 Goals"
+    },
+    "Greuther Furth-Darmstadt": {
+        "date": "2026-04-19",
+        "pick": "Over 2.5 Goals"
+    },
+    "Schalke 04-Preussen Muenster": {
+        "date": "2026-04-19",
+        "pick": "Over 2.5 Goals"
     }
 }
