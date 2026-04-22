@@ -1894,5 +1894,25 @@
     "Norwich City-Derby County": {
         "date": "2026-04-21",
         "pick": "Both Teams to Score"
+    },
+    "Reading U18-Arsenal U18": {
+        "date": "2026-04-22",
+        "pick": "Arsenal U18 to Win"
+    },
+    "Union Berlin W-Bayern Munich W": {
+        "date": "2026-04-22",
+        "pick": "Bayern Munich W to Win"
+    },
+    "Werder Bremen W-Wolfsburg W": {
+        "date": "2026-04-22",
+        "pick": "Over 2.5 Goals"
+    },
+    "Elche-Atletico Madrid": {
+        "date": "2026-04-22",
+        "pick": "Atletico Madrid to Win"
+    },
+    "Paris Saint-Germain-Nantes": {
+        "date": "2026-04-22",
+        "pick": "Paris Saint-Germain Win or Draw"
     }
 }
