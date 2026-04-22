@@ -1895,10 +1895,6 @@
         "date": "2026-04-21",
         "pick": "Both Teams to Score"
     },
-    "Reading U18-Arsenal U18": {
-        "date": "2026-04-22",
-        "pick": "Arsenal U18 to Win"
-    },
     "Union Berlin W-Bayern Munich W": {
         "date": "2026-04-22",
         "pick": "Bayern Munich W to Win"
@@ -1918,5 +1914,13 @@
     "Real Sociedad-Getafe": {
         "date": "2026-04-22",
         "pick": "Real Sociedad Win or Draw"
+    },
+    "Telstar-Sparta Rotterdam": {
+        "date": "2026-04-22",
+        "pick": "Over 2.5 Goals"
+    },
+    "Birmingham City-Preston North End": {
+        "date": "2026-04-22",
+        "pick": "Over 2.0 Goal Line"
     }
 }
