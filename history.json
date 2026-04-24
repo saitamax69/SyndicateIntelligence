@@ -1943,10 +1943,6 @@
         "date": "2026-04-23",
         "pick": "Over 2.5 Goals"
     },
-    "Southampton U18-Leicester City U18": {
-        "date": "2026-04-24",
-        "pick": "Both Teams to Score"
-    },
     "Fortuna Dusseldorf-Dynamo Dresden": {
         "date": "2026-04-24",
         "pick": "Over 2.5 Goals"
@@ -1962,5 +1958,9 @@
     "Derby County U18-Burnley U18": {
         "date": "2026-04-24",
         "pick": "Both Teams to Score"
+    },
+    "RB Leipzig-Union Berlin": {
+        "date": "2026-04-24",
+        "pick": "Over 2.5 Goals"
     }
 }
