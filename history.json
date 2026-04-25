@@ -1963,10 +1963,6 @@
         "date": "2026-04-24",
         "pick": "Over 2.5 Goals"
     },
-    "SGS Essen W-Carl Zeiss Jena W": {
-        "date": "2026-04-25",
-        "pick": "Over 2.5 Goals"
-    },
     "Arsenal U18-West Ham United U18": {
         "date": "2026-04-25",
         "pick": "Arsenal U18 to Win"
@@ -1975,17 +1971,9 @@
         "date": "2026-04-25",
         "pick": "Brighton U18 Win or Draw"
     },
-    "Newcastle United U18-Wolves U18": {
-        "date": "2026-04-25",
-        "pick": "Both Teams to Score"
-    },
     "Hertha Berlin-Holstein Kiel": {
         "date": "2026-04-25",
         "pick": "Over 2.5 Goals"
-    },
-    "Deportivo Alaves-Mallorca": {
-        "date": "2026-04-25",
-        "pick": "Both Teams to Score"
     },
     "RB Leipzig W-Werder Bremen W": {
         "date": "2026-04-25",
@@ -1995,11 +1983,27 @@
         "date": "2026-04-25",
         "pick": "Both Teams to Score"
     },
-    "Lyon-Auxerre": {
+    "Augsburg-Eintracht Frankfurt": {
+        "date": "2026-04-25",
+        "pick": "Over 2.5 Goals"
+    },
+    "Bologna-AS Roma": {
         "date": "2026-04-25",
         "pick": "Over 2.0 Goal Line"
     },
-    "Augsburg-Eintracht Frankfurt": {
+    "Manchester City-Southampton": {
+        "date": "2026-04-25",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Arsenal-Newcastle United": {
+        "date": "2026-04-25",
+        "pick": "Arsenal to Win"
+    },
+    "Valencia-Girona": {
+        "date": "2026-04-25",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Hamburger SV-Hoffenheim": {
         "date": "2026-04-25",
         "pick": "Over 2.5 Goals"
     }
