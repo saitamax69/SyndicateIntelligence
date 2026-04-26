@@ -2007,35 +2007,11 @@
         "date": "2026-04-25",
         "pick": "Over 2.5 Goals"
     },
-    "Excelsior-FC Utrecht": {
-        "date": "2026-04-26",
-        "pick": "Over 2.5 Goals"
-    },
     "Fiorentina-Sassuolo": {
         "date": "2026-04-26",
         "pick": "Both Teams to Score"
     },
-    "Coventry City-Wrexham": {
-        "date": "2026-04-26",
-        "pick": "Over 2.0 Goal Line"
-    },
     "1. FC Nuremberg-Magdeburg": {
-        "date": "2026-04-26",
-        "pick": "Over 2.5 Goals"
-    },
-    "Paderborn-Schalke 04": {
-        "date": "2026-04-26",
-        "pick": "Over 2.5 Goals"
-    },
-    "Rayo Vallecano-Real Sociedad": {
-        "date": "2026-04-26",
-        "pick": "Both Teams to Score"
-    },
-    "Cordoba-Sporting Gijon": {
-        "date": "2026-04-26",
-        "pick": "Both Teams to Score"
-    },
-    "Eintracht Frankfurt W-Wolfsburg W": {
         "date": "2026-04-26",
         "pick": "Over 2.5 Goals"
     },
@@ -2046,5 +2022,25 @@
     "Genoa-Como 1907": {
         "date": "2026-04-26",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Torino-Inter": {
+        "date": "2026-04-26",
+        "pick": "Inter to Win"
+    },
+    "Osasuna-Sevilla": {
+        "date": "2026-04-26",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Leganes-FC Andorra": {
+        "date": "2026-04-26",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "SD Huesca-Real Zaragoza": {
+        "date": "2026-04-26",
+        "pick": "SD Huesca Win or Draw"
+    },
+    "CF Estrela da Amadora-FC Porto": {
+        "date": "2026-04-26",
+        "pick": "FC Porto to Win"
     }
 }
