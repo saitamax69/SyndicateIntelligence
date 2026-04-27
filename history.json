@@ -2042,5 +2042,25 @@
     "CF Estrela da Amadora-FC Porto": {
         "date": "2026-04-26",
         "pick": "FC Porto to Win"
+    },
+    "Hoffenheim W-FC Cologne W": {
+        "date": "2026-04-27",
+        "pick": "Over 2.5 Goals"
+    },
+    "Cagliari-Atalanta": {
+        "date": "2026-04-27",
+        "pick": "Cagliari Win or Draw"
+    },
+    "Cadiz-Las Palmas": {
+        "date": "2026-04-27",
+        "pick": "Both Teams to Score"
+    },
+    "Lazio-Udinese": {
+        "date": "2026-04-27",
+        "pick": "Both Teams to Score"
+    },
+    "Manchester United-Brentford": {
+        "date": "2026-04-27",
+        "pick": "Over 2.0 Goal Line"
     }
 }
