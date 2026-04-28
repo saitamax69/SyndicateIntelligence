@@ -2066,5 +2066,25 @@
     "Espanyol-Levante": {
         "date": "2026-04-27",
         "pick": "Both Teams to Score"
+    },
+    "Arsenal U18-Crystal Palace U18": {
+        "date": "2026-04-28",
+        "pick": "Arsenal U18 to Win"
+    },
+    "Tottenham Hotspur U18-West Ham United U18": {
+        "date": "2026-04-28",
+        "pick": "Tottenham Hotspur U18 to Win"
+    },
+    "Southampton U18-Aston Villa U18": {
+        "date": "2026-04-28",
+        "pick": "Both Teams to Score"
+    },
+    "Blackburn Rovers U18-Everton U18": {
+        "date": "2026-04-28",
+        "pick": "Blackburn Rovers U18 Win or Draw"
+    },
+    "Roda JC Kerkrade-RKC Waalwijk": {
+        "date": "2026-04-28",
+        "pick": "Over 2.5 Goals"
     }
 }
