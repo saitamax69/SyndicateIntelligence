@@ -576,7 +576,7 @@
         "pick": "Over 2.5 Goals"
     },
     "Werder Bremen W-Bayern Munich W": {
-        "date": "2026-02-16",
+        "date": "2026-04-29",
         "pick": "Bayern Munich W to Win"
     },
     "Macclesfield FC-Brentford": {
@@ -2094,5 +2094,21 @@
     "Hednesford-Stockton Town": {
         "date": "2026-04-28",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Manchester United U18-Liverpool U18": {
+        "date": "2026-04-29",
+        "pick": "Liverpool U18 to Win"
+    },
+    "Ipswich Town U18-Norwich City U18": {
+        "date": "2026-04-29",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "FC Den Bosch-Almere City FC": {
+        "date": "2026-04-29",
+        "pick": "Over 2.5 Goals"
+    },
+    "Sporting CP-Tondela": {
+        "date": "2026-04-29",
+        "pick": "Both Teams to Score"
     }
 }
