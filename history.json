@@ -2126,5 +2126,13 @@
     "Pisa-Lecce": {
         "date": "2026-05-01",
         "pick": "Both Teams to Score"
+    },
+    "Leeds United-Burnley": {
+        "date": "2026-05-01",
+        "pick": "Leeds United Win or Draw"
+    },
+    "Girona-Mallorca": {
+        "date": "2026-05-01",
+        "pick": "Over 2.0 Goal Line"
     }
 }
