@@ -2154,5 +2154,25 @@
     "Arminia Bielefeld-VfL Bochum": {
         "date": "2026-05-02",
         "pick": "Over 2.5 Goals"
+    },
+    "Villarreal-Levante": {
+        "date": "2026-05-02",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Fulham U18-Norwich City U18": {
+        "date": "2026-05-02",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Almere City FC-FC Den Bosch": {
+        "date": "2026-05-02",
+        "pick": "Over 2.5 Goals"
+    },
+    "Udinese-Torino": {
+        "date": "2026-05-02",
+        "pick": "Udinese Win or Draw"
+    },
+    "Nantes-Marseille": {
+        "date": "2026-05-02",
+        "pick": "Both Teams to Score"
     }
 }
