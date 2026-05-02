@@ -2134,5 +2134,25 @@
     "Girona-Mallorca": {
         "date": "2026-05-01",
         "pick": "Over 2.0 Goal Line"
+    },
+    "Everton U18-Stoke City U18": {
+        "date": "2026-05-02",
+        "pick": "Everton U18 Win or Draw"
+    },
+    "Ipswich Town U18-Southampton U18": {
+        "date": "2026-05-02",
+        "pick": "Ipswich Town U18 Win or Draw"
+    },
+    "West Ham United U18-Brighton U18": {
+        "date": "2026-05-02",
+        "pick": "West Ham United U18 Win or Draw"
+    },
+    "Leicester City U18-Arsenal U18": {
+        "date": "2026-05-02",
+        "pick": "Arsenal U18 to Win"
+    },
+    "Arminia Bielefeld-VfL Bochum": {
+        "date": "2026-05-02",
+        "pick": "Over 2.5 Goals"
     }
 }
