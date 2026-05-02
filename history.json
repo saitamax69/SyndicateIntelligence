@@ -2143,10 +2143,6 @@
         "date": "2026-05-02",
         "pick": "Ipswich Town U18 Win or Draw"
     },
-    "West Ham United U18-Brighton U18": {
-        "date": "2026-05-02",
-        "pick": "West Ham United U18 Win or Draw"
-    },
     "Leicester City U18-Arsenal U18": {
         "date": "2026-05-02",
         "pick": "Arsenal U18 to Win"
@@ -2155,24 +2151,28 @@
         "date": "2026-05-02",
         "pick": "Over 2.5 Goals"
     },
-    "Villarreal-Levante": {
-        "date": "2026-05-02",
-        "pick": "Over 2.0 Goal Line"
-    },
-    "Fulham U18-Norwich City U18": {
-        "date": "2026-05-02",
-        "pick": "Over 2.0 Goal Line"
-    },
-    "Almere City FC-FC Den Bosch": {
-        "date": "2026-05-02",
-        "pick": "Over 2.5 Goals"
-    },
-    "Udinese-Torino": {
-        "date": "2026-05-02",
-        "pick": "Udinese Win or Draw"
-    },
     "Nantes-Marseille": {
         "date": "2026-05-02",
         "pick": "Both Teams to Score"
+    },
+    "Como 1907-Napoli": {
+        "date": "2026-05-02",
+        "pick": "Napoli to Win"
+    },
+    "Arsenal-Fulham": {
+        "date": "2026-05-02",
+        "pick": "Arsenal to Win"
+    },
+    "Deportivo Alaves-Athletic Club": {
+        "date": "2026-05-02",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Bayer Leverkusen-RB Leipzig": {
+        "date": "2026-05-02",
+        "pick": "Bayer Leverkusen to Win"
+    },
+    "Castellon-Cordoba": {
+        "date": "2026-05-02",
+        "pick": "Castellon Win or Draw"
     }
 }
