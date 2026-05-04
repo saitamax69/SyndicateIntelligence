@@ -2230,5 +2230,17 @@
     "Almeria-Mirandes": {
         "date": "2026-05-04",
         "pick": "Both Teams to Score"
+    },
+    "AS Roma-Fiorentina": {
+        "date": "2026-05-04",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Everton-Manchester City": {
+        "date": "2026-05-04",
+        "pick": "Everton Win or Draw"
+    },
+    "Sevilla-Real Sociedad": {
+        "date": "2026-05-04",
+        "pick": "Over 2.0 Goal Line"
     }
 }
