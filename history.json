@@ -2322,5 +2322,25 @@
     "Real Valladolid-Real Zaragoza": {
         "date": "2026-05-09",
         "pick": "Real Valladolid Win or Draw"
+    },
+    "Hellas Verona-Como 1907": {
+        "date": "2026-05-10",
+        "pick": "Hellas Verona Win or Draw"
+    },
+    "Fortuna Dusseldorf-Elversberg": {
+        "date": "2026-05-10",
+        "pick": "Over 2.5 Goals"
+    },
+    "Hertha Berlin-Greuther Furth": {
+        "date": "2026-05-10",
+        "pick": "Over 2.5 Goals"
+    },
+    "Preussen Muenster-Darmstadt": {
+        "date": "2026-05-10",
+        "pick": "Over 2.5 Goals"
+    },
+    "Mallorca-Villarreal": {
+        "date": "2026-05-10",
+        "pick": "Both Teams to Score"
     }
 }
