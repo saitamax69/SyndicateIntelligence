@@ -2379,18 +2379,6 @@
         "date": "2026-05-11",
         "pick": "Over 2.0 Goal Line"
     },
-    "Crystal Palace U18-Aston Villa U18": {
-        "date": "2026-05-12",
-        "pick": "Both Teams to Score"
-    },
-    "Tottenham Hotspur U18-West Bromwich Albion U18": {
-        "date": "2026-05-12",
-        "pick": "Tottenham Hotspur U18 to Win"
-    },
-    "Brighton U18-West Ham United U18": {
-        "date": "2026-05-12",
-        "pick": "Brighton U18 Win or Draw"
-    },
     "Celta Vigo-Levante": {
         "date": "2026-05-12",
         "pick": "Over 2.0 Goal Line"
@@ -2410,5 +2398,9 @@
     "Osasuna-Atletico Madrid": {
         "date": "2026-05-12",
         "pick": "Atletico Madrid to Win"
+    },
+    "Belgrano-Union": {
+        "date": "2026-05-12",
+        "pick": "Belgrano Win or Draw"
     }
 }
