@@ -2402,5 +2402,25 @@
     "Belgrano-Union": {
         "date": "2026-05-12",
         "pick": "Belgrano Win or Draw"
+    },
+    "Espanyol-Athletic Club": {
+        "date": "2026-05-13",
+        "pick": "Both Teams to Score"
+    },
+    "Villarreal-Sevilla": {
+        "date": "2026-05-13",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Brest-Strasbourg": {
+        "date": "2026-05-13",
+        "pick": "Both Teams to Score"
+    },
+    "Almere City FC-Willem II": {
+        "date": "2026-05-13",
+        "pick": "Over 2.5 Goals"
+    },
+    "Manchester City-Crystal Palace": {
+        "date": "2026-05-13",
+        "pick": "Over 2.0 Goal Line"
     }
 }
