@@ -2430,5 +2430,17 @@
     "Deportivo Alaves-Barcelona": {
         "date": "2026-05-13",
         "pick": "Barcelona to Win"
+    },
+    "Valencia-Rayo Vallecano": {
+        "date": "2026-05-14",
+        "pick": "Valencia Win or Draw"
+    },
+    "Girona-Real Sociedad": {
+        "date": "2026-05-14",
+        "pick": "Girona Win or Draw"
+    },
+    "Real Madrid-Real Oviedo": {
+        "date": "2026-05-14",
+        "pick": "Real Madrid to Win"
     }
 }
