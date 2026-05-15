@@ -2442,5 +2442,21 @@
     "Real Madrid-Real Oviedo": {
         "date": "2026-05-14",
         "pick": "Real Madrid to Win"
+    },
+    "Saint-Etienne-Rodez": {
+        "date": "2026-05-15",
+        "pick": "Both Teams to Score"
+    },
+    "Castellon-Cadiz": {
+        "date": "2026-05-15",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Aston Villa-Liverpool": {
+        "date": "2026-05-15",
+        "pick": "Liverpool to Win"
+    },
+    "Cordoba-Albacete": {
+        "date": "2026-05-15",
+        "pick": "Both Teams to Score"
     }
 }
