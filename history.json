@@ -2463,24 +2463,28 @@
         "date": "2026-05-16",
         "pick": "Arsenal U18 to Win"
     },
-    "Real Sociedad B-Mirandes": {
-        "date": "2026-05-16",
-        "pick": "Over 2.0 Goal Line"
-    },
     "Bayer Leverkusen-Hamburger SV": {
         "date": "2026-05-16",
         "pick": "Bayer Leverkusen to Win"
     },
-    "Bayern Munich-FC Cologne": {
+    "Almeria-Las Palmas": {
         "date": "2026-05-16",
-        "pick": "Bayern Munich to Win"
+        "pick": "Over 2.0 Goal Line"
     },
-    "Borussia M'gladbach-Hoffenheim": {
+    "Granada-Burgos CF": {
         "date": "2026-05-16",
-        "pick": "Over 2.5 Goals"
+        "pick": "Granada Win or Draw"
     },
-    "Eintracht Frankfurt-VfB Stuttgart": {
+    "Racing Santander-Real Valladolid": {
         "date": "2026-05-16",
-        "pick": "Over 2.5 Goals"
+        "pick": "Racing Santander Win or Draw"
+    },
+    "Arouca-Tondela": {
+        "date": "2026-05-16",
+        "pick": "Arouca Win or Draw"
+    },
+    "Casa Pia AC-Rio Ave": {
+        "date": "2026-05-16",
+        "pick": "Both Teams to Score"
     }
 }
