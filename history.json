@@ -2486,5 +2486,25 @@
     "Casa Pia AC-Rio Ave": {
         "date": "2026-05-16",
         "pick": "Both Teams to Score"
+    },
+    "AS Roma-Lazio": {
+        "date": "2026-05-17",
+        "pick": "Both Teams to Score"
+    },
+    "Como 1907-Parma": {
+        "date": "2026-05-17",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Genoa-AC Milan": {
+        "date": "2026-05-17",
+        "pick": "AC Milan to Win"
+    },
+    "Juventus-Fiorentina": {
+        "date": "2026-05-17",
+        "pick": "Juventus to Win"
+    },
+    "Pisa-Napoli": {
+        "date": "2026-05-17",
+        "pick": "Napoli to Win"
     }
 }
