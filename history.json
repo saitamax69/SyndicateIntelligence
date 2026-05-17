@@ -2495,36 +2495,32 @@
         "date": "2026-05-17",
         "pick": "Over 2.0 Goal Line"
     },
-    "Genoa-AC Milan": {
-        "date": "2026-05-17",
-        "pick": "AC Milan to Win"
-    },
     "Juventus-Fiorentina": {
         "date": "2026-05-17",
         "pick": "Juventus to Win"
-    },
-    "Pisa-Napoli": {
-        "date": "2026-05-17",
-        "pick": "Napoli to Win"
-    },
-    "Deportivo La Coruna-FC Andorra": {
-        "date": "2026-05-17",
-        "pick": "Over 2.0 Goal Line"
     },
     "Bayer Leverkusen W-Werder Bremen W": {
         "date": "2026-05-17",
         "pick": "Bayer Leverkusen W to Win"
     },
-    "Carl Zeiss Jena W-FC Cologne W": {
+    "Atalanta-Bologna": {
         "date": "2026-05-17",
-        "pick": "Over 2.5 Goals"
+        "pick": "Both Teams to Score"
     },
-    "Eintracht Frankfurt W-Union Berlin W": {
+    "Newcastle United-West Ham United": {
         "date": "2026-05-17",
-        "pick": "Over 2.5 Goals"
+        "pick": "Newcastle United Win or Draw"
     },
-    "Hamburger SV-Bayern Munich W": {
+    "Athletic Club-Celta Vigo": {
         "date": "2026-05-17",
-        "pick": "Bayern Munich W to Win"
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Atletico Madrid-Girona": {
+        "date": "2026-05-17",
+        "pick": "Atletico Madrid to Win"
+    },
+    "Elche-Getafe": {
+        "date": "2026-05-17",
+        "pick": "Over 2.0 Goal Line"
     }
 }
