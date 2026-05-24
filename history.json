@@ -2611,10 +2611,6 @@
         "date": "2026-05-24",
         "pick": "Over 2.5 Goals"
     },
-    "Parma-Sassuolo": {
-        "date": "2026-05-24",
-        "pick": "Parma Win or Draw"
-    },
     "Albacete-Real Sociedad B": {
         "date": "2026-05-24",
         "pick": "Over 2.0 Goal Line"
@@ -2630,5 +2626,25 @@
     "Burnley-Wolves": {
         "date": "2026-05-24",
         "pick": "Burnley Win or Draw"
+    },
+    "Napoli-Udinese": {
+        "date": "2026-05-24",
+        "pick": "Napoli to Win"
+    },
+    "Cadiz-Leganes": {
+        "date": "2026-05-24",
+        "pick": "Both Teams to Score"
+    },
+    "Eibar-Cordoba": {
+        "date": "2026-05-24",
+        "pick": "Both Teams to Score"
+    },
+    "Las Palmas-Real Zaragoza": {
+        "date": "2026-05-24",
+        "pick": "Over 2.0 Goal Line"
+    },
+    "Leonesa-Burgos CF": {
+        "date": "2026-05-24",
+        "pick": "Leonesa Win or Draw"
     }
 }
