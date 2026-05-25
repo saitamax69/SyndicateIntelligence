@@ -2646,5 +2646,13 @@
     "Leonesa-Burgos CF": {
         "date": "2026-05-24",
         "pick": "Leonesa Win or Draw"
+    },
+    "Paderborn-Wolfsburg": {
+        "date": "2026-05-25",
+        "pick": "Over 2.5 Goals"
+    },
+    "Coritiba-Bahia": {
+        "date": "2026-05-25",
+        "pick": "Coritiba Win or Draw"
     }
 }
