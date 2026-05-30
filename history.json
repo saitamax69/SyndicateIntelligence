@@ -2674,5 +2674,25 @@
     "Toronto FC II-Philadelphia Union II": {
         "date": "2026-05-29",
         "pick": "Over 2.5 Goals"
+    },
+    "AD Ceuta FC-Albacete": {
+        "date": "2026-05-30",
+        "pick": "AD Ceuta FC Win or Draw"
+    },
+    "Real Sociedad B-Leonesa": {
+        "date": "2026-05-30",
+        "pick": "Real Sociedad B Win or Draw"
+    },
+    "Granada-Sporting Gijon": {
+        "date": "2026-05-30",
+        "pick": "Both Teams to Score"
+    },
+    "Athletico Paranaense-Mirassol": {
+        "date": "2026-05-30",
+        "pick": "Athletico Paranaense Win or Draw"
+    },
+    "Flamengo-Coritiba": {
+        "date": "2026-05-30",
+        "pick": "Flamengo Win or Draw"
     }
 }
