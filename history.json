@@ -2694,5 +2694,13 @@
     "Flamengo-Coritiba": {
         "date": "2026-05-30",
         "pick": "Flamengo Win or Draw"
+    },
+    "Bahia-Botafogo FR": {
+        "date": "2026-05-30",
+        "pick": "Bahia Win or Draw"
+    },
+    "Gremio-Corinthians": {
+        "date": "2026-05-30",
+        "pick": "Over 2.0 Goal Line"
     }
 }
