@@ -1472,7 +1472,7 @@
         "pick": "Over 2.0 Goal Line"
     },
     "Castellon-Almeria": {
-        "date": "2026-04-02",
+        "date": "2026-06-06",
         "pick": "Castellon Win or Draw"
     },
     "Real Sociedad B-Eibar": {
@@ -2733,6 +2733,18 @@
     },
     "Toronto FC II-Huntsville City FC": {
         "date": "2026-06-05",
+        "pick": "Over 2.5 Goals"
+    },
+    "Inter Miami CF II-New York City FC II": {
+        "date": "2026-06-06",
+        "pick": "Inter Miami CF II to Win"
+    },
+    "Atlanta United II-Chicago Fire FC II": {
+        "date": "2026-06-06",
+        "pick": "Over 2.5 Goals"
+    },
+    "Chattanooga FC-New York Red Bulls II": {
+        "date": "2026-06-06",
         "pick": "Over 2.5 Goals"
     }
 }
